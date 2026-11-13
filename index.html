@@ -2,55 +2,398 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
-  <title>AI, GenAI and LLM Engineering Projects</title>
-  <meta name="description"
-        content="Public AI and GenAI engineering projects covering
-        RAG, LLM training, Transformers, LangGraph,
-        multi-agent systems, PyTorch and parallel inference.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080f20">
+  <meta name="robots" content="index, follow">
+  <meta name="description" content=" Explore Sudhanshu Shukla's open-source AI and GenAI portfolio: retrieval and RAG, LangGraph multi-agent systems, LLM fine-tuning, Transformer models, PyTorch, DDP and parallel LLM inference, LLM Training, LLM from scratch .">
+  <meta name="author" content="Sudhanshu Shukla">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sudhanshu Shukla | AI Engineering">
+  <meta property="og:title" content="Sudhanshu Shukla | AI, GenAI & LLM Engineering Projects">
+  <meta property="og: description" content=" Open-source AI engineering projects covering retrieval, agents, model training, Transformer architectures and parallel inference.">
+  <meta property="og:url" content="https://su394611-del.github.io/">
+  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://su394611-del.github.io/">
+  <title>Sudhanshu Shukla | AI, GenAI & LLM Engineering & AI research </title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "AI, GenAI & LLM Engineering & AI research",
+    "url": "https://su394611-del.github.io/",
+    "description": "A portfolio of publicly accessible AI and generative AI engineering demonstration projects.",
+    "author": {
+      "@type": "Person",
+      "name": "Sudhanshu Shukla",
+      "url": "https://github.com/su394611-del",
+      "sameAs": ["https://github.com/su394611-del"]
+    }
+  }
+  </script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080f20;
+      --panel: #101c32;
+      --panel-raised: #12213a;
+      --stroke: #263954;
+      --ink: #edf5ff;
+      --muted: #a3b4ce;
+      --soft: #7388a7;
+      --accent: #5ed9ff;
+      --accent-2: #a5a8ff;
+      --green: #70e7c1;
+      --max: 1180px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.6; }
+    body::before { content: ""; position: absolute; z-index: -1; inset: 0 0 auto; height: 780px; pointer-events: none; background: radial-gradient(ellipse at 80% 12%, rgba(53,106,232,.23), transparent 37%), radial-gradient(ellipse at 12% 3%, rgba(39,197,211,.13), transparent 38%); }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    button, input { font: inherit; }
+    ::selection { background: #275d90; color: white; }
+    .container { width: min(var(--max), calc(100% - 48px)); margin-inline: auto; }
+    .skip-link { position: absolute; top: -100px; left: 20px; z-index: 100; padding: 10px 16px; background: white; color: #111827; border-radius: 8px; }
+    .skip-link:focus { top: 14px; }
+    header { position: sticky; top: 0; z-index: 30; border-bottom: 1px solid rgba(132,163,207,.13); background: rgba(8,15,32,.83); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+    nav { display: flex; align-items: center; justify-content: space-between; min-height: 78px; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 13px; text-decoration: none; }
+    .brand-mark { width: 43px; height: 43px; display: grid; place-items: center; font-size: 15px; font-weight: 850; letter-spacing: -.07em; border-radius: 13px; color: #081626; background: linear-gradient(135deg, var(--accent), #98a2ff); box-shadow: 0 8px 28px rgba(51,193,238,.18); }
+    .brand-label { display: flex; flex-direction: column; line-height: 1.28; }
+    .brand-label strong { font-size: 15px; letter-spacing: -.02em; }
+    .brand-label small { font-size: 11px; letter-spacing: .11em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+    .nav-links { display: flex; align-items: center; gap: 26px; }
+    .nav-links a { font-size: 13px; font-weight: 700; text-decoration: none; color: var(--muted); transition: color .15s; }
+    .nav-links a:hover { color: white; }
+    .button { display: inline-flex; justify-content: center; align-items: center; gap: 9px; min-height: 45px; border-radius: 11px; border: 1px solid var(--stroke); padding: 0 18px; text-decoration: none; font-size: 14px; font-weight: 750; transition: transform .18s ease, border-color .18s, background .18s; }
+    .button:hover { transform: translateY(-2px); border-color: #75c9ed; }
+    .button-primary { color: #071728; background: linear-gradient(105deg, #6ae0ff, #acb4ff); border-color: transparent; }
+    .button-primary:hover { background: linear-gradient(105deg,#83e7ff,#bfc5ff); }
+    .button-secondary { color: var(--ink); background: rgba(255,255,255,.035); }
+    .external { font-size: 18px; line-height: 1; }
+    .hero { position: relative; padding: 87px 0 70px; overflow: hidden; }
+    .hero-inner { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(290px,.75fr); align-items: center; gap: 55px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; padding: 7px 13px; border-radius: 999px; border: 1px solid #28516b; color: #8ce8ff; background: rgba(38,135,180,.09); text-transform: uppercase; font-weight: 800; font-size: 10.5px; letter-spacing: .13em; }
+    .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 5px rgba(112,231,193,.09); }
+    h1 { font-size: clamp(43px, 5.1vw, 72px); line-height: 1.08; letter-spacing: -.06em; margin: 23px 0 22px; max-width: 760px; }
+    .gradient-text { color: #80defc; background: linear-gradient(100deg, #62dbff 4%, #a9afff 90%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-copy { max-width: 625px; color: var(--muted); font-size: clamp(15px, 1.7vw, 18px); margin: 0 0 29px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero-note { color: var(--soft); font-size: 12px; margin: 19px 0 0; }
+    .tech-panel { position: relative; min-height: 365px; border: 1px solid rgba(123,167,231,.21); border-radius: 24px; background: linear-gradient(145deg, rgba(21,43,75,.88), rgba(13,27,46,.92)); box-shadow: 0 30px 100px rgba(0,0,0,.18); padding: 27px; overflow: hidden; }
+    .tech-panel::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .25; background-image: linear-gradient(#315175 1px, transparent 1px), linear-gradient(90deg,#315175 1px, transparent 1px); background-size: 35px 35px; mask-image: linear-gradient(to bottom, #000, transparent); }
+    .diagram-head { position: relative; display:flex; justify-content: space-between; align-items:center; gap:10px; color: #92a7c7; font-size:11px; text-transform:uppercase; font-weight:800; letter-spacing:.14em; }
+    .diagram-status { color: #7ae6c5; }
+    .diagram-core { position: relative; display: grid; place-items: center; margin: 39px auto 18px; width: 142px; height: 142px; border-radius: 50%; background: radial-gradient(circle, #1d4a6b, #152e52 64%, transparent 68%); border: 1px solid #42739f; box-shadow: 0 0 0 13px rgba(100,190,248,.035), 0 0 0 27px rgba(102,188,255,.025), 0 0 68px rgba(43,133,220,.2); }
+    .diagram-core::after { content: ""; position: absolute; inset: 10px; border: 1px dashed #568abb; border-radius: 50%; }
+    .diagram-core strong { z-index:1; font-size: 25px; letter-spacing: -.06em; }
+    .diagram-core small { z-index:1; display:block; color:#a0c6e5; font-size:11px; margin-top:-47px; text-transform:uppercase; letter-spacing:.14em; }
+    .tech-pills { position: relative; display:flex; gap:9px; justify-content: center; flex-wrap:wrap; margin-top:37px; }
+    .tech-pills span { border:1px solid #315271; border-radius:8px; padding:8px 10px; background:#122a47; color:#c3dcf4; font-size:11px; font-weight:700; }
+    .quick-stats { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1px; border: 1px solid var(--stroke); border-radius: 16px; overflow: hidden; background: var(--stroke); margin-bottom: 78px; }
+    .stat { background: #101a2d; padding: 23px 27px; }
+    .stat strong { display: block; font-size: 27px; letter-spacing: -.05em; line-height:1.2; }
+    .stat span { display:block; color: var(--muted); font-size: 12px; margin-top:5px; }
+    .section-heading { display:flex; align-items: end; justify-content: space-between; gap:22px; margin-bottom:25px; }
+    .section-kicker { margin:0 0 10px; color:#83dff6; font-size:11px; letter-spacing:.15em; text-transform:uppercase; font-weight:800; }
+    h2 { margin:0; font-size:clamp(28px,3.4vw,41px); letter-spacing:-.045em; line-height:1.15; }
+    .section-desc { font-size:14px; color:var(--muted); max-width:500px; margin: 10px 0 0; }
+    .repo-count { font-size:13px; color:var(--muted); white-space:nowrap; }
+    .filters { display:flex; gap:10px; flex-wrap:wrap; justify-content:space-between; align-items:center; margin-bottom:23px; }
+    .filter-buttons { display:flex; gap:8px; flex-wrap:wrap; }
+    .filter { cursor:pointer; padding:9px 14px; background: #101c31; color:#b4c6e0; border:1px solid var(--stroke); border-radius:9px; font-size:12px; font-weight:750; transition:background .15s,border .15s; }
+    .filter:hover { border-color:#5a779a; }
+    .filter[aria-pressed="true"] { color:#092031; border-color:transparent; background:#9addf4; }
+    .search-box { position:relative; flex: 0 1 255px; }
+    .search-box svg { position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#899dbc; pointer-events:none; }
+    .search-box input { width:100%; height:40px; border:1px solid var(--stroke); border-radius:10px; background:#101c31; padding:0 12px 0 37px; color:var(--ink); font-size:13px; }
+    .search-box input::placeholder { color:#8597b0; }
+    .project-grid { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:17px; }
+    .project { display:flex; flex-direction:column; min-height:277px; padding:23px; border:1px solid var(--stroke); border-radius:17px; background:linear-gradient(150deg, #13213a 0%, #0d192d 100%); transition:transform .2s,border-color .2s,box-shadow .2s; }
+    .project:hover { transform:translateY(-4px); border-color:#477baf; box-shadow:0 15px 38px rgba(0,0,0,.18); }
+    .project[hidden] { display:none; }
+    .card-top { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:24px; }
+    .project-icon { width:40px; height:40px; display:grid; place-items:center; border-radius:12px; background:#223a5a; color:#81dbfb; font-size:20px; font-weight:750; }
+    .project[data-category="agents"] .project-icon { background:#292f57; color:#b3b4ff; }
+    .project[data-category="training"] .project-icon { background:#1b3f4b; color:#83ddc8; }
+    .project[data-category="inference"] .project-icon { background:#40314e; color:#e9b8e9; }
+    .type-badge { color:#91a7c6; font-size:10px; letter-spacing:.09em; text-transform:uppercase; font-weight:800; }
+    .project h3 { font-size:17px; letter-spacing:-.024em; line-height:1.35; margin:0 0 10px; }
+    .project p { color:var(--muted); font-size:12.5px; margin:0 0 22px; flex:1; }
+    .card-footer { display:flex; align-items:center; justify-content:space-between; gap:10px; padding-top:15px; border-top:1px solid #263955; }
+    .tags { display:flex; flex-wrap:wrap; gap:5px; }
+    .tag { border-radius:6px; padding:4px 7px; background:#1e3049; color:#acc4df; font-size:10px; font-weight:650; }
+    .project-link { white-space:nowrap; text-decoration:none; color:#86e2ff; font-size:12px; font-weight:800; }
+    .project-link:hover { text-decoration:underline; text-underline-offset:3px; }
+    .empty { padding:40px; border:1px dashed #3e5d80; border-radius:15px; text-align:center; color:var(--muted); }
+    .sync-note { display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 25px; color:#7f94b2; font-size:12px; margin:19px 0 0; }
+    .about { margin:95px 0 78px; padding:32px 35px; border:1px solid #2c4666; border-radius:20px; background:radial-gradient(circle at 90% 0%, rgba(92,157,235,.10),transparent 44%), #101e34; display:flex; justify-content:space-between; align-items:center; gap:30px; }
+    .about h2 { font-size:27px; }
+    .about p { max-width:730px; margin:10px 0 0; color:var(--muted); font-size:14px; }
+    .about .button { white-space:nowrap; }
+    footer { border-top:1px solid #233650; padding:27px 0 34px; }
+    .footer-content { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; color:#8195b3; font-size:12px; }
+    .footer-content a { color:#b9d7ec; text-decoration:none; }
+    .footer-content a:hover { text-decoration:underline; }
+    @media (max-width: 1050px) { .hero-inner { gap:30px; } .project-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .tech-panel { min-height:330px; } }
+    @media (max-width: 760px) { .container { width:min(var(--max),calc(100% - 32px)); } nav { min-height:69px; } .nav-links a:not(.button) { display:none; } .nav-links { gap:0; } .hero { padding:65px 0 43px; } .hero-inner { grid-template-columns:1fr; } .tech-panel { display:none; } .quick-stats { margin-bottom:64px; } .stat { padding:18px 14px; } .stat strong { font-size:22px; } .section-heading { align-items:start; } .about { flex-direction:column; align-items:start; margin:65px 0; padding:26px; } .filters { align-items:stretch; } .search-box { flex:1 1 100%; } }
+    @media (max-width: 570px) { .brand-label small { font-size:9px; } .nav-links .button { padding:0 12px; min-height:40px; font-size:12px; } .hero-actions .button { width:100%; } .quick-stats { grid-template-columns:1fr 1fr 1fr; } .stat { padding:14px 10px; } .stat strong { font-size:20px; } .stat span { font-size:10px; } .section-heading { display:block; } .repo-count { display:block; margin-top:12px; } .project-grid { grid-template-columns:1fr; } .project { min-height:245px; } .filter { padding:8px 10px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition:none !important; animation:none !important; scroll-behavior:auto !important; } }
+  </style>
 </head>
 <body>
-  <h1>AI, Generative AI and LLM Engineering </h1>
-  <p>
-    Practical demonstrations of AI architecture,
-    language model development, training, inference,
-    retrieval systems and agentic AI.
-  </p>
-  <h2>Open-Source GitHub Projects</h2>
-  <ul>
-    <li><a href="https://github.com/su394611-del/RAG-service">
-      RAG Service - Retrieval-Augmented Generation</a></li>
+  <a class="skip-link" href="#projects">Skip to projects</a>
+  <header>
+    <nav class="container" aria-label="Main navigation">
+      <a href="#top" class="brand" aria-label="Sudhanshu Shukla, home">
+        <span class="brand-mark" aria-hidden="true">SS</span>
+        <span class="brand-label"><strong>Sudhanshu Shukla</strong><small>AI &amp; GenAI Engineering & Research</small></span>
+      </a>
+      <div class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a class="button button-secondary" href="https://github.com/su394611-del" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile, opens in a new tab">GitHub <span class="external" aria-hidden="true">↗</span></a>
+      </div>
+    </nav>
+  </header>
 
-    <li><a href="https://github.com/su394611-del/Pre-training-and-Fine-tuning">
-      LLM Pre-training and Fine-tuning</a></li>
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-inner">
+        <div>
+          <span class="eyebrow">Open-source engineering portfolio</span>
+          <h1 id="hero-title">Building with <span class="gradient-text">AI, agents &amp; language models.</span></h1>
+          <p class="hero-copy">Explore practical Python and PyTorch projects spanning retrieval and RAG, LangGraph agents, Transformer models, language-model fine-tuning, distributed training, and parallel inference, as well as LLMs from scratch.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#projects">Explore projects <span class="external" aria-hidden="true">↗</span></a>
+            <a class="button button-secondary" href="https://github.com/su394611-del" target="_blank" rel="noopener noreferrer">View GitHub profile <span class="external" aria-hidden="true">↗</span></a>
+          </div>
+          <p class="hero-note">Demos and reference implementations · Project-specific limitations are documented in each repository.</p>
+        </div>
+        <div class="tech-panel" aria-hidden="true">
+          <div class="diagram-head"><span>Engineering & Research focus</span><span class="diagram-status">● Public projects</span></div>
+          <div class="diagram-core"><strong>AI / ML</strong><small>Systems</small></div>
+          <div class="tech-pills"><span>RAG + Retrieval</span><span>LangGraph & LangChain</span><span> DDP</span><span>Transformers</span><span>LLM Inference</span><span>MCP</span></div>
+        </div>
+      </div>
+    </section>
 
-    <li><a href="https://github.com/su394611-del/Full-Fine-Training-Pre-Training-Mid-Training">
-      Full, Pre- and Mid-training of LLMs</a></li>
+    <div class="container" aria-label="Portfolio overview">
+      <div class="quick-stats">
+        <div class="stat"><strong id="total-count">9</strong><span>Public project repositories</span></div>
+        <div class="stat"><strong>4</strong><span>Engineering & Research focus areas</span></div>
+        <div class="stat"><strong>Open</strong><span>Public code &amp; documentation</span></div>
+      </div>
+    </div>
 
-    <li><a href="https://github.com/su394611-del/Mutli-agents-using-LangGraph">
-      Multi-Agent Systems using LangGraph</a></li>
+    <section class="container" id="projects" aria-labelledby="projects-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">Selected work &amp; repository directory</p>
+          <h2 id="projects-title">Explore the projects</h2>
+          <p class="section-desc">Browse implementation details, example code, notebooks, and technical documentation. Additional public repositories are discovered automatically when available.</p>
+        </div>
+        <span id="results-count" class="repo-count" role="status" aria-live="polite">Showing 9 projects</span>
+      </div>
 
-    <li><a href="https://github.com/su394611-del/Parallel-LLM-Inference">
-      Parallel LLM Inference and Serving</a></li>
+      <div class="filters" aria-label="Project filters">
+        <div class="filter-buttons" role="group" aria-label="Filter projects by focus area">
+          <button type="button" class="filter" data-filter="all" aria-pressed="true">All projects</button>
+          <button type="button" class="filter" data-filter="retrieval" aria-pressed="false">Retrieval / RAG</button>
+          <button type="button" class="filter" data-filter="agents" aria-pressed="false">Agents / MCP</button>
+          <button type="button" class="filter" data-filter="training" aria-pressed="false">Model training</button>
+          <button type="button" class="filter" data-filter="inference" aria-pressed="false">Inference / Scale</button>
+        </div>
+        <label class="search-box">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+          <input type="search" id="project-search" aria-label="Search projects" placeholder="Search projects or tools…" autocomplete="off">
+        </label>
+      </div>
 
-    <li><a href="https://github.com/su394611-del/Distributed-Data-Parallel-Processing">
-      Distributed Data Parallel Processing</a></li>
+      <div id="project-grid" class="project-grid">
+        <article class="project" data-category="retrieval" data-repo="RAG-service">
+          <div class="card-top"><span class="project-icon" aria-hidden="true">⌕</span><span class="type-badge">Retrieval / RAG</span></div>
+          <h3>Multi-Tenant Retrieval &amp; RAG Service</h3>
+          <p>FastAPI, Qdrant and Sentence Transformers for tenant-filtered retrieval, semantic caching and illustrative safety checks. Primarily an extractive retrieval demo.</p>
+          <div class="card-footer"><div class="tags"><span class="tag">Python</span><span class="tag">Qdrant</span><span class="tag">FastAPI</span></div><a class="project-link" href="https://github.com/su394611-del/RAG-service" target="_blank" rel="noopener noreferrer" aria-label="Open Multi-Tenant Retrieval and RAG Service on GitHub">View code ↗</a></div>
+        </article>
+        <article class="project" data-category="training" data-repo="Pre-training-and-Fine-tuning">
+          <div class="card-top"><span class="project-icon" aria-hidden="true">∑</span><span class="type-badge">Model training</span></div>
+          <h3>LLM Fine-Tuning: LoRA, SFT, DPO &amp; ORPO</h3>
+          <p>Small-scale Qwen and SmolLM post-training examples demonstrating supervised fine-tuning and preference optimization with PyTorch, Hugging Face and TRL.</p>
+          <div class="card-footer"><div class="tags"><span class="tag">LoRA</span><span class="tag">Transformers</span><span class="tag">TRL</span></div><a class="project-link" href="https://github.com/su394611-del/Pre-training-and-Fine-tuning" target="_blank" rel="noopener noreferrer" aria-label="Open LLM Fine-Tuning repository on GitHub">View code ↗</a></div>
+        </article>
+        <article class="project" data-category="training" data-repo="Full-Fine-Training-Pre-Training-Mid-Training">
+          <div class="card-top"><span class="project-icon" aria-hidden="true">∑</span><span class="type-badge">Model training</span></div>
+          <h3>DistilBERT Full vs. Head-Only Fine-Tuning</h3>
+          <p>Customer-support classification using DistilBERT. Compares full fine-tuning with a frozen backbone and trained classification head on a small illustrative dataset.</p>
+          <div class="card-footer"><div class="tags"><span class="tag">DistilBERT</span><span class="tag">PyTorch</span></div><a class="project-link" href="https://github.com/su394611-del/Full-Fine-Training-Pre-Training-Mid-Training" target="_blank" rel="noopener noreferrer" aria-label="Open DistilBERT Fine-Tuning repository on GitHub">View code ↗</a></div>
+        </article>
+        <article class="project" data-category="agents" data-repo="Mutli-agents-using-LangGraph">
+          <div class="card-top"><span class="project-icon" aria-hidden="true">⟡</span><span class="type-badge">Agents / MCP</span></div>
+          <h3>Multi-Agent Orchestration with LangGraph</h3>
+          <p>Runnable examples of LangGraph workflows, conditional routing and multi-agent orchestration, with scripts and notebook walkthroughs.</p>
+          <div class="card-footer"><div class="tags"><span class="tag">LangGraph</span><span class="tag">Agents</span></div><a class="project-link" href="https://github.com/su394611-del/Mutli-agents-using-LangGraph" target="_blank" rel="noopener noreferrer" aria-label="Open LangGraph Multi-Agent repository on GitHub">View code ↗</a></div>
+        </article>
+        <article class="project" data-category="inference" data-repo="Parallel-LLM-Inference">
+          <div class="card-top"><span class="project-icon" aria-hidden="true">⚡</span><span class="type-badge">Inference / Scale</span></div>
+          <h3>Parallel LLM Inference</h3>
+          <p>Multi-worker batch sentiment inference with Qwen, spawned processes, per-GPU model replicas, stable output ordering and JSONL inputs.</p>
+          <div class="card-footer"><div class="tags"><span class="tag">Qwen</span><span class="tag">Multi-GPU</span></div><a class="project-link" href="https://github.com/su394611-del/Parallel-LLM-Inference" target="_blank" rel="noopener noreferrer" aria-label="Open Parallel LLM Inference repository on GitHub">View code ↗</a></div>
+        </article>
+        <article class="project" data-category="inference" data-repo="Distributed-Data-Parallel-Processing">
+          <div class="card-top"><span class="project-icon" aria-hidden="true">⚡</span><span class="type-badge">Inference / Scale</span></div>
+          <h3>Distributed LLM Training and DDP</h3>
+          <p>Data-parallel Transformer training and DistributedDataParallel, including a tiny model and optional Qwen LoRA fine-tuning.</p>
+          <div class="card-footer"><div class="tags"><span class="tag">DDP</span><span class="tag">torchrun</span></div><a class="project-link" href="https://github.com/su394611-del/Distributed-Data-Parallel-Processing" target="_blank" rel="noopener noreferrer" aria-label="Open PyTorch Distributed Training repository on GitHub">View code ↗</a></div>
+        </article>
+        <article class="project" data-category="training" data-repo="LLM-from-scratch">
+          <div class="card-top"><span class="project-icon" aria-hidden="true">∑</span><span class="type-badge">Model training</span></div>
+          <h3>LLM from Scratch</h3>
+          <p>Educational implementation of multi-head attention, position encoding, encoder blocks and sentiment classification in PyTorch; not a generative LLM.</p>
+          <div class="card-footer"><div class="tags"><span class="tag">Attention</span><span class="tag">PyTorch</span></div><a class="project-link" href="https://github.com/su394611-del/LLM-from-scratch" target="_blank" rel="noopener noreferrer" aria-label="Open Transformer Encoder from Scratch repository on GitHub">View code ↗</a></div>
+        </article>
+        <article class="project" data-category="training" data-repo="Tarnsformers-Training">
+          <div class="card-top"><span class="project-icon" aria-hidden="true">∑</span><span class="type-badge">Model training · WIP</span></div>
+          <h3>Transformer Classification &amp; Alignment Draft</h3>
+          <p>DistilBERT classification materials plus  Phi-2 SFT/DPO design. Consult the repository's validation notes before running its draft code.</p>
+          <div class="card-footer"><div class="tags"><span class="tag">DistilBERT</span><span class="tag">SFT / DPO</span></div><a class="project-link" href="https://github.com/su394611-del/Tarnsformers-Training" target="_blank" rel="noopener noreferrer" aria-label="Open Transformer Classification and Alignment repository on GitHub">View code ↗</a></div>
+        </article>
+        <article class="project" data-category="agents" data-repo="Stock-market-trading-Application-using-MCP-langchain-langgraph">
+          <div class="card-top"><span class="project-icon" aria-hidden="true">⟡</span><span class="type-badge">Agents / MCP</span></div>
+          <h3>Stock-Market Tools with MCP &amp; LangGraph</h3>
+          <p>Educational MCP tool servers and LangChain/LangGraph workflows using simulated quotes, news and buy/sell operations; no live brokerage trades.</p>
+          <div class="card-footer"><div class="tags"><span class="tag">MCP</span><span class="tag">LangChain</span></div><a class="project-link" href="https://github.com/su394611-del/Stock-market-trading-Application-using-MCP-langchain-langgraph" target="_blank" rel="noopener noreferrer" aria-label="Open MCP Stock-Market Demo repository on GitHub">View code ↗</a></div>
+        </article>
+      </div>
+      <div class="empty" id="no-results" hidden>No projects match your search. Try another keyword or category.</div>
+      <div class="sync-note"><span id="sync-status" aria-live="polite">Nine verified projects are listed. Checking GitHub for additional public repositories…</span><span>New repositories are added automatically when GitHub's API is available.</span></div>
+    </section>
 
-    <li><a href="https://github.com/su394611-del/LLM-from-scratch">
-      Large Language Models from Scratch</a></li>
+    <section class="container" id="about" aria-labelledby="about-title">
+      <div class="about">
+        <div>
+          <p class="section-kicker">Behind the code</p>
+          <h2 id="about-title">Explore the source, not just the summary.</h2>
+          <p>Each repository has its own README, dependencies and examples. These projects demonstrate techniques and production deployment, not benchmark results, unless explicitly documented.</p>
+        </div>
+        <a class="button button-primary" href="https://github.com/su394611-del?tab=repositories" target="_blank" rel="noopener noreferrer">All repositories <span class="external" aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+  </main>
 
-    <li><a href="https://github.com/su394611-del/Tarnsformers-Training">
-      Transformer Model Training</a></li>
+  <footer><div class="container footer-content"><span>© <span id="year">2026</span> Sudhanshu Shukla · AI &amp; GenAI Engineering & Reasearch</span><span><a href="https://github.com/su394611-del" target="_blank" rel="noopener noreferrer">GitHub profile ↗</a> &nbsp;·&nbsp; <a href="#top">Back to top ↑</a></span></div></footer>
 
-    <li><a href="https://github.com/su394611-del/Stock-market-trading-Application-using-MCP-langchain-langgraph">
-      MCP, LangChain and LangGraph Application</a></li>
-  </ul>
+  <script>
+    (() => {
+      'use strict';
+      const OWNER = 'su394611-del';
+      const EXCLUDED_REPOS = new Set([OWNER.toLowerCase(), `${OWNER.toLowerCase()}.github.io`]);
+      const grid = document.getElementById('project-grid');
+      const search = document.getElementById('project-search');
+      const buttons = [...document.querySelectorAll('[data-filter]')];
+      const counter = document.getElementById('results-count');
+      const total = document.getElementById('total-count');
+      const noResults = document.getElementById('no-results');
+      const syncStatus = document.getElementById('sync-status');
+      document.getElementById('year').textContent = new Date().getFullYear();
+      let activeFilter = 'all';
+      const known = new Set([...grid.querySelectorAll('.project')].map(card => card.dataset.repo.toLowerCase()));
 
-  <p>
-    <a href="https://github.com/su394611-del">
-      Explore the Complete GitHub Profile
-    </a>
-  </p>
+      function updateFilters() {
+        const term = search.value.trim().toLocaleLowerCase();
+        let shown = 0;
+        const cards = [...grid.querySelectorAll('.project')];
+        cards.forEach(card => {
+          const categoryMatch = activeFilter === 'all' || card.dataset.category === activeFilter;
+          const textMatch = !term || card.textContent.toLocaleLowerCase().includes(term) || card.dataset.repo.toLocaleLowerCase().includes(term);
+          card.hidden = !(categoryMatch && textMatch);
+          if (!card.hidden) shown++;
+        });
+        counter.textContent = `Showing ${shown} of ${cards.length} projects`;
+        noResults.hidden = shown !== 0;
+        total.textContent = String(cards.length);
+      }
+      buttons.forEach(button => button.addEventListener('click', () => {
+        activeFilter = button.dataset.filter;
+        buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+        updateFilters();
+      }));
+      search.addEventListener('input', updateFilters);
+
+      function inferCategory(repo) {
+        const value = `${repo.name || ''} ${repo.description || ''} ${(repo.topics || []).join(' ')}`.toLowerCase();
+        if (/rag|retrieval|vector|embedding|qdrant/.test(value)) return 'retrieval';
+        if (/agent|langgraph|langchain|mcp|tool.call|workflow/.test(value)) return 'agents';
+        if (/inference|serving|parallel|distributed|ddp|scal/.test(value)) return 'inference';
+        return 'training';
+      }
+      const categories = { retrieval:'Retrieval / RAG', agents:'Agents / MCP', training:'Model training', inference:'Inference / Scale' };
+      const symbols = { retrieval:'⌕', agents:'⟡', training:'∑', inference:'⚡' };
+
+      function addNewRepo(repo) {
+        // Build DOM with textContent to safely render externally supplied metadata.
+        if (!repo || typeof repo.name !== 'string' || typeof repo.html_url !== 'string') return;
+        const url = new URL(repo.html_url, 'https://github.com');
+        if (url.protocol !== 'https:' || url.hostname !== 'github.com' || !url.pathname.startsWith(`/${OWNER}/`)) return;
+        const category = inferCategory(repo);
+        const card = document.createElement('article');
+        card.className = 'project';
+        card.dataset.category = category;
+        card.dataset.repo = repo.name;
+        const top = document.createElement('div');
+        top.className = 'card-top';
+        const symbol = document.createElement('span');
+        symbol.className = 'project-icon'; symbol.setAttribute('aria-hidden', 'true'); symbol.textContent = symbols[category];
+        const type = document.createElement('span');
+        type.className = 'type-badge'; type.textContent = categories[category];
+        top.append(symbol, type);
+        const title = document.createElement('h3');
+        title.textContent = repo.name.replace(/[-_]+/g, ' ');
+        const desc = document.createElement('p');
+        desc.textContent = repo.description || 'Explore the source code and README for project details.';
+        const footer = document.createElement('div'); footer.className = 'card-footer';
+        const tags = document.createElement('div'); tags.className = 'tags';
+        const topics = (repo.topics || []).slice(0, 2);
+        if (!topics.length && repo.language) topics.push(repo.language);
+        topics.forEach(topic => { const span = document.createElement('span'); span.className = 'tag'; span.textContent = topic; tags.appendChild(span); });
+        const link = document.createElement('a'); link.className = 'project-link'; link.href = url.href;
+        link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = 'View code ↗';
+        link.setAttribute('aria-label', `Open ${repo.name} on GitHub`);
+        footer.append(tags, link); card.append(top, title, desc, footer); grid.appendChild(card);
+      }
+
+      async function syncGitHub() {
+        // Unauthenticated GitHub API traffic is subject to rate limits. Curated cards still work without it.
+        try {
+          let page = 1;
+          let added = 0;
+          while (page <= 10) {
+            const url = `https://api.github.com/users/${encodeURIComponent(OWNER)}/repos?type=owner&sort=updated&per_page=100&page=${page}`;
+            const response = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
+            if (!response.ok) throw new Error(`GitHub API returned HTTP ${response.status}`);
+            const repos = await response.json();
+            if (!Array.isArray(repos)) throw new Error('Unexpected GitHub API response');
+            for (const repo of repos) {
+              const key = String(repo.name || '').toLowerCase();
+              if (repo.private || EXCLUDED_REPOS.has(key) || known.has(key)) continue;
+              addNewRepo(repo);
+              known.add(key);
+              added++;
+            }
+            if (repos.length < 100) break;
+            page++;
+          }
+          syncStatus.textContent = added ? `GitHub sync complete: ${added} additional public project${added === 1 ? '' : 's'} found.` : 'GitHub sync complete. All current public project repositories are listed.';
+          updateFilters();
+        } catch (error) {
+          syncStatus.textContent = 'Verified projects are shown. Live GitHub sync is temporarily unavailable; use “All repositories” for the latest list.';
+        }
+      }
+      updateFilters();
+      syncGitHub();
+    })();
+  </script>
 </body>
 </html>
