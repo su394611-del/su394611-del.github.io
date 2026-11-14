@@ -61,8 +61,8 @@ The repositories include practical examples of **retrieval-augmented generation 
 
 **RAG / APIs:** Qdrant · Sentence Transformers · vector retrieval · FastAPI
 
-**Development:** Python · Jupyter notebooks · JSONL datasets · Windows/VS Code workflows · selected Google Colab examples
-
+**Development:** Python · Jupyter notebooks · JSONL datasets · Windows/VS Code workflows · selected Google Colab/Kaggle examples
+**LLM from scratch:** Transformer models using an encoder-only architecture implemented. A small GPT-style decoder-only model that fits in Colab/Kaggle or on a consumer-grade GPU is planned for the next iteration.
 These keywords reflect the public examples; they should not be read as a certification or a claim of production use for every technology.
 
 ## Getting started
@@ -88,7 +88,8 @@ Each linked repository may contain a project README, Python source code, noteboo
 
 Explore the [public repositories](https://github.com/su394611-del?tab=repositories) for code, technical notes, and project-specific documentation. For questions or proposed improvements, use the relevant repository's GitHub Issues or Discussions, if enabled.
 
----
+## License
+This project is licensed under the Apache License, Version 2.0.© 2026 Sudhanshu Shukla · Licensed under the Apache License, Version 2.0.
 
 <div align="center">
 
