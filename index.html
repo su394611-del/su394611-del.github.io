@@ -1,174 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#080f1d">
-  <meta name="author" content="Sudhanshu Shukla">
-  <meta name="description" content=" Explore Sudhanshu Shukla’s AI and GenAI projects: RAG, LangChain, LangGraph agents, LLM fine-tuning, PyTorch Transformers built from scratch, distributed training, and parallel LLM inference.">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://su394611-del.github.io/">
-  <title>Sudhanshu Shukla | AI &amp; GenAI Engineering & Research Portfolio</title>
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:site_name" content="Sudhanshu Shukla | AI Engineering">
-  <meta property="og:title" content="Sudhanshu Shukla | AI &amp; GenAI Engineering Portfolio & Research">
-  <meta property="og:description" content="Explore Sudhanshu Shukla’s AI and GenAI projects: RAG, LangChain, LangGraph agents, LLM fine-tuning, PyTorch Transformers built from scratch, distributed training, and parallel LLM inference.">
-  <meta property="og:url" content="https://su394611-del.github.io/">
-  <meta property="og:image" content="https://su394611-del.github.io/assets/social-preview.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Sudhanshu Shukla — AI and Generative AI engineering and GenAI research portfolio">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Sudhanshu Shukla | AI &amp; GenAI Engineering Portfolio">
-  <meta name="twitter:description" content="Explore Sudhanshu Shukla’s AI and GenAI projects & research: RAG, LangChain, LangGraph agents, LLM fine-tuning, PyTorch Transformers built from scratch, distributed training, and parallel LLM inference.">
-  <meta name="twitter:image" content="https://su394611-del.github.io/assets/social-preview.png">
-  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
-  <link rel="stylesheet" href="/assets/styles.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://su394611-del.github.io/#author","name":"Sudhanshu Shukla","url":"https://su394611-del.github.io/","sameAs":["https://github.com/su394611-del"]},{"@type":"WebSite","@id":"https://su394611-del.github.io/#website","name":"Sudhanshu Shukla — AI & GenAI Engineering","url":"https://su394611-del.github.io/","inLanguage":"en","creator":{"@id":"https://su394611-del.github.io/#author"}},{"@type":"CollectionPage","@id":"https://su394611-del.github.io/#webpage","url":"https://su394611-del.github.io/","name":"Sudhanshu Shukla | AI & GenAI Engineering Portfolio","description":"Public demonstrations and source code for retrieval, agent orchestration, Transformer models, LLM training, and distributed inference.","inLanguage":"en","isPartOf":{"@id":"https://su394611-del.github.io/#website"},"author":{"@id":"https://su394611-del.github.io/#author"},"mainEntity":{"@id":"https://su394611-del.github.io/#projects-list"}},{"@type":"ItemList","@id":"https://su394611-del.github.io/#projects-list","name":"Public AI and Generative AI Project Repositories","numberOfItems":9,"itemListElement":[{"@type":"ListItem","position":1,"name":"Multi-Tenant Retrieval & RAG Service","url":"https://github.com/su394611-del/RAG-service"},{"@type":"ListItem","position":2,"name":"Multi-Agent Workflows with LangGraph","url":"https://github.com/su394611-del/Mutli-agents-using-LangGraph"},{"@type":"ListItem","position":3,"name":"LLM Fine-Tuning: LoRA, SFT, DPO & ORPO","url":"https://github.com/su394611-del/Pre-training-and-Fine-tuning"},{"@type":"ListItem","position":4,"name":"Distributed Training with PyTorch DDP","url":"https://github.com/su394611-del/Distributed-Data-Parallel-Processing"},{"@type":"ListItem","position":5,"name":"Parallel LLM Batch Inference","url":"https://github.com/su394611-del/Parallel-LLM-Inference"},{"@type":"ListItem","position":6,"name":"Transformer Encoder from Scratch","url":"https://github.com/su394611-del/LLM-from-scratch"},{"@type":"ListItem","position":7,"name":"DistilBERT Full vs. Head-Only Fine-Tuning","url":"https://github.com/su394611-del/Full-Fine-Training-Pre-Training-Mid-Training"},{"@type":"ListItem","position":8,"name":"Transformer Classification & Alignment Draft","url":"https://github.com/su394611-del/Tarnsformers-Training"},{"@type":"ListItem","position":9,"name":"Simulated Market Tools with MCP & LangGraph","url":"https://github.com/su394611-del/Stock-market-trading-Application-using-MCP-langchain-langgraph"}]}]}</script>
-  <!-- Curated project cards are static HTML for accessibility and search indexing. -->
-  <!-- Do not place fallback text inside v-text nodes: Vue compiler error 57. -->
-  <script defer src="https://cdn.jsdelivr.net/npm/vue@3.5.45/dist/vue.global.prod.js"></script>
-  <script defer src="/assets/app.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="#080f1d" name="theme-color"/>
+<meta content="Sudhanshu Shukla" name="author"/>
+<meta content="Production-grade presentation of nine AI engineering repositories covering RAG, LangGraph agents, Transformers, LLM fine-tuning, distributed training and parallel inference." name="description"/>
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+<link href="https://su394611-del.github.io/" rel="canonical"/>
+<title>Sudhanshu Shukla | AI &amp; GenAI Engineering Portfolio</title>
+<meta content="website" property="og:type"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Sudhanshu Shukla | AI Engineering" property="og:site_name"/>
+<meta content="Sudhanshu Shukla | AI &amp; GenAI Engineering Portfolio &amp; Research" property="og:title"/>
+<meta content="Production-grade presentation of nine AI engineering repositories covering RAG, LangGraph agents, Transformers, LLM fine-tuning, distributed training and parallel inference." property="og:description"/>
+<meta content="https://su394611-del.github.io/" property="og:url"/>
+<meta content="https://su394611-del.github.io/assets/social-preview.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="Sudhanshu Shukla — AI and Generative AI engineering and GenAI research portfolio" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Sudhanshu Shukla | AI &amp; GenAI Engineering Portfolio" name="twitter:title"/>
+<meta content="Production-grade presentation of nine AI engineering repositories covering RAG, LangGraph agents, Transformers, LLM fine-tuning, distributed training and parallel inference." name="twitter:description"/>
+<meta content="https://su394611-del.github.io/assets/social-preview.png" name="twitter:image"/>
+<link href="/assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/sitemap.xml" rel="sitemap" type="application/xml"/>
+<link href="/assets/styles.css" rel="stylesheet"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://su394611-del.github.io/#author","name":"Sudhanshu Shukla","url":"https://su394611-del.github.io/","sameAs":["https://github.com/su394611-del"]},{"@type":"WebSite","@id":"https://su394611-del.github.io/#website","name":"Sudhanshu Shukla — AI & GenAI Engineering","url":"https://su394611-del.github.io/","inLanguage":"en","creator":{"@id":"https://su394611-del.github.io/#author"}},{"@type":"CollectionPage","@id":"https://su394611-del.github.io/#webpage","url":"https://su394611-del.github.io/","name":"Sudhanshu Shukla | AI & GenAI Engineering Portfolio","description":"Public demonstrations and source code for retrieval, agent orchestration, Transformer models, LLM training, and distributed inference.","inLanguage":"en","isPartOf":{"@id":"https://su394611-del.github.io/#website"},"author":{"@id":"https://su394611-del.github.io/#author"},"mainEntity":{"@id":"https://su394611-del.github.io/#projects-list"}},{"@type":"ItemList","@id":"https://su394611-del.github.io/#projects-list","name":"Public AI and Generative AI Project Repositories","numberOfItems":9,"itemListElement":[{"@type":"ListItem","position":1,"name":"Multi-Tenant Retrieval & RAG Service","url":"https://su394611-del.github.io/RAG-service/"},{"@type":"ListItem","position":2,"name":"Multi-Agent Workflows with LangGraph","url":"https://su394611-del.github.io/Mutli-agents-using-LangGraph/"},{"@type":"ListItem","position":3,"name":"LLM Fine-Tuning & Preference Optimization","url":"https://su394611-del.github.io/Pre-training-and-Fine-tuning/"},{"@type":"ListItem","position":4,"name":"Distributed LLM Training with PyTorch DDP","url":"https://su394611-del.github.io/Distributed-Data-Parallel-Processing/"},{"@type":"ListItem","position":5,"name":"Parallel LLM Batch Inference","url":"https://su394611-del.github.io/Parallel-LLM-Inference/"},{"@type":"ListItem","position":6,"name":"Transformer Encoder from Scratch","url":"https://su394611-del.github.io/LLM-from-scratch/"},{"@type":"ListItem","position":7,"name":"DistilBERT Full vs. Frozen Fine-Tuning","url":"https://su394611-del.github.io/Full-Fine-Training-Pre-Training-Mid-Training/"},{"@type":"ListItem","position":8,"name":"Transformer Training & Model Evaluation","url":"https://su394611-del.github.io/Transformers-Training/"},{"@type":"ListItem","position":9,"name":"MCP & LangGraph Market Workflow Simulation","url":"https://su394611-del.github.io/Stock-market-trading-Application-using-MCP-langchain-langgraph/"}]}]}</script>
+<!-- Curated project cards are static HTML for accessibility and search indexing. -->
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/vue@3.5.13/dist/vue.global.prod.js"></script>
+<script defer="" src="/assets/app.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#projects">Skip to project directory</a>
-  <div id="app">
-    <header class="site-header">
-      <nav class="layout nav-inner" aria-label="Main navigation">
-        <a class="site-brand" href="#home" aria-label="Sudhanshu Shukla portfolio home"><span class="brand-icon" aria-hidden="true">S<span class="brand-small">S</span></span><span class="brand-info"><strong>Sudhanshu Shukla</strong><small>AI / GENAI ENGINEERING</small></span></a>
-        <div class="nav-actions"><a class="nav-link" href="#projects">Projects</a><a class="nav-link" href="#approach">Approach</a><a class="nav-github" href="https://github.com/su394611-del" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M12 .9C5.86.9.9 5.88.9 12.03c0 4.92 3.19 9.1 7.62 10.57.56.1.76-.24.76-.54v-2.11c-3.1.67-3.76-1.32-3.76-1.32-.5-1.28-1.24-1.62-1.24-1.62-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1.01 1.73 2.65 1.23 3.3.94.1-.73.39-1.23.72-1.52-2.47-.28-5.07-1.24-5.07-5.5 0-1.21.44-2.19 1.15-2.96-.12-.28-.5-1.4.11-2.91 0 0 .94-.3 3.06 1.13a10.67 10.67 0 0 1 5.58 0c2.12-1.44 3.05-1.13 3.05-1.13.61 1.51.23 2.63.11 2.91.72.77 1.15 1.75 1.15 2.97 0 4.26-2.6 5.21-5.08 5.49.4.35.75 1.04.75 2.1v3.12c0 .3.2.65.77.54 4.42-1.48 7.6-5.65 7.6-10.56C23.1 5.88 18.14.9 12 .9Z"/></svg><span>GitHub</span><span aria-hidden="true">↗</span></a></div>
-      </nav>
-    </header>
-    <main id="home">
-      <section class="hero layout" aria-labelledby="hero-heading">
-        <div class="hero-copy"><div class="eyebrow"><span class="status-dot" aria-hidden="true"></span> INDEPENDENT ENGINEERING & RESEARCH PORTFOLIO <span class="eyebrow-year">/ 2026</span></div>
-          <h1 id="hero-heading">AI engineering,<br><span class="gradient-text">built to be explored.</span></h1>
-          <p class="hero-intro">A hands-on collection of public demonstrations spanning retrieval-augmented generation, agent workflows, Transformer architectures, fine-tuning, distributed training, and language-model inference.</p>
-          <div class="hero-buttons"><a class="btn btn-primary" href="#projects">Browse the projects <span aria-hidden="true">↗</span></a><a class="btn btn-outline" href="https://github.com/su394611-del?tab=repositories" target="_blank" rel="noopener noreferrer">Explore GitHub <span aria-hidden="true">↗</span></a></div>
-          <p class="hero-disclaimer">Source, notebooks and scope notes are linked for each project. Demonstrations are production-grade, but benchmark results are not established.</p>
-        </div>
-        <div class="hero-graphic" aria-label="Visualization of AI engineering areas: retrieval, agents, training, and inference" role="img">
-          <div class="graphic-head"><span><i class="graphic-pulse" aria-hidden="true"></i> SYSTEMS / OVERVIEW</span><span>001 — 004</span></div>
-          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div>
-          <div class="visual-core"><small>ENGINEERING</small><strong>AI <span>✳</span> ML</strong><small>EXPLORE THE STACK</small></div>
-          <div class="orbit-node node-retrieval"><span class="node-icon">⌕</span><span>RAG</span></div>
-          <div class="orbit-node node-agents"><span class="node-icon">◇</span><span>AGENTS</span></div>
-          <div class="orbit-node node-training"><span class="node-icon">∑</span><span>TRAINING</span></div>
-          <div class="orbit-node node-inference"><span class="node-icon">↗</span><span>INFERENCE</span></div>
-          <div class="graphic-bottom"><span>PYTHON</span><span>PYTORCH</span><span>LANGGRAPH</span><span>MCP</span></div>
-        </div>
-      </section>
-      <section class="layout insight-row" aria-label="Portfolio at a glance">
-        <div class="insight"><span class="insight-num">09<span class="tiny-plus">+</span></span><span class="insight-text">Verified project repositories<br><small>Additional public projects can be discovered live</small></span></div>
-        <div class="insight"><span class="insight-num">04</span><span class="insight-text">Primary engineering areas<br><small>Retrieval · Agents · Training · Scale</small></span></div>
-        <div class="insight"><span class="insight-num insight-code">&lt;/&gt;</span><span class="insight-text">Public source &amp; walkthroughs<br><small>Explore implementation details on GitHub</small></span></div>
-      </section>
-      <section class="layout focus-section" aria-labelledby="focus-heading"><div class="section-intro"><p class="kicker">AREAS OF WORK</p><h2 id="focus-heading">Across the AI stack<span class="subtle-point">.</span></h2><p>Different parts of the workflow, from retrieving context to training and running models.</p></div>
-        <div class="focus-grid">
-          <a href="#projects" class="focus-tile" @click="category='retrieval'"><span class="focus-icon focus-retrieval" aria-hidden="true">⌕</span><span class="focus-name">Retrieval &amp; RAG</span><span class="focus-detail">Vector search, embeddings, service patterns</span><span class="focus-arrow" aria-hidden="true">↗</span></a>
-          <a href="#projects" class="focus-tile" @click="category='agents'"><span class="focus-icon focus-agents" aria-hidden="true">◇</span><span class="focus-name">Agents &amp; MCP</span><span class="focus-detail">Graph workflows, tools, orchestration</span><span class="focus-arrow" aria-hidden="true">↗</span></a>
-          <a href="#projects" class="focus-tile" @click="category='training'"><span class="focus-icon focus-training" aria-hidden="true">∑</span><span class="focus-name">Model training</span><span class="focus-detail">Transformers, fine-tuning, alignment</span><span class="focus-arrow" aria-hidden="true">↗</span></a>
-          <a href="#projects" class="focus-tile" @click="category='inference'"><span class="focus-icon focus-inference" aria-hidden="true">↗</span><span class="focus-name">Inference &amp; scale</span><span class="focus-detail">Batch workers and distributed training</span><span class="focus-arrow" aria-hidden="true">↗</span></a>
-        </div>
-      </section>
-      <section id="projects" class="layout projects-section" aria-labelledby="projects-heading"><div class="section-intro projects-intro"><div><p class="kicker">THE PROJECT DIRECTORY</p><h2 id="projects-heading">Open work, real code<span class="subtle-point">.</span></h2><p>Curated summaries link to the original GitHub repositories. Search across names, technologies and topics.</p></div><a class="all-link" href="https://github.com/su394611-del?tab=repositories" target="_blank" rel="noopener noreferrer">All GitHub repositories <span aria-hidden="true">↗</span></a></div>
-        <div class="project-toolbar"><div class="filter-scroller" role="group" aria-label="Filter projects by category"><button type="button" class="filter-chip" :class="{ active: category === 'all' }" :aria-pressed="String(category === 'all')" @click="category = 'all'">All projects</button>
-<button type="button" class="filter-chip" :class="{ active: category === 'retrieval' }" :aria-pressed="String(category === 'retrieval')" @click="category = 'retrieval'">Retrieval / RAG</button>
-<button type="button" class="filter-chip" :class="{ active: category === 'agents' }" :aria-pressed="String(category === 'agents')" @click="category = 'agents'">Agents / MCP</button>
-<button type="button" class="filter-chip" :class="{ active: category === 'training' }" :aria-pressed="String(category === 'training')" @click="category = 'training'">Model training</button>
-<button type="button" class="filter-chip" :class="{ active: category === 'inference' }" :aria-pressed="String(category === 'inference')" @click="category = 'inference'">Inference / scale</button>
-<button type="button" class="filter-chip" :class="{ active: category === 'other' }" :aria-pressed="String(category === 'other')" @click="category = 'other'">Other</button></div><label class="search-control"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span class="sr-only">Search project directory</span><input type="search" v-model="query" placeholder="Search projects, tools…" autocomplete="off" aria-label="Search projects"></label></div>
-        <div class="results-line"><span role="status" aria-live="polite" v-text="'Showing ' + visibleCount + ' of ' + totalCount + ' projects'"></span><noscript><span class="sr-only">Nine verified projects are listed. Filters require JavaScript.</span></noscript><template v-if="category !== 'all' || query.trim()"><button type="button" class="reset-control" @click="resetFilters">Clear filters <span aria-hidden="true">×</span></button></template></div>
-        <div class="projects-grid" id="projects-grid">
-<article class="project-card" data-category="retrieval" data-repo="RAG-service" v-show="matches('retrieval', 'RAG-service')">
-    <div class="card-head"><span class="card-code">01 / PROJECT</span><span class="card-category category-retrieval">Retrieval &amp; RAG</span></div>
-    <div class="card-glyph glyph-retrieval" aria-hidden="true">⌕</div>
-    <h3>Multi-Tenant Retrieval &amp; RAG Service</h3><p class="card-description">A FastAPI and Qdrant retrieval demonstration with tenant-filtered search, Sentence Transformers embeddings, semantic caching, and illustrative safeguards.</p>
-    <div class="card-tags"><span class="tag">Python</span><span class="tag">Qdrant</span><span class="tag">FastAPI</span></div>
-    <p class="card-note">Retrieval-oriented / extractive demo</p>
-    <div class="card-actions"><a href="https://github.com/su394611-del/RAG-service" target="_blank" rel="noopener noreferrer" aria-label="Open Multi-Tenant Retrieval &amp; RAG Service GitHub repository">View source <span aria-hidden="true">↗</span></a><a class="docs-link" href="https://github.com/su394611-del/RAG-service/blob/main/README.md" target="_blank" rel="noopener noreferrer" aria-label="Read Multi-Tenant Retrieval &amp; RAG Service README">README</a></div>
-  </article>
-<article class="project-card" data-category="agents" data-repo="Mutli-agents-using-LangGraph" v-show="matches('agents', 'Mutli-agents-using-LangGraph')">
-    <div class="card-head"><span class="card-code">02 / PROJECT</span><span class="card-category category-agents">Agents &amp; MCP</span></div>
-    <div class="card-glyph glyph-agents" aria-hidden="true">◇</div>
-    <h3>Multi-Agent Workflows with LangGraph</h3><p class="card-description">Runnable Python and notebook examples for stateful graphs, conditional routing, and agent orchestration.</p>
-    <div class="card-tags"><span class="tag">LangGraph</span><span class="tag">Python</span><span class="tag">Agents</span></div>
-    <p class="card-note">Workflow orchestration demo</p>
-    <div class="card-actions"><a href="https://github.com/su394611-del/Mutli-agents-using-LangGraph" target="_blank" rel="noopener noreferrer" aria-label="Open Multi-Agent Workflows with LangGraph GitHub repository">View source <span aria-hidden="true">↗</span></a><a class="docs-link" href="https://github.com/su394611-del/Mutli-agents-using-LangGraph/blob/main/README.md" target="_blank" rel="noopener noreferrer" aria-label="Read Multi-Agent Workflows with LangGraph README">README</a></div>
-  </article>
-<article class="project-card" data-category="training" data-repo="Pre-training-and-Fine-tuning" v-show="matches('training', 'Pre-training-and-Fine-tuning')">
-    <div class="card-head"><span class="card-code">03 / PROJECT</span><span class="card-category category-training">Model training</span></div>
-    <div class="card-glyph glyph-training" aria-hidden="true">∑</div>
-    <h3>LLM Fine-Tuning: LoRA, SFT, DPO &amp; ORPO</h3><p class="card-description">Small-dataset examples using Qwen, SmolLM, Hugging Face Transformers and TRL for supervised tuning and preference optimization.</p>
-    <div class="card-tags"><span class="tag">LoRA</span><span class="tag">TRL</span><span class="tag">Qwen</span></div>
-    <p class="card-note">Small-scale training examples</p>
-    <div class="card-actions"><a href="https://github.com/su394611-del/Pre-training-and-Fine-tuning" target="_blank" rel="noopener noreferrer" aria-label="Open LLM Fine-Tuning: LoRA, SFT, DPO &amp; ORPO GitHub repository">View source <span aria-hidden="true">↗</span></a><a class="docs-link" href="https://github.com/su394611-del/Pre-training-and-Fine-tuning/blob/main/README.md" target="_blank" rel="noopener noreferrer" aria-label="Read LLM Fine-Tuning: LoRA, SFT, DPO &amp; ORPO README">README</a></div>
-  </article>
-<article class="project-card" data-category="inference" data-repo="Distributed-Data-Parallel-Processing" v-show="matches('inference', 'Distributed-Data-Parallel-Processing')">
-    <div class="card-head"><span class="card-code">04 / PROJECT</span><span class="card-category category-inference">Inference &amp; scale</span></div>
-    <div class="card-glyph glyph-inference" aria-hidden="true">↗</div>
-    <h3>Distributed Training with PyTorch DDP</h3><p class="card-description">A data-parallel training walkthrough using torchrun, a small causal Transformer, and optional Qwen LoRA fine-tuning. Not a model-serving service.</p>
-    <div class="card-tags"><span class="tag">PyTorch</span><span class="tag">DDP</span><span class="tag">torchrun</span></div>
-    <p class="card-note">Training / distribution demo</p>
-    <div class="card-actions"><a href="https://github.com/su394611-del/Distributed-Data-Parallel-Processing" target="_blank" rel="noopener noreferrer" aria-label="Open Distributed Training with PyTorch DDP GitHub repository">View source <span aria-hidden="true">↗</span></a><a class="docs-link" href="https://github.com/su394611-del/Distributed-Data-Parallel-Processing/blob/main/README.md" target="_blank" rel="noopener noreferrer" aria-label="Read Distributed Training with PyTorch DDP README">README</a></div>
-  </article>
-<article class="project-card" data-category="inference" data-repo="Parallel-LLM-Inference" v-show="matches('inference', 'Parallel-LLM-Inference')">
-    <div class="card-head"><span class="card-code">05 / PROJECT</span><span class="card-category category-inference">Inference &amp; scale</span></div>
-    <div class="card-glyph glyph-inference" aria-hidden="true">↗</div>
-    <h3>Parallel LLM Batch Inference</h3><p class="card-description">Multiprocessing workers run separate Qwen model replicas for batch sentiment inference with JSONL input and ordered output; distinct from tensor parallelism.</p>
-    <div class="card-tags"><span class="tag">Qwen</span><span class="tag">Python</span><span class="tag">Multi-GPU</span></div>
-    <p class="card-note">Batch inference demo</p>
-    <div class="card-actions"><a href="https://github.com/su394611-del/Parallel-LLM-Inference" target="_blank" rel="noopener noreferrer" aria-label="Open Parallel LLM Batch Inference GitHub repository">View source <span aria-hidden="true">↗</span></a><a class="docs-link" href="https://github.com/su394611-del/Parallel-LLM-Inference/blob/legacy/README.md" target="_blank" rel="noopener noreferrer" aria-label="Read Parallel LLM Batch Inference README">README</a></div>
-  </article>
-<article class="project-card" data-category="training" data-repo="LLM-from-scratch" v-show="matches('training', 'LLM-from-scratch')">
-    <div class="card-head"><span class="card-code">06 / PROJECT</span><span class="card-category category-training">Model training</span></div>
-    <div class="card-glyph glyph-training" aria-hidden="true">∑</div>
-    <h3>Transformer Encoder from Scratch</h3><p class="card-description">An educational PyTorch Transformer encoder for sentiment classification, including multi-head attention and positional encodings. Not a generative LLM.</p>
-    <div class="card-tags"><span class="tag">PyTorch</span><span class="tag">Attention</span><span class="tag">Transformers</span></div>
-    <p class="card-note">Encoder classification demo</p>
-    <div class="card-actions"><a href="https://github.com/su394611-del/LLM-from-scratch" target="_blank" rel="noopener noreferrer" aria-label="Open Transformer Encoder from Scratch GitHub repository">View source <span aria-hidden="true">↗</span></a><a class="docs-link" href="https://github.com/su394611-del/LLM-from-scratch/blob/main/README.md" target="_blank" rel="noopener noreferrer" aria-label="Read Transformer Encoder from Scratch README">README</a></div>
-  </article>
-<article class="project-card" data-category="training" data-repo="Full-Fine-Training-Pre-Training-Mid-Training" v-show="matches('training', 'Full-Fine-Training-Pre-Training-Mid-Training')">
-    <div class="card-head"><span class="card-code">07 / PROJECT</span><span class="card-category category-training">Model training</span></div>
-    <div class="card-glyph glyph-training" aria-hidden="true">∑</div>
-    <h3>DistilBERT Full vs. Head-Only Fine-Tuning</h3><p class="card-description">Customer-support message classification comparing full DistilBERT fine-tuning with a frozen backbone and trained classification head on a small dataset.</p>
-    <div class="card-tags"><span class="tag">DistilBERT</span><span class="tag">PyTorch</span><span class="tag">NLP</span></div>
-    <p class="card-note">Small-dataset classifier demo</p>
-    <div class="card-actions"><a href="https://github.com/su394611-del/Full-Fine-Training-Pre-Training-Mid-Training" target="_blank" rel="noopener noreferrer" aria-label="Open DistilBERT Full vs. Head-Only Fine-Tuning GitHub repository">View source <span aria-hidden="true">↗</span></a><a class="docs-link" href="https://github.com/su394611-del/Full-Fine-Training-Pre-Training-Mid-Training/blob/main/README.md" target="_blank" rel="noopener noreferrer" aria-label="Read DistilBERT Full vs. Head-Only Fine-Tuning README">README</a></div>
-  </article>
-<article class="project-card" data-category="training" data-repo="Tarnsformers-Training" v-show="matches('training', 'Tarnsformers-Training')">
-    <div class="card-head"><span class="card-code">08 / PROJECT</span><span class="card-category category-training">Model training</span></div>
-    <div class="card-glyph glyph-training" aria-hidden="true">∑</div>
-    <h3>Transformer Classification &amp; Alignment Draft</h3><p class="card-description">DistilBERT classification examples accompanied by an unfinished Phi-2 SFT/DPO draft. Review its validation notes before attempting the draft.</p>
-    <div class="card-tags"><span class="tag">DistilBERT</span><span class="tag">Transformers</span><span class="tag">SFT</span></div>
-    <p class="card-note">Contains unfinished work</p>
-    <div class="card-actions"><a href="https://github.com/su394611-del/Tarnsformers-Training" target="_blank" rel="noopener noreferrer" aria-label="Open Transformer Classification &amp; Alignment Draft GitHub repository">View source <span aria-hidden="true">↗</span></a><a class="docs-link" href="https://github.com/su394611-del/Tarnsformers-Training/blob/main/README.md" target="_blank" rel="noopener noreferrer" aria-label="Read Transformer Classification &amp; Alignment Draft README">README</a></div>
-  </article>
-<article class="project-card" data-category="agents" data-repo="Stock-market-trading-Application-using-MCP-langchain-langgraph" v-show="matches('agents', 'Stock-market-trading-Application-using-MCP-langchain-langgraph')">
-    <div class="card-head"><span class="card-code">09 / PROJECT</span><span class="card-category category-agents">Agents &amp; MCP</span></div>
-    <div class="card-glyph glyph-agents" aria-hidden="true">◇</div>
-    <h3>Simulated Market Tools with MCP &amp; LangGraph</h3><p class="card-description">A demonstration of MCP servers, LangChain tools and LangGraph workflows using simulated quotes, news and trade actions; no real orders are placed.</p>
-    <div class="card-tags"><span class="tag">MCP</span><span class="tag">LangChain</span><span class="tag">LangGraph</span></div>
-    <p class="card-note">Simulation only · no live trading</p>
-    <div class="card-actions"><a href="https://github.com/su394611-del/Stock-market-trading-Application-using-MCP-langchain-langgraph" target="_blank" rel="noopener noreferrer" aria-label="Open Simulated Market Tools with MCP &amp; LangGraph GitHub repository">View source <span aria-hidden="true">↗</span></a><a class="docs-link" href="https://github.com/su394611-del/Stock-market-trading-Application-using-MCP-langchain-langgraph/blob/main/README.md" target="_blank" rel="noopener noreferrer" aria-label="Read Simulated Market Tools with MCP &amp; LangGraph README">README</a></div>
-  </article>
-          <template v-for="project in extraRepos" :key="project.slug"><article class="project-card" :data-category="project.category" :data-repo="project.slug" v-show="matchesDynamic(project)">
-            <div class="card-head"><span class="card-code">NEW / GITHUB</span><span class="card-category" :class="'category-' + project.category">{{ project.categoryLabel }}</span></div>
-            <div class="card-glyph" :class="'glyph-' + project.category" aria-hidden="true">{{ project.symbol }}</div>
-            <h3>{{ project.title }}</h3><p class="card-description">{{ project.description }}</p>
-            <div class="card-tags"><span class="tag" v-for="tag in project.tags" :key="tag">{{ tag }}</span></div>
-            <p class="card-note">Additional public GitHub project</p>
-            <div class="card-actions"><a :href="project.url" target="_blank" rel="noopener noreferrer">View source <span aria-hidden="true">↗</span></a><a class="docs-link" :href="project.docs" target="_blank" rel="noopener noreferrer">README</a></div>
-          </article></template>
-        </div>
-        <template v-if="visibleCount===0"><div class="zero-results" role="status"><strong>No matching projects</strong><p>Try another keyword or clear your filters.</p><button type="button" class="btn btn-outline" @click="resetFilters">Show all projects</button></div></template>
-        <div class="sync-line"><span class="sync-dot" aria-hidden="true"></span><span aria-live="polite" v-text="syncStatus"></span><span class="sync-hint">Known project links are available even when GitHub's API is offline.</span></div>
-      </section>
-      <section id="approach" class="layout approach-section" aria-labelledby="approach-heading"><div class="approach-copy"><p class="kicker">READ THE IMPLEMENTATION</p><h2 id="approach-heading">A portfolio meant to be <span class="gradient-text">inspected.</span></h2><p>Each repository is a separate learning or engineering demonstration with its own code, documentation, dependencies and limitations. Follow the links to inspect what is implemented, what is experimental and what is planned.</p><a class="btn btn-primary" href="https://github.com/su394611-del" target="_blank" rel="noopener noreferrer">Open GitHub profile <span aria-hidden="true">↗</span></a></div><div class="approach-panel" aria-label="Portfolio documentation principles"><div class="principle"><span>01</span><div><strong>Code before claims</strong><small>Source repositories are linked directly.</small></div></div><div class="principle"><span>02</span><div><strong>Clear boundaries</strong><small>Drafts, demos and simulations are labeled.</small></div></div><div class="principle"><span>03</span><div><strong>Reproducible learning</strong><small>Project READMEs explain setup and scope.</small></div></div></div></section>
-    </main>
-    <footer class="site-footer"><div class="layout footer-row"><div><span class="footer-wordmark">SS <span class="footer-spark">✳</span></span><p>© 2026 Sudhanshu Shukla. Original materials only; see each repository for its applicable license and third-party notices.</p></div><div class="footer-links"><a href="#home">Back to top ↑</a><a href="https://github.com/su394611-del" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="/sitemap.xml">Sitemap ↗</a></div></div></footer>
-  </div>
+<a class="skip-link" href="#projects">Skip to project directory</a>
+<div id="app">
+<header class="site-header">
+<nav aria-label="Main navigation" class="layout nav-inner">
+<a aria-label="Sudhanshu Shukla portfolio home" class="site-brand" href="#home"><span aria-hidden="true" class="brand-icon">SS</span><span class="brand-info"><strong>Sudhanshu Shukla</strong><small>AI / GENAI ENGINEERING</small></span></a>
+<div class="nav-actions"><a class="nav-link" href="#projects">Projects</a><a class="nav-link" href="#approach">Approach</a><a class="nav-github" href="https://github.com/su394611-del" rel="noopener noreferrer" target="_blank"><svg aria-hidden="true" fill="currentColor" height="19" viewbox="0 0 24 24" width="19"><path d="M12 .9C5.86.9.9 5.88.9 12.03c0 4.92 3.19 9.1 7.62 10.57.56.1.76-.24.76-.54v-2.11c-3.1.67-3.76-1.32-3.76-1.32-.5-1.28-1.24-1.62-1.24-1.62-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1.01 1.73 2.65 1.23 3.3.94.1-.73.39-1.23.72-1.52-2.47-.28-5.07-1.24-5.07-5.5 0-1.21.44-2.19 1.15-2.96-.12-.28-.5-1.4.11-2.91 0 0 .94-.3 3.06 1.13a10.67 10.67 0 0 1 5.58 0c2.12-1.44 3.05-1.13 3.05-1.13.61 1.51.23 2.63.11 2.91.72.77 1.15 1.75 1.15 2.97 0 4.26-2.6 5.21-5.08 5.49.4.35.75 1.04.75 2.1v3.12c0 .3.2.65.77.54 4.42-1.48 7.6-5.65 7.6-10.56C23.1 5.88 18.14.9 12 .9Z"></path></svg><span>GitHub</span><span aria-hidden="true">↗</span></a></div>
+</nav>
+</header>
+<main id="home">
+<section aria-labelledby="hero-heading" class="hero layout">
+<div class="hero-copy"><div class="eyebrow"><span aria-hidden="true" class="status-dot"></span> INDEPENDENT ENGINEERING &amp; RESEARCH PORTFOLIO <span class="eyebrow-year">/ 2026</span></div>
+<h1 id="hero-heading">AI engineering,<br/><span class="gradient-text">built to be explored.</span></h1>
+<p class="hero-intro">Production-grade presentation of hands-on AI engineering work: retrieval and RAG, agent orchestration, Transformer architectures, model fine-tuning, distributed training and parallel inference.</p>
+<div class="hero-buttons"><a class="btn btn-primary" href="#projects">Browse the projects <span aria-hidden="true">↗</span></a><a class="btn btn-outline" href="https://github.com/su394611-del?tab=repositories" rel="noopener noreferrer" target="_blank">Explore GitHub <span aria-hidden="true">↗</span></a></div>
+<p class="hero-disclaimer">Each project has a direct website, source code and README. The portfolio interface is production-grade in design; model-validation and runtime claims remain scoped to each repository.</p>
+</div>
+<div aria-label="Visualization of AI engineering areas: retrieval, agents, training, and inference" class="hero-graphic" role="img">
+<div class="graphic-head"><span><i aria-hidden="true" class="graphic-pulse"></i> SYSTEMS / OVERVIEW</span><span>001 — 004</span></div>
+<div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div>
+<div class="visual-core"><small>ENGINEERING</small><strong>AI <span>✳</span> ML</strong><small>EXPLORE THE STACK</small></div>
+<div class="orbit-node node-retrieval"><span class="node-icon">⌕</span><span>RAG</span></div>
+<div class="orbit-node node-agents"><span class="node-icon">◇</span><span>AGENTS</span></div>
+<div class="orbit-node node-training"><span class="node-icon">∑</span><span>TRAINING</span></div>
+<div class="orbit-node node-inference"><span class="node-icon">↗</span><span>INFERENCE</span></div>
+<div class="graphic-bottom"><span>PYTHON</span><span>PYTORCH</span><span>LANGGRAPH</span><span>MCP</span></div>
+</div>
+</section>
+<section aria-label="Portfolio at a glance" class="layout insight-row">
+<div class="insight"><span class="insight-num">09</span><span class="insight-text">Verified project repositories<br/><small>Dedicated GitHub Pages + source links</small></span></div>
+<div class="insight"><span class="insight-num">04</span><span class="insight-text">Primary engineering areas<br/><small>Retrieval · Agents · Training · Scale</small></span></div>
+<div class="insight"><span class="insight-num insight-code">&lt;/&gt;</span><span class="insight-text">Public source &amp; walkthroughs<br/><small>Explore implementation details on GitHub</small></span></div>
+</section>
+<section aria-labelledby="focus-heading" class="layout focus-section"><div class="section-intro"><p class="kicker">AREAS OF WORK</p><h2 id="focus-heading">Across the AI stack<span class="subtle-point">.</span></h2><p>Different parts of the workflow, from retrieving context to training and running models.</p></div>
+<div class="focus-grid">
+<a @click="category='retrieval'" class="focus-tile" href="#projects"><span aria-hidden="true" class="focus-icon focus-retrieval">⌕</span><span class="focus-name">Retrieval &amp; RAG</span><span class="focus-detail">Vector search, embeddings, service patterns</span><span aria-hidden="true" class="focus-arrow">↗</span></a>
+<a @click="category='agents'" class="focus-tile" href="#projects"><span aria-hidden="true" class="focus-icon focus-agents">◇</span><span class="focus-name">Agents &amp; MCP</span><span class="focus-detail">Graph workflows, tools, orchestration</span><span aria-hidden="true" class="focus-arrow">↗</span></a>
+<a @click="category='training'" class="focus-tile" href="#projects"><span aria-hidden="true" class="focus-icon focus-training">∑</span><span class="focus-name">Model training</span><span class="focus-detail">Transformers, fine-tuning, alignment</span><span aria-hidden="true" class="focus-arrow">↗</span></a>
+<a @click="category='inference'" class="focus-tile" href="#projects"><span aria-hidden="true" class="focus-icon focus-inference">↗</span><span class="focus-name">Inference &amp; scale</span><span class="focus-detail">Batch workers and distributed training</span><span aria-hidden="true" class="focus-arrow">↗</span></a>
+</div>
+</section>
+<section aria-labelledby="projects-heading" class="layout projects-section" id="projects"><div class="section-intro projects-intro"><div><p class="kicker">THE PROJECT DIRECTORY</p><h2 id="projects-heading">Projects, implementations and code<span class="subtle-point">.</span></h2><p>Explore all nine project sites directly. Every card provides a website link and reliable source-code and README alternatives.</p></div><a class="all-link" href="https://github.com/su394611-del?tab=repositories" rel="noopener noreferrer" target="_blank">All GitHub repositories <span aria-hidden="true">↗</span></a></div>
+<div class="project-toolbar"><div aria-label="Filter projects by category" class="filter-scroller" role="group"><button :aria-pressed="String(category === 'all')" :class="{ active: category === 'all' }" @click="category = 'all'" class="filter-chip" type="button">All projects</button>
+<button :aria-pressed="String(category === 'retrieval')" :class="{ active: category === 'retrieval' }" @click="category = 'retrieval'" class="filter-chip" type="button">Retrieval / RAG</button>
+<button :aria-pressed="String(category === 'agents')" :class="{ active: category === 'agents' }" @click="category = 'agents'" class="filter-chip" type="button">Agents / MCP</button>
+<button :aria-pressed="String(category === 'training')" :class="{ active: category === 'training' }" @click="category = 'training'" class="filter-chip" type="button">Model training</button>
+<button :aria-pressed="String(category === 'inference')" :class="{ active: category === 'inference' }" @click="category = 'inference'" class="filter-chip" type="button">Inference / scale</button>
+</div><label class="search-control"><svg aria-hidden="true" fill="none" height="19" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="19"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg><span class="sr-only">Search project directory</span><input aria-label="Search projects" autocomplete="off" placeholder="Search projects, tools…" type="search" v-model="query"/></label></div>
+<div class="results-line"><span aria-live="polite" id="project-results-count" role="status" v-text="'Showing ' + visibleCount + ' of ' + totalCount + ' projects'"></span><noscript><span class="sr-only">All nine project links are visible without JavaScript. Search and filters support Vue or a lightweight fallback.</span></noscript><template v-if="category !== 'all' || query.trim()"><button @click="resetFilters" class="reset-control" type="button">Clear filters <span aria-hidden="true">×</span></button></template></div><p class="project-access-note">Website buttons open each dedicated GitHub Pages project. Source and README remain available when a project page has not yet been deployed.</p>
+<div class="projects-grid" id="projects-grid">
+<article class="project-card" data-category="retrieval" data-repo="RAG-service" data-search="rag-service multi-tenant retrieval &amp; rag service qdrant, fastapi, tenant-scoped retrieval and semantic caching; retrieval responses rather than unverified generated answers. python qdrant fastapi retrieval engineering · tenant isolation" v-show="matches('retrieval', 'RAG-service')">
+<div class="card-head"><span class="card-code">01 / PROJECT</span><span class="card-category category-retrieval">Retrieval &amp; RAG</span></div>
+<div aria-hidden="true" class="card-glyph glyph-retrieval">⌕</div>
+<h3><a href="https://su394611-del.github.io/RAG-service/" rel="noopener noreferrer" target="_blank">Multi-Tenant Retrieval &amp; RAG Service</a></h3><p class="card-description">Qdrant, FastAPI, tenant-scoped retrieval and semantic caching; retrieval responses rather than unverified generated answers.</p>
+<div class="card-tags"><span class="tag">Python</span><span class="tag">Qdrant</span><span class="tag">FastAPI</span></div>
+<p class="card-note">Retrieval engineering · tenant isolation</p>
+<div class="card-actions"><a aria-label="Open website: Multi-Tenant Retrieval &amp; RAG Service" class="project-site-link" href="https://su394611-del.github.io/RAG-service/" rel="noopener noreferrer" target="_blank">Open website<span aria-hidden="true"> ↗</span></a><a aria-label="Source: Multi-Tenant Retrieval &amp; RAG Service" class="docs-link" href="https://github.com/su394611-del/RAG-service" rel="noopener noreferrer" target="_blank">Source</a><a aria-label="README: Multi-Tenant Retrieval &amp; RAG Service" class="docs-link" href="https://github.com/su394611-del/RAG-service/blob/main/README.md" rel="noopener noreferrer" target="_blank">README</a></div>
+</article>
+<article class="project-card" data-category="agents" data-repo="Mutli-agents-using-LangGraph" data-search="mutli-agents-using-langgraph multi-agent workflows with langgraph stategraph workflows, pydantic validation, reducers, messagesstate and reusable hr/it subgraphs. langgraph pydantic python graph orchestration · 18 examples" v-show="matches('agents', 'Mutli-agents-using-LangGraph')">
+<div class="card-head"><span class="card-code">02 / PROJECT</span><span class="card-category category-agents">Agents &amp; MCP</span></div>
+<div aria-hidden="true" class="card-glyph glyph-agents">◇</div>
+<h3><a href="https://su394611-del.github.io/Mutli-agents-using-LangGraph/" rel="noopener noreferrer" target="_blank">Multi-Agent Workflows with LangGraph</a></h3><p class="card-description">StateGraph workflows, Pydantic validation, reducers, MessagesState and reusable HR/IT subgraphs.</p>
+<div class="card-tags"><span class="tag">LangGraph</span><span class="tag">Pydantic</span><span class="tag">Python</span></div>
+<p class="card-note">Graph orchestration · 18 examples</p>
+<div class="card-actions"><a aria-label="Open website: Multi-Agent Workflows with LangGraph" class="project-site-link" href="https://su394611-del.github.io/Mutli-agents-using-LangGraph/" rel="noopener noreferrer" target="_blank">Open website<span aria-hidden="true"> ↗</span></a><a aria-label="Source: Multi-Agent Workflows with LangGraph" class="docs-link" href="https://github.com/su394611-del/Mutli-agents-using-LangGraph" rel="noopener noreferrer" target="_blank">Source</a><a aria-label="README: Multi-Agent Workflows with LangGraph" class="docs-link" href="https://github.com/su394611-del/Mutli-agents-using-LangGraph/blob/main/README.md" rel="noopener noreferrer" target="_blank">README</a></div>
+</article>
+<article class="project-card" data-category="training" data-repo="Pre-training-and-Fine-tuning" data-search="pre-training-and-fine-tuning llm fine-tuning &amp; preference optimization qwen2.5 lora tuning with separate smollm-based sft→dpo and orpo pipelines, using version-isolated training stacks. qwen2.5 lora trl fine-tuning · sft / dpo / orpo" v-show="matches('training', 'Pre-training-and-Fine-tuning')">
+<div class="card-head"><span class="card-code">03 / PROJECT</span><span class="card-category category-training">Model training</span></div>
+<div aria-hidden="true" class="card-glyph glyph-training">∑</div>
+<h3><a href="https://su394611-del.github.io/Pre-training-and-Fine-tuning/" rel="noopener noreferrer" target="_blank">LLM Fine-Tuning &amp; Preference Optimization</a></h3><p class="card-description">Qwen2.5 LoRA tuning with separate SmolLM-based SFT→DPO and ORPO pipelines, using version-isolated training stacks.</p>
+<div class="card-tags"><span class="tag">Qwen2.5</span><span class="tag">LoRA</span><span class="tag">TRL</span></div>
+<p class="card-note">Fine-tuning · SFT / DPO / ORPO</p>
+<div class="card-actions"><a aria-label="Open website: LLM Fine-Tuning &amp; Preference Optimization" class="project-site-link" href="https://su394611-del.github.io/Pre-training-and-Fine-tuning/" rel="noopener noreferrer" target="_blank">Open website<span aria-hidden="true"> ↗</span></a><a aria-label="Source: LLM Fine-Tuning &amp; Preference Optimization" class="docs-link" href="https://github.com/su394611-del/Pre-training-and-Fine-tuning" rel="noopener noreferrer" target="_blank">Source</a><a aria-label="README: LLM Fine-Tuning &amp; Preference Optimization" class="docs-link" href="https://github.com/su394611-del/Pre-training-and-Fine-tuning/blob/main/README.md" rel="noopener noreferrer" target="_blank">README</a></div>
+</article>
+<article class="project-card" data-category="training" data-repo="Distributed-Data-Parallel-Processing" data-search="distributed-data-parallel-processing distributed llm training with pytorch ddp torchrun workers, distributedsampler, gradient synchronization and qwen lora training workflows with independent model replicas. pytorch ddp lora distributed training · torchrun" v-show="matches('training', 'Distributed-Data-Parallel-Processing')">
+<div class="card-head"><span class="card-code">04 / PROJECT</span><span class="card-category category-training">Model training</span></div>
+<div aria-hidden="true" class="card-glyph glyph-training">∑</div>
+<h3><a href="https://su394611-del.github.io/Distributed-Data-Parallel-Processing/" rel="noopener noreferrer" target="_blank">Distributed LLM Training with PyTorch DDP</a></h3><p class="card-description">torchrun workers, DistributedSampler, gradient synchronization and Qwen LoRA training workflows with independent model replicas.</p>
+<div class="card-tags"><span class="tag">PyTorch</span><span class="tag">DDP</span><span class="tag">LoRA</span></div>
+<p class="card-note">Distributed training · torchrun</p>
+<div class="card-actions"><a aria-label="Open website: Distributed LLM Training with PyTorch DDP" class="project-site-link" href="https://su394611-del.github.io/Distributed-Data-Parallel-Processing/" rel="noopener noreferrer" target="_blank">Open website<span aria-hidden="true"> ↗</span></a><a aria-label="Source: Distributed LLM Training with PyTorch DDP" class="docs-link" href="https://github.com/su394611-del/Distributed-Data-Parallel-Processing" rel="noopener noreferrer" target="_blank">Source</a><a aria-label="README: Distributed LLM Training with PyTorch DDP" class="docs-link" href="https://github.com/su394611-del/Distributed-Data-Parallel-Processing/blob/main/README.md" rel="noopener noreferrer" target="_blank">README</a></div>
+</article>
+<article class="project-card" data-category="inference" data-repo="Parallel-LLM-Inference" data-search="parallel-llm-inference parallel llm batch inference qwen2.5 batch sentiment inference with python worker queues, per-device model replicas, jsonl validation and ordered outputs. qwen2.5 multi-gpu jsonl batch inference · worker queues" v-show="matches('inference', 'Parallel-LLM-Inference')">
+<div class="card-head"><span class="card-code">05 / PROJECT</span><span class="card-category category-inference">Inference &amp; scale</span></div>
+<div aria-hidden="true" class="card-glyph glyph-inference">↗</div>
+<h3><a href="https://su394611-del.github.io/Parallel-LLM-Inference/" rel="noopener noreferrer" target="_blank">Parallel LLM Batch Inference</a></h3><p class="card-description">Qwen2.5 batch sentiment inference with Python worker queues, per-device model replicas, JSONL validation and ordered outputs.</p>
+<div class="card-tags"><span class="tag">Qwen2.5</span><span class="tag">Multi-GPU</span><span class="tag">JSONL</span></div>
+<p class="card-note">Batch inference · worker queues</p>
+<div class="card-actions"><a aria-label="Open website: Parallel LLM Batch Inference" class="project-site-link" href="https://su394611-del.github.io/Parallel-LLM-Inference/" rel="noopener noreferrer" target="_blank">Open website<span aria-hidden="true"> ↗</span></a><a aria-label="Source: Parallel LLM Batch Inference" class="docs-link" href="https://github.com/su394611-del/Parallel-LLM-Inference" rel="noopener noreferrer" target="_blank">Source</a><a aria-label="README: Parallel LLM Batch Inference" class="docs-link" href="https://github.com/su394611-del/Parallel-LLM-Inference/blob/legacy/README.md" rel="noopener noreferrer" target="_blank">README</a></div>
+</article>
+<article class="project-card" data-category="training" data-repo="LLM-from-scratch" data-search="llm-from-scratch transformer encoder from scratch custom multi-head self-attention, positional encoding, pre-layernorm blocks and classification on yelp-style review data. pytorch attention nlp encoder architecture · classification" v-show="matches('training', 'LLM-from-scratch')">
+<div class="card-head"><span class="card-code">06 / PROJECT</span><span class="card-category category-training">Model training</span></div>
+<div aria-hidden="true" class="card-glyph glyph-training">∑</div>
+<h3><a href="https://su394611-del.github.io/LLM-from-scratch/" rel="noopener noreferrer" target="_blank">Transformer Encoder from Scratch</a></h3><p class="card-description">Custom multi-head self-attention, positional encoding, pre-LayerNorm blocks and classification on Yelp-style review data.</p>
+<div class="card-tags"><span class="tag">PyTorch</span><span class="tag">Attention</span><span class="tag">NLP</span></div>
+<p class="card-note">Encoder architecture · classification</p>
+<div class="card-actions"><a aria-label="Open website: Transformer Encoder from Scratch" class="project-site-link" href="https://su394611-del.github.io/LLM-from-scratch/" rel="noopener noreferrer" target="_blank">Open website<span aria-hidden="true"> ↗</span></a><a aria-label="Source: Transformer Encoder from Scratch" class="docs-link" href="https://github.com/su394611-del/LLM-from-scratch" rel="noopener noreferrer" target="_blank">Source</a><a aria-label="README: Transformer Encoder from Scratch" class="docs-link" href="https://github.com/su394611-del/LLM-from-scratch/blob/main/README.md" rel="noopener noreferrer" target="_blank">README</a></div>
+</article>
+<article class="project-card" data-category="training" data-repo="Full-Fine-Training-Pre-Training-Mid-Training" data-search="full-fine-training-pre-training-mid-training distilbert full vs. frozen fine-tuning full-encoder fine-tuning compared with frozen-backbone classification, weighted f1, confusion matrices and saved checkpoints. distilbert trainer f1 nlp fine-tuning · comparison" v-show="matches('training', 'Full-Fine-Training-Pre-Training-Mid-Training')">
+<div class="card-head"><span class="card-code">07 / PROJECT</span><span class="card-category category-training">Model training</span></div>
+<div aria-hidden="true" class="card-glyph glyph-training">∑</div>
+<h3><a href="https://su394611-del.github.io/Full-Fine-Training-Pre-Training-Mid-Training/" rel="noopener noreferrer" target="_blank">DistilBERT Full vs. Frozen Fine-Tuning</a></h3><p class="card-description">Full-encoder fine-tuning compared with frozen-backbone classification, weighted F1, confusion matrices and saved checkpoints.</p>
+<div class="card-tags"><span class="tag">DistilBERT</span><span class="tag">Trainer</span><span class="tag">F1</span></div>
+<p class="card-note">NLP fine-tuning · comparison</p>
+<div class="card-actions"><a aria-label="Open website: DistilBERT Full vs. Frozen Fine-Tuning" class="project-site-link" href="https://su394611-del.github.io/Full-Fine-Training-Pre-Training-Mid-Training/" rel="noopener noreferrer" target="_blank">Open website<span aria-hidden="true"> ↗</span></a><a aria-label="Source: DistilBERT Full vs. Frozen Fine-Tuning" class="docs-link" href="https://github.com/su394611-del/Full-Fine-Training-Pre-Training-Mid-Training" rel="noopener noreferrer" target="_blank">Source</a><a aria-label="README: DistilBERT Full vs. Frozen Fine-Tuning" class="docs-link" href="https://github.com/su394611-del/Full-Fine-Training-Pre-Training-Mid-Training/blob/main/README.md" rel="noopener noreferrer" target="_blank">README</a></div>
+</article>
+<article class="project-card" data-category="training" data-repo="Transformers-Training" data-search="transformers-training transformer training &amp; model evaluation distilbert-based support-text classification, full and frozen-backbone configurations, evaluation and prediction outputs. transformers distilbert pytorch model training · evaluation" v-show="matches('training', 'Transformers-Training')">
+<div class="card-head"><span class="card-code">08 / PROJECT</span><span class="card-category category-training">Model training</span></div>
+<div aria-hidden="true" class="card-glyph glyph-training">∑</div>
+<h3><a href="https://su394611-del.github.io/Transformers-Training/" rel="noopener noreferrer" target="_blank">Transformer Training &amp; Model Evaluation</a></h3><p class="card-description">DistilBERT-based support-text classification, full and frozen-backbone configurations, evaluation and prediction outputs.</p>
+<div class="card-tags"><span class="tag">Transformers</span><span class="tag">DistilBERT</span><span class="tag">PyTorch</span></div>
+<p class="card-note">Model training · evaluation</p>
+<div class="card-actions"><a aria-label="Open website: Transformer Training &amp; Model Evaluation" class="project-site-link" href="https://su394611-del.github.io/Transformers-Training/" rel="noopener noreferrer" target="_blank">Open website<span aria-hidden="true"> ↗</span></a><a aria-label="Source: Transformer Training &amp; Model Evaluation" class="docs-link" href="https://github.com/su394611-del/Transformers-Training" rel="noopener noreferrer" target="_blank">Source</a><a aria-label="README: Transformer Training &amp; Model Evaluation" class="docs-link" href="https://github.com/su394611-del/Transformers-Training/blob/main/README.md" rel="noopener noreferrer" target="_blank">README</a></div>
+</article>
+<article class="project-card" data-category="agents" data-repo="Stock-market-trading-Application-using-MCP-langchain-langgraph" data-search="stock-market-trading-application-using-mcp-langchain-langgraph mcp &amp; langgraph market workflow simulation langchain tools, langgraph routing and stdio/http mcp servers for simulated stock quotes, synthetic news and non-executing trade actions. mcp langchain langgraph tool orchestration · simulated operations" v-show="matches('agents', 'Stock-market-trading-Application-using-MCP-langchain-langgraph')">
+<div class="card-head"><span class="card-code">09 / PROJECT</span><span class="card-category category-agents">Agents &amp; MCP</span></div>
+<div aria-hidden="true" class="card-glyph glyph-agents">◇</div>
+<h3><a href="https://su394611-del.github.io/Stock-market-trading-Application-using-MCP-langchain-langgraph/" rel="noopener noreferrer" target="_blank">MCP &amp; LangGraph Market Workflow Simulation</a></h3><p class="card-description">LangChain tools, LangGraph routing and STDIO/HTTP MCP servers for simulated stock quotes, synthetic news and non-executing trade actions.</p>
+<div class="card-tags"><span class="tag">MCP</span><span class="tag">LangChain</span><span class="tag">LangGraph</span></div>
+<p class="card-note">Tool orchestration · simulated operations</p>
+<div class="card-actions"><a aria-label="Open website: MCP &amp; LangGraph Market Workflow Simulation" class="project-site-link" href="https://su394611-del.github.io/Stock-market-trading-Application-using-MCP-langchain-langgraph/" rel="noopener noreferrer" target="_blank">Open website<span aria-hidden="true"> ↗</span></a><a aria-label="Source: MCP &amp; LangGraph Market Workflow Simulation" class="docs-link" href="https://github.com/su394611-del/Stock-market-trading-Application-using-MCP-langchain-langgraph" rel="noopener noreferrer" target="_blank">Source</a><a aria-label="README: MCP &amp; LangGraph Market Workflow Simulation" class="docs-link" href="https://github.com/su394611-del/Stock-market-trading-Application-using-MCP-langchain-langgraph/blob/main/README.md" rel="noopener noreferrer" target="_blank">README</a></div>
+</article>
+
+</div>
+<template v-if="visibleCount===0"><div class="zero-results" role="status"><strong>No matching projects</strong><p>Try another keyword or clear your filters.</p><button @click="resetFilters" class="btn btn-outline" type="button">Show all projects</button></div></template>
+<div class="sync-line"><span aria-hidden="true" class="sync-dot"></span><span>Nine curated project websites — direct site, repository, and README links on every card.</span><span class="sync-hint">If a project website is unavailable, use its source link and check that repository’s GitHub Pages deployment.</span></div>
+</section>
+<section aria-labelledby="approach-heading" class="layout approach-section" id="approach"><div class="approach-copy"><p class="kicker">READ THE IMPLEMENTATION</p><h2 id="approach-heading">Engineering you can <span class="gradient-text">inspect.</span></h2><p>Each repository links to a dedicated project website, source implementation and README. The work covers system architecture, practical AI implementation and transparent testing boundaries.</p><a class="btn btn-primary" href="https://github.com/su394611-del" rel="noopener noreferrer" target="_blank">Open GitHub profile <span aria-hidden="true">↗</span></a></div><div aria-label="Portfolio documentation principles" class="approach-panel"><div class="principle"><span>01</span><div><strong>Code before claims</strong><small>Source repositories are linked directly.</small></div></div><div class="principle"><span>02</span><div><strong>Clear boundaries</strong><small>Scope, dependencies and test boundaries are documented.</small></div></div><div class="principle"><span>03</span><div><strong>Reproducible engineering</strong><small>Dependencies, setup and usage are documented in project READMEs.</small></div></div></div></section>
+</main>
+<footer class="site-footer"><div class="layout footer-row"><div><span class="footer-wordmark">SS <span class="footer-spark">✳</span></span><p>© 2026 Sudhanshu Shukla. Original materials only; see each repository for its applicable license and third-party notices.</p></div><div class="footer-links"><a href="#home">Back to top ↑</a><a href="https://github.com/su394611-del" rel="noopener noreferrer" target="_blank">GitHub ↗</a><a href="/sitemap.xml">Sitemap ↗</a></div></div></footer>
+</div>
 </body>
 </html>
