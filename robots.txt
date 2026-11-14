@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://su394611-del.github.io/sitemap.xml
