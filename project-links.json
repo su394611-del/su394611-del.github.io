@@ -1,0 +1,56 @@
+[
+  {
+    "project": "Multi-Tenant Retrieval & RAG Service",
+    "site": "https://su394611-del.github.io/RAG-service/",
+    "repository": "https://github.com/su394611-del/RAG-service",
+    "branch": "main"
+  },
+  {
+    "project": "Multi-Agent Workflows with LangGraph",
+    "site": "https://su394611-del.github.io/Mutli-agents-using-LangGraph/",
+    "repository": "https://github.com/su394611-del/Mutli-agents-using-LangGraph",
+    "branch": "main"
+  },
+  {
+    "project": "LLM Fine-Tuning & Preference Optimization",
+    "site": "https://su394611-del.github.io/Pre-training-and-Fine-tuning/",
+    "repository": "https://github.com/su394611-del/Pre-training-and-Fine-tuning",
+    "branch": "main"
+  },
+  {
+    "project": "Distributed LLM Training with PyTorch DDP",
+    "site": "https://su394611-del.github.io/Distributed-Data-Parallel-Processing/",
+    "repository": "https://github.com/su394611-del/Distributed-Data-Parallel-Processing",
+    "branch": "main"
+  },
+  {
+    "project": "Parallel LLM Batch Inference",
+    "site": "https://su394611-del.github.io/Parallel-LLM-Inference/",
+    "repository": "https://github.com/su394611-del/Parallel-LLM-Inference",
+    "branch": "legacy"
+  },
+  {
+    "project": "Transformer Encoder from Scratch",
+    "site": "https://su394611-del.github.io/LLM-from-scratch/",
+    "repository": "https://github.com/su394611-del/LLM-from-scratch",
+    "branch": "main"
+  },
+  {
+    "project": "DistilBERT Full vs. Frozen Fine-Tuning",
+    "site": "https://su394611-del.github.io/Full-Fine-Training-Pre-Training-Mid-Training/",
+    "repository": "https://github.com/su394611-del/Full-Fine-Training-Pre-Training-Mid-Training",
+    "branch": "main"
+  },
+  {
+    "project": "Transformer Training & Model Evaluation",
+    "site": "https://su394611-del.github.io/Transformers-Training/",
+    "repository": "https://github.com/su394611-del/Transformers-Training",
+    "branch": "main"
+  },
+  {
+    "project": "MCP & LangGraph Market Workflow Simulation",
+    "site": "https://su394611-del.github.io/Stock-market-trading-Application-using-MCP-langchain-langgraph/",
+    "repository": "https://github.com/su394611-del/Stock-market-trading-Application-using-MCP-langchain-langgraph",
+    "branch": "main"
+  }
+]
