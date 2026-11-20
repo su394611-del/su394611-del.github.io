@@ -799,7 +799,7 @@ self.onmessage = (event) => {
     return worker;
   }
 
-  function mb(n) { return (n / 1048576).toFixed(0); }
+  function mb(n) { return (n / 1e6).toFixed(0); }
 
   function onWorkerMessage(e) {
     var m = e.data;
