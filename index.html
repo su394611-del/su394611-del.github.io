@@ -62,6 +62,29 @@
 <!-- Curated project cards are static HTML for accessibility and search indexing. -->
 <script defer="" src="https://cdn.jsdelivr.net/npm/vue@3.5.13/dist/vue.global.prod.js"></script>
 <script defer="" src="/assets/app.js"></script>
+<style id="model-eval-styles">/* Model evaluation summary (generated from the Mixtral repo's eval/results.json) */
+.model-eval{padding-top:84px}
+.me-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px 40px;margin-bottom:24px}
+.me-head h2{margin:8px 0 0;font-size:clamp(28px,3.3vw,40px);line-height:1.15;letter-spacing:-.03em}
+.model-eval .me-head p{max-width:440px;margin:0;font-size:13.5px;line-height:1.7;color:var(--muted,#aabed5)}
+.model-eval .me-head .me-kicker{margin:0;font-size:11px;font-weight:850;letter-spacing:.16em;text-transform:uppercase;color:#7be2f0}
+.me-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.me-model{display:flex;flex-direction:column;min-width:0;padding:20px 20px 18px;border:1px solid #2b4360;border-radius:16px;background:linear-gradient(140deg,#152a43,#0e1c31 90%)}
+.me-model-top{display:flex;justify-content:space-between;gap:10px;font-size:10px;font-weight:850;letter-spacing:.12em;text-transform:uppercase;color:#83a0bb}
+.me-model h3{margin:10px 0 2px;font-size:17px;line-height:1.3}
+.me-model .me-size{margin:0 0 14px;font-size:12px;color:#8eacc8}
+.me-big{display:flex;align-items:baseline;gap:8px;margin:0}
+.me-big b{font-size:34px;line-height:1;letter-spacing:-.02em;color:#eef5ff}
+.me-big span{font-size:12px;font-weight:700;color:#a8c4d8}
+.me-model ul{list-style:none;margin:14px 0 0;padding:12px 0 0;border-top:1px solid #2b4361;display:grid;gap:7px;font-size:12.5px;color:#b2c5d9}
+.me-model li{display:flex;justify-content:space-between;gap:12px}
+.me-model li strong{color:#eef5ff;font-weight:750;white-space:nowrap}
+.me-up{color:#87e4c7}
+.me-foot{display:flex;flex-wrap:wrap;gap:8px 18px;margin:16px 0 0;font-size:12.5px;color:#8eacc8}
+.me-foot a{color:var(--cyan,#7be2f0);font-weight:700;text-decoration:none}
+.me-foot a:hover{text-decoration:underline}
+.me-foot a:focus-visible{outline:3px solid #95eaff;outline-offset:2px;border-radius:4px}
+@media(max-width:980px){.me-cards{grid-template-columns:minmax(0,1fr)}}</style>
 </head>
 <body>
 <a class="skip-link" href="#projects">Skip to project directory</a>
@@ -249,7 +272,22 @@
 <template v-if="visibleCount===0"><div class="zero-results" role="status"><strong>No matching projects</strong><p>Try another keyword or clear your filters.</p><button @click="resetFilters" class="btn btn-outline" type="button">Show all projects</button></div></template>
 <div class="sync-line"><span aria-hidden="true" class="sync-dot"></span><span>Eleven project cards — ten GitHub repositories and one standalone Hugging Face model, with direct links and documentation.</span><span class="sync-hint">Links lead to original sources; preview frames are an optional convenience and may be disallowed by host policy.</span></div>
 </section>
-<section aria-labelledby="engineering-notes-heading" class="layout context-section" id="engineering-notes">
+<!-- model-eval:start -->
+<section aria-labelledby="model-eval-heading" class="layout model-eval" id="model-evaluation" v-pre>
+<div class="me-head"><div><p class="me-kicker">Model evaluation · 2026-11-20</p><h2 id="model-eval-heading">Three models, scored on held-out data.</h2></div><p>Measured in the browser with the same JavaScript engine as the <a href="/playground/" style="color:var(--cyan,#7be2f0)">Model Playground</a>, on text none of the models saw in training. Lower perplexity is better; it is not comparable across models with different tokenizers and data.</p></div>
+<div class="me-cards">
+<article class="me-model"><div class="me-model-top"><span>Mixtral · Medical SFT</span><span>38.8M · MoE</span></div><h3>Mixtral Healthcare Medical SFT</h3><p class="me-size">Held-out medical Q&amp;A (80 answers)</p><p class="me-big"><b>253</b><span>perplexity</span></p>
+<ul><li>Before SFT<strong>692 <span class="me-up">−64%</span></strong></li><li>MedMCQA accuracy<strong>29% <span style="color:#8eacc8">(chance 25%)</span></strong></li><li>Browser speed<strong>14 tokens/s</strong></li></ul></article>
+<article class="me-model"><div class="me-model-top"><span>Mixtral · Pretrained</span><span>38.8M · MoE</span></div><h3>Mixtral Healthcare Pretrained</h3><p class="me-size">Held-out PubMed articles (40 documents)</p><p class="me-big"><b>572</b><span>perplexity</span></p>
+<ul><li>95% interval<strong>473–704</strong></li><li>Next-token accuracy<strong>16%</strong></li><li>Browser speed<strong>14 tokens/s</strong></li></ul></article>
+<article class="me-model"><div class="me-model-top"><span>GPT-2 style</span><span>1.06M</span></div><h3>Tiny GPT (TinyStories)</h3><p class="me-size">TinyStories validation (100 stories)</p><p class="me-big"><b>570</b><span>perplexity</span></p>
+<ul><li>95% interval<strong>552–592</strong></li><li>Model card (PyTorch)<strong>583 ✓ matches</strong></li><li>Browser speed<strong>204 tokens/s</strong></li></ul></article>
+</div>
+<p class="me-foot"><a href="https://su394611-del.github.io/Mixtral-Healthcare-LLM-From-Scratch/#evaluation">Full results and method ↗</a><a href="https://su394611-del.github.io/Mixtral-Healthcare-LLM-From-Scratch/eval/results.json">results.json</a><a href="/playground/">Run the models yourself</a><span>Research models: not for medical advice.</span></p>
+</section>
+<!-- model-eval:end -->
+
+    <section aria-labelledby="engineering-notes-heading" class="layout context-section" id="engineering-notes">
 <div class="section-intro"><p class="kicker">TECHNICAL CONTEXT / PROJECT GUIDE</p><h2 id="engineering-notes-heading">From first-principles models to <span class="gradient-text">operational AI systems.</span></h2><p>A focused explanation of the engineering areas represented across the linked repositories and Hugging Face checkpoints.</p></div>
 <div class="context-grid">
 <article class="context-panel"><span class="context-index">01 / FOUNDATIONS</span><h3>Transformer and LLM architecture</h3><p>The portfolio explores both decoder-oriented causal language modeling and encoder-oriented text classification. Example implementations cover tokenization, embeddings, self-attention, Transformer blocks and inference behavior. The custom healthcare MoE model adds expert routing and a two-stage pretraining/SFT workflow.</p><a href="#project-mixtral-healthcare">Healthcare MoE</a> · <a href="#project-transformer-encoder">Transformer encoder</a> · <a href="#project-tiny-gpt">Tiny GPT</a></article>
