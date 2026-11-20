@@ -82,7 +82,7 @@
 <body>
 <main class="page">
   <header class="standalone-only standalone-head">
-    <a class="back-link" href="/">← Back to portfolio</a>
+    <a class="back-link" href="/" id="cf-back">← Back to portfolio</a>
     <p class="kicker">GET IN TOUCH</p>
     <h1>Contact Sudhanshu Shukla</h1>
   </header>
@@ -90,6 +90,7 @@
   <!-- Formspree endpoint for this site's contact form. Submissions are emailed to the address on the Formspree account. -->
   <form action="https://formspree.io/f/mzeraprg" class="card" id="contact-form" method="POST" target="_top">
     <input name="_subject" type="hidden" value="New message from su394611-del.github.io"/>
+    <input name="project" type="hidden" value="Portfolio home"/>
     <div class="row">
       <div class="field">
         <label for="cf-name">Name</label>
@@ -127,6 +128,16 @@
   var baseSubject = subject.defaultValue;
   var embedded = window.self !== window.top;
 
+  /* Project pages embed this form as /contact.html?from=<repo-name>; tag the message with it. */
+  var source = '';
+  try { source = new URLSearchParams(window.location.search).get('from') || ''; } catch (e) { source = ''; }
+  source = source.replace(/[^A-Za-z0-9._-]/g, '').slice(0, 80);
+  if (source) {
+    form.querySelector('input[name="project"]').value = source;
+    var back = document.getElementById('cf-back');
+    if (back) { back.href = '/' + source + '/'; back.textContent = '← Back to project'; }
+  }
+
   /* Tell index.html how tall the form is so the iframe never scrolls. */
   function postHeight() {
     if (!embedded) return;
@@ -160,7 +171,7 @@
 
     var nameField = form.elements.namedItem('name');
     var name = nameField ? nameField.value.trim() : '';
-    subject.value = name ? baseSubject + ' — ' + name : baseSubject;
+    subject.value = baseSubject + (source ? ' — ' + source : '') + (name ? ' — ' + name : '');
 
     setBusy(true);
     setStatus('', null);
