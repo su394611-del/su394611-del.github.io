@@ -1,4 +1,4 @@
-# Deploy the Vue portfolio homepage
+# Deploy the AI Lab homepage (Vue)
 
 The ZIP includes the complete replacement `index.html`, `assets/app.js`, `assets/styles.css`, a sitemap, robots file, and project URL map. The project cards are present in HTML before JavaScript loads and use Vue 3 for filtering/search when the CDN is available. A native JavaScript fallback keeps filtering/search operational when Vue is blocked.
 
