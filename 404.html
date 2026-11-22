@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Page not found | Sudhanshu Shukla's AI Lab</title>
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<script>
+  // Project sites that moved when their GitHub repository was renamed.
+  // GitHub redirects the repository itself, but not its GitHub Pages URL,
+  // so old links land here and are forwarded (path, query and #anchor kept).
+  (function () {
+    var moves = {
+      "/mixtral-healthcare-llm-from-scratch": "/MedSparse-Healthcare-LLM-From-Scratch"
+    };
+    var path = window.location.pathname;
+    var lower = path.toLowerCase();
+    for (var old in moves) {
+      if (lower === old || lower.indexOf(old + "/") === 0) {
+        window.location.replace(moves[old] + path.slice(old.length) + window.location.search + window.location.hash);
+        return;
+      }
+    }
+  })();
+</script>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #070b16;
+         color: #e7ecf7; font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 560px; padding: 32px 24px; }
+  .kicker { margin: 0; color: #7dd3fc; font-weight: 700; letter-spacing: .12em; font-size: 13px; }
+  h1 { margin: 6px 0 12px; font-size: 34px; line-height: 1.15; }
+  p { color: #b6c0d6; }
+  a { color: #7dd3fc; }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker">404</p>
+  <h1>Page not found</h1>
+  <p>This page doesn't exist or has moved. The healthcare model project, formerly Mixtral Healthcare, is now
+     <a href="/MedSparse-Healthcare-LLM-From-Scratch/">MedSparse Healthcare</a>.</p>
+  <p><a href="/">Go to Sudhanshu Shukla's AI Lab →</a></p>
+</main>
+</body>
+</html>

@@ -5,7 +5,7 @@
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#070e1c" name="theme-color"/>
 <meta content="Sudhanshu Shukla" name="author"/>
-<meta content="Try three small language models trained from scratch, running entirely in your browser: a Mixtral-style healthcare MoE (pretrained and medical SFT) and a tiny GPT-style model." name="description"/>
+<meta content="Try three small language models trained from scratch, running entirely in your browser: MedSparse Healthcare, a sparse MoE (pretrained and medical SFT) and a tiny GPT-style model." name="description"/>
 <link href="https://su394611-del.github.io/playground/" rel="canonical"/>
 <title>Model Playground | Sudhanshu Shukla</title>
 <link href="/assets/favicon.svg" rel="icon" type="image/svg+xml"/>
@@ -144,7 +144,7 @@
   </div>
 
   <p class="foot">Weights download once from Hugging Face and are then cached by your browser. Works best in a desktop browser.
-    <span class="standalone-only">· <a href="https://github.com/su394611-del/Mixtral-Healthcare-LLM-From-Scratch" rel="noopener noreferrer" target="_blank">Mixtral source ↗</a> · <a href="https://huggingface.co/sudhanshu42844" rel="noopener noreferrer" target="_blank">Hugging Face ↗</a></span></p>
+    <span class="standalone-only">· <a href="https://github.com/su394611-del/MedSparse-Healthcare-LLM-From-Scratch" rel="noopener noreferrer" target="_blank">MedSparse source ↗</a> · <a href="https://huggingface.co/sudhanshu42844" rel="noopener noreferrer" target="_blank">Hugging Face ↗</a></span></p>
 </main>
 
 <script id="engine-src" type="text/plain">
@@ -758,16 +758,16 @@ self.onmessage = (event) => {
   'use strict';
   var MODELS = {
     sft: {
-      tab: 'Medical SFT', sub: 'Mixtral · 38.8M', repo: 'sudhanshu42844/mixtral-healthcare-medical-sft', kind: 'mixtral', mode: 'sft', size: '155 MB',
-      title: 'Mixtral Healthcare LLM · Medical SFT',
-      desc: 'A 38.8M-parameter Mixtral-style sparse Mixture-of-Experts model (4 experts, top-2 routing), pretrained on biomedical text and then fully fine-tuned on medical Q&A. Ask an educational question.',
+      tab: 'Medical SFT', sub: 'MedSparse · 38.8M', repo: 'sudhanshu42844/medsparse-healthcare-medical-sft', kind: 'mixtral', mode: 'sft', size: '155 MB',
+      title: 'MedSparse Healthcare LLM · Medical SFT',
+      desc: 'A 38.8M-parameter Mixtral-inspired sparse Mixture-of-Experts model (4 experts, top-2 routing), pretrained on biomedical text and then fully fine-tuned on medical Q&A. Ask an educational question.',
       label: 'Question', placeholder: 'What does randomized controlled trial mean?',
       examples: ['What does randomized controlled trial mean?', 'What is the difference between a virus and a bacterium?', 'Why is hand hygiene important in hospitals?'],
       defaults: { maxNew: 120, temperature: 0.7, topK: 40, penalty: 1.2 }
     },
     pretrained: {
-      tab: 'Pretrained', sub: 'Mixtral · 38.8M', repo: 'sudhanshu42844/mixtral-healthcare-pretrained-from-scratch', kind: 'mixtral', mode: 'raw', size: '155 MB',
-      title: 'Mixtral Healthcare LLM · Pretrained',
+      tab: 'Pretrained', sub: 'MedSparse · 38.8M', repo: 'sudhanshu42844/medsparse-healthcare-pretrained-from-scratch', kind: 'mixtral', mode: 'raw', size: '155 MB',
+      title: 'MedSparse Healthcare LLM · Pretrained',
       desc: 'The same architecture after biomedical pretraining only, before medical fine-tuning. It continues text in the style of research papers.',
       label: 'Start of a passage', placeholder: 'Clinical research explores',
       examples: ['Clinical research explores', 'The patients were randomly assigned to', 'Hypertension is associated with'],
