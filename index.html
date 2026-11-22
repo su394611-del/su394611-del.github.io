@@ -55,6 +55,8 @@
 .next-card p{margin:0;color:var(--muted,#aabed5);font-size:14.5px;line-height:1.6}
 .next-link{margin-top:auto;padding-top:4px;font-size:13px;font-weight:700;color:var(--cyan,#7be2f0);text-decoration:none}
 .next-link:hover,.next-link:focus-visible{text-decoration:underline;text-underline-offset:3px}
+.next-title-link{color:inherit;text-decoration:none}
+.next-title-link:hover,.next-title-link:focus-visible{color:var(--cyan,#7be2f0)}
 @media (max-width:880px){.whats-next{grid-template-columns:1fr;gap:12px}.whats-next-label{padding-top:0}}
 @media (max-width:620px){.whats-next-grid{grid-template-columns:1fr}}
 </style>
@@ -125,7 +127,7 @@
 <section aria-labelledby="whats-next-heading" class="layout whats-next" id="whats-next" v-pre>
 <h2 class="whats-next-label" id="whats-next-heading"><span aria-hidden="true" class="whats-next-dot"></span>What's next</h2>
 <div class="whats-next-grid">
-<article class="next-card"><div class="next-meta"><span class="next-badge next-badge-soon">Coming soon</span><span class="next-tag">Coding model</span></div><h3>CodeMind</h3><p>A Cursor-inspired coding model, currently in development.</p></article>
+<article class="next-card"><div class="next-meta"><span class="next-badge next-badge-soon">Coming soon</span><span class="next-tag">Coding model</span></div><h3><a class="next-title-link" href="/codemind/">CodeMind</a></h3><p>A Cursor-inspired coding model, currently in development.</p><a aria-label="CodeMind: watch this space" class="next-link" href="/codemind/">Watch this space →</a></article>
 <article class="next-card"><div class="next-meta"><span class="next-badge next-badge-date"><time datetime="2026-11-25">Wednesday, 25 Nov 2026</time></span><span class="next-tag">New model release</span></div><h3>MedSparse Healthcare LLM</h3><p>A new release of MedSparse Healthcare (formerly Mixtral Healthcare), fine-tuned on the full MIRIAD medical Q&amp;A dataset, arrives on Wednesday, 25 November 2026, after final testing.</p><a class="next-link" href="#project-medsparse-healthcare">See the current release ↓</a></article>
 </div>
 </section>
