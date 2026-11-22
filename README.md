@@ -82,7 +82,7 @@ Each linked repository may contain a project README, Python source code, noteboo
 
 **Google Search:** [Find publicly indexed GitHub pages for this account](https://www.google.com/search?q=site%3Agithub.com%2Fsu394611-del)
 
-> Public repositories can be discovered by search engines, but this README does **not** request or guarantee Google indexing. A separately published, verified GitHub Pages portfolio can be submitted through Google Search Console.
+> Public repositories can be discovered by search engines, but this README does **not** request or guarantee Google indexing. A separately published, verified GitHub Pages site can be submitted through Google Search Console.
 
 ## Contact and collaboration
 
