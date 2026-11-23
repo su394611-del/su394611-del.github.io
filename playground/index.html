@@ -77,7 +77,7 @@
   details.settings { margin: 0 0 16px; border: 1px solid var(--edge); border-radius: 12px; padding: 0 14px; }
   details.settings summary { cursor: pointer; padding: 10px 0; font-size: 13px; font-weight: 700; color: var(--muted); }
   .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 20px; padding: 4px 0 14px; }
-  .grid label { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
+  .grid .setting-label { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
   .grid output { color: var(--text); font-variant-numeric: tabular-nums; }
   input[type="range"] { width: 100%; accent-color: #7be2f0; }
   .hint { grid-column: 1 / -1; margin: 0; font-size: 12px; color: var(--dim); }
@@ -133,10 +133,10 @@
       <details class="settings">
         <summary>Generation settings</summary>
         <div class="grid">
-          <div><label for="max-new">Max new tokens <output id="max-new-out"></output></label><input id="max-new" max="200" min="10" step="10" type="range"/></div>
-          <div><label for="temperature">Temperature <output id="temperature-out"></output></label><input id="temperature" max="1.5" min="0" step="0.05" type="range"/></div>
-          <div><label for="top-k">Top-k <output id="top-k-out"></output></label><input id="top-k" max="100" min="1" step="1" type="range"/></div>
-          <div><label for="penalty">Repetition penalty <output id="penalty-out"></output></label><input id="penalty" max="2" min="1" step="0.05" type="range"/></div>
+          <div><div class="setting-label"><label for="max-new">Max new tokens</label><output id="max-new-out" for="max-new"></output></div><input id="max-new" max="200" min="10" step="10" type="range"/></div>
+          <div><div class="setting-label"><label for="temperature">Temperature</label><output id="temperature-out" for="temperature"></output></div><input id="temperature" max="1.5" min="0" step="0.05" type="range"/></div>
+          <div><div class="setting-label"><label for="top-k">Top-k</label><output id="top-k-out" for="top-k"></output></div><input id="top-k" max="100" min="1" step="1" type="range"/></div>
+          <div><div class="setting-label"><label for="penalty">Repetition penalty</label><output id="penalty-out" for="penalty"></output></div><input id="penalty" max="2" min="1" step="0.05" type="range"/></div>
           <p class="hint">Temperature 0 picks the most likely token every time (greedy). The repetition penalty makes already-generated tokens less likely; set it to 1 to turn it off.</p>
         </div>
       </details>
