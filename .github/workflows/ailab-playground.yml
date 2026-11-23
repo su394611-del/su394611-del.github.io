@@ -1,0 +1,63 @@
+# Tests the ailab-playground pip package on every change to the playground or
+# the package, and publishes it to PyPI when a tag like ailab-playground-v0.1.0
+# is pushed. One-time setup on pypi.org: add a trusted publisher for this
+# repository, workflow "ailab-playground.yml", environment "pypi".
+name: ailab-playground package
+
+on:
+  push:
+    branches: [main]
+    paths: ["playground/**", "assets/favicon.svg", "packages/ailab-playground/**", ".github/workflows/ailab-playground.yml"]
+    tags: ["ailab-playground-v*"]
+  pull_request:
+    paths: ["playground/**", "assets/favicon.svg", "packages/ailab-playground/**", ".github/workflows/ailab-playground.yml"]
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: packages/ailab-playground
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python sync_static.py --check
+      - run: python -m pip install -e . pytest
+      - run: python -m pytest -q
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install build
+      - run: python -m build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: packages/ailab-playground/dist/
+
+  publish:
+    if: startsWith(github.ref, 'refs/tags/ailab-playground-v')
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

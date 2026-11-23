@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ailab-playground"            # check the name is free on https://pypi.org before the first upload
+version = "0.1.0"
+description = "Run small Hugging Face language models (MedSparse MoE, GPT-2 style) entirely in your browser. No server GPU; prompts never leave your machine."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "Apache-2.0"
+license-files = ["LICENSE*"]
+authors = [{ name = "Sudhanshu Shukla" }]
+keywords = ["llm", "mixture-of-experts", "browser-inference", "safetensors", "huggingface", "javascript"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: JavaScript",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []                    # standard library only: fast, safe install
+
+[project.urls]
+Homepage = "https://su394611-del.github.io/playground/"
+Source = "https://github.com/su394611-del/su394611-del.github.io/tree/main/packages/ailab-playground"
+Issues = "https://github.com/su394611-del/su394611-del.github.io/issues"
+
+[project.scripts]
+ailab-playground = "ailab_playground.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+ailab_playground = ["static/*", "static/**/*"]
