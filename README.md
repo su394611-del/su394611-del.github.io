@@ -27,7 +27,7 @@ The repositories include practical examples of **retrieval-augmented generation 
 | **[Parallel LLM Inference](https://github.com/su394611-del/Parallel-LLM-Inference)** | Multiprocessing-based batch inference with independent model replicas, worker queues, JSONL output, and a deterministic offline mock mode. This is **not** tensor parallelism or an HTTP serving API. | PyTorch, Transformers, Qwen, Python multiprocessing |
 | **[Distributed Data Parallel LLM Training](https://github.com/su394611-del/Distributed-Data-Parallel-Processing)** | PyTorch DistributedDataParallel using a small causal Transformer, plus a Qwen LoRA training path and CPU demonstrations. | PyTorch DDP, torchrun, PEFT, Qwen |
 | **[Transformer Encoder from Scratch](https://github.com/su394611-del/LLM-from-scratch)** | Hand-built attention, positional encoding, encoder layers, and sentiment classification. This is an educational **Transformer encoder**, not a generative LLM trained wholly from scratch. | PyTorch, self-attention, Transformer encoder |
-| **[Transformer Training & Alignment Draft](https://github.com/su394611-del/Tarnsformers-Training)** | DistilBERT text-classification material and an **unfinished** Phi-2 SFT/DPO draft. Some draft code is not executable as-is. | PyTorch, Transformers, DistilBERT; planned SFT/DPO |
+| **[Transformer Training & Alignment Draft](https://github.com/su394611-del/Transformers-Training)** | DistilBERT text-classification material and an **unfinished** Phi-2 SFT/DPO draft. Some draft code is not executable as-is. | PyTorch, Transformers, DistilBERT; planned SFT/DPO |
 | **[MCP + LangChain + LangGraph Trading Simulation](https://github.com/su394611-del/Stock-market-trading-Application-using-MCP-langchain-langgraph)** | Tool calling, MCP servers, agent workflows, and simulated market information/trading actions. **No live brokerage orders are placed.** | Model Context Protocol, LangChain, LangGraph, Python |
 
 ## Explore by engineering topic
@@ -41,7 +41,7 @@ The repositories include practical examples of **retrieval-augmented generation 
 - [LLM Fine-Tuning & Preference Optimization](https://github.com/su394611-del/Pre-training-and-Fine-tuning) — LoRA, supervised fine-tuning (SFT), direct preference optimization (DPO), and odds ratio preference optimization (ORPO).
 - [Distributed Data Parallel LLM Training](https://github.com/su394611-del/Distributed-Data-Parallel-Processing) — distributed training, gradient synchronization, `torchrun`, and LoRA.
 - [DistilBERT Full vs. Head-Only Fine-Tuning](https://github.com/su394611-del/Full-Fine-Training-Pre-Training-Mid-Training) — text classification and training-strategy comparisons.
-- [Transformer Training & Alignment Draft](https://github.com/su394611-del/Tarnsformers-Training) — implemented classification examples and clearly identified incomplete alignment material.
+- [Transformer Training & Alignment Draft](https://github.com/su394611-del/Transformers-Training) — implemented classification examples and clearly identified incomplete alignment material.
 
 ### Transformers, inference, and model internals
 
