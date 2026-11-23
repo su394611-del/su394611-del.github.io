@@ -19,7 +19,7 @@ This package cannot deploy sites automatically because GitHub connection permiss
 ## Copy of nine URLs
 
 - Multi-Tenant Retrieval & RAG Service: https://su394611-del.github.io/RAG-service/
-- Multi-Agent Workflows with LangGraph: https://su394611-del.github.io/Mutli-agents-using-LangGraph/
+- Multi-Agent Workflows with LangGraph: https://su394611-del.github.io/Multi-agents-using-LangGraph/
 - LLM Fine-Tuning & Preference Optimization: https://su394611-del.github.io/Pre-training-and-Fine-tuning/
 - Distributed LLM Training with PyTorch DDP: https://su394611-del.github.io/Distributed-Data-Parallel-Processing/
 - Parallel LLM Batch Inference: https://su394611-del.github.io/Parallel-LLM-Inference/

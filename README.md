@@ -23,7 +23,7 @@ The repositories include practical examples of **retrieval-augmented generation 
 | **[Multi-Tenant RAG Service](https://github.com/su394611-del/RAG-service)** | Tenant-filtered vector retrieval, semantic caching, illustrative PII redaction, basic request safeguards, diagnostics, and a FastAPI interface. Primarily a retrieval/extractive-answering demo. | Python, Qdrant, Sentence Transformers, FastAPI |
 | **[LLM Fine-Tuning & Preference Optimization](https://github.com/su394611-del/Pre-training-and-Fine-tuning)** | Qwen LoRA fine-tuning and separate small-model demonstrations of SFT, DPO, and ORPO; notebooks, scripts, and example datasets. | PyTorch, Hugging Face Transformers, PEFT, TRL |
 | **[DistilBERT Full vs. Head-Only Fine-Tuning](https://github.com/su394611-del/Full-Fine-Training-Pre-Training-Mid-Training)** | Customer-support message classification and a comparison of full-model fine-tuning with a frozen-encoder classifier head. Despite the repository name, it does **not** demonstrate LLM pretraining or mid-training. | PyTorch, Transformers, DistilBERT, Jupyter |
-| **[Multi-Agent Workflows with LangGraph](https://github.com/su394611-del/Mutli-agents-using-LangGraph)** | Runnable graph orchestration examples with Python scripts, notebooks, and optional model-backed workflows. | LangGraph, Python, Jupyter |
+| **[Multi-Agent Workflows with LangGraph](https://github.com/su394611-del/Multi-agents-using-LangGraph)** | Runnable graph orchestration examples with Python scripts, notebooks, and optional model-backed workflows. | LangGraph, Python, Jupyter |
 | **[Parallel LLM Inference](https://github.com/su394611-del/Parallel-LLM-Inference)** | Multiprocessing-based batch inference with independent model replicas, worker queues, JSONL output, and a deterministic offline mock mode. This is **not** tensor parallelism or an HTTP serving API. | PyTorch, Transformers, Qwen, Python multiprocessing |
 | **[Distributed Data Parallel LLM Training](https://github.com/su394611-del/Distributed-Data-Parallel-Processing)** | PyTorch DistributedDataParallel using a small causal Transformer, plus a Qwen LoRA training path and CPU demonstrations. | PyTorch DDP, torchrun, PEFT, Qwen |
 | **[Transformer Encoder from Scratch](https://github.com/su394611-del/LLM-from-scratch)** | Hand-built attention, positional encoding, encoder layers, and sentiment classification. This is an educational **Transformer encoder**, not a generative LLM trained wholly from scratch. | PyTorch, self-attention, Transformer encoder |
@@ -50,7 +50,7 @@ The repositories include practical examples of **retrieval-augmented generation 
 
 ### Agentic AI, multi-agent systems, and MCP
 
-- [Multi-Agent Workflows with LangGraph](https://github.com/su394611-del/Mutli-agents-using-LangGraph) — graph-based orchestration and runnable workflow examples.
+- [Multi-Agent Workflows with LangGraph](https://github.com/su394611-del/Multi-agents-using-LangGraph) — graph-based orchestration and runnable workflow examples.
 - [MCP + LangChain + LangGraph Trading Simulation](https://github.com/su394611-del/Stock-market-trading-Application-using-MCP-langchain-langgraph) — MCP tool integration, tool-based agents, and synthetic trading scenarios.
 
 ## Technologies demonstrated
