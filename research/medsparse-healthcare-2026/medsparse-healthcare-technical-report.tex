@@ -1,0 +1,311 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage{array}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+% Items still to be filled in once the Stage 3 run has finished.
+\newcommand{\pending}[1]{\textcolor{orange!85!black}{\textbf{[#1]}}}
+
+\hypersetup{
+  pdftitle={MedSparse Healthcare: A Sparse Mixture-of-Experts Medical Language Model Trained from Scratch on Consumer Hardware},
+  pdfauthor={Sudhanshu Shukla},
+  pdfsubject={Technical report},
+  pdfkeywords={mixture of experts, medical language model, pretraining from scratch, supervised fine-tuning, consumer GPU, MIRIAD}
+}
+
+\title{\textbf{MedSparse Healthcare: A Sparse Mixture-of-Experts Medical Language Model Trained from Scratch on Consumer Hardware}}
+\author{Sudhanshu Shukla\\[2pt]
+\small Independent researcher, Bengaluru, India\\
+\small \url{https://su394611-del.github.io}}
+\date{\small Technical report \textperiodcentered{} Version 0.9 (preprint), 23 November 2026\\[2pt]
+\small Stage~3 results will be added in version 1.0.}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We describe MedSparse Healthcare, a 38.8M-parameter decoder-only language model whose feed-forward layers are sparse mixtures of experts (four experts per layer, top-2 routing), trained from random initialization on healthcare text with a 30,001-token byte-level BPE tokenizer learned only from biomedical documents. Stage~1 pretrains on openly licensed PubMed full text from the Common Pile; Stage~2 applies full-parameter, completion-only supervised fine-tuning (SFT) on medical question--answer pairs. Evaluated with a float32 inference engine that runs in the browser, Stage~2 lowers held-out medical answer perplexity from 692.5 to 252.9 (ratio 0.365, 95\% CI 0.343--0.389) while PubMed perplexity rises by 17\% (ratio 1.166, 95\% CI 1.087--1.244), and expert routing stays balanced (normalized routing entropy $\geq 0.966$ in every layer). Multiple-choice accuracy on 150 MedMCQA validation questions (32.7\% and 28.7\%) is not distinguishable from the 25\% chance level and stays below the 38\% majority-answer baseline, which we report as a limitation of models at this scale. Stage~3 continues full-parameter SFT over all 5.8 million MIRIAD question--answer pairs, with a validation split that keeps whole source papers out of training, on a single consumer laptop GPU; it is in progress, and its results will be reported in version~1.0 of this report. We release the weights under the Apache License 2.0, together with the training code, the evaluation harness, and practical lessons for training on consumer hardware. The model is a research artifact and is not intended for clinical use.
+\end{abstract}
+
+\section{Introduction}
+
+Most open medical language models are adapted from general-purpose models with billions of parameters, which places both their training and their inspection out of reach for individual researchers. This report takes the opposite route: a small sparse Mixture-of-Experts (MoE) model, built and trained end to end from random initialization, with every stage reproducible on modest hardware and every released checkpoint evaluated on held-out data with uncertainty estimates.
+
+The architecture follows the sparse MoE decoder design popularized by Mixtral~\citep{jiang2024mixtral}, scaled down by several orders of magnitude. MedSparse Healthcare is an independent implementation: it does not use or distribute Mistral AI or Mixtral weights and is not affiliated with Mistral AI.
+
+\paragraph{Contributions.}
+\begin{itemize}
+  \item A from-scratch sparse MoE medical language model (38,779,008 parameters, 8.66M active non-embedding parameters per token) with a domain-specific tokenizer, released openly in two stages (pretrained and medical SFT).
+  \item A browser-based evaluation of both releases with bootstrap and Wilson 95\% intervals, a paired comparison between stages, and per-layer routing statistics.
+  \item Full-parameter SFT on the complete MIRIAD-5.8M corpus~\citep{zheng2025miriad} on a single consumer laptop GPU, using a paper-disjoint validation split.
+  \item Engineering lessons for long training runs on consumer hardware: data-pipeline bottlenecks, crash-safe checkpointing, and split-consistent evaluation.
+\end{itemize}
+
+\section{Related work}
+
+Sparsely gated MoE layers route each token to a small subset of expert networks~\citep{shazeer2017outrageously}; Switch Transformers simplified routing and introduced a load-balancing auxiliary loss~\citep{fedus2022switch}, and Mixtral showed that top-2 routing over eight experts per layer yields strong open models~\citep{jiang2024mixtral}. In biomedicine, pretraining from scratch on in-domain text with an in-domain vocabulary has been shown to outperform continued pretraining of general models for encoders (PubMedBERT~\citep{gu2021pubmedbert}) and generative models (BioGPT~\citep{luo2022biogpt}). Recent medical instruction data include the verifiable-problem data and responses released with HuatuoGPT-o1~\citep{chen2025huatuogpto1} and MIRIAD, 5.8 million question--answer pairs rephrased from and grounded in peer-reviewed literature~\citep{zheng2025miriad}. MedMCQA provides more than 194k multiple-choice questions from Indian medical entrance exams~\citep{pal2022medmcqa}.
+
+\section{Model}
+
+MedSparse Healthcare is a decoder-only Transformer~\citep{vaswani2017attention} with pre-normalization (RMSNorm~\citep{zhang2019rmsnorm}), rotary position embeddings (RoPE~\citep{su2024roformer}), grouped-query attention (GQA~\citep{ainslie2023gqa}) and a sparse MoE feed-forward block in every layer (Table~\ref{tab:arch}). Each expert is a SwiGLU network~\citep{shazeer2020glu}. A linear router produces a softmax over the four experts; the top two are selected per token and their weights renormalized to sum to one. A Switch-style auxiliary loss~\citep{fedus2022switch}, $\mathcal{L}_{\text{aux}} = E \sum_{e=1}^{E} \bar{p}_e f_e$, where $\bar{p}_e$ is the mean router probability and $f_e$ the fraction of top-2 assignments to expert $e$, is averaged over layers and added with coefficient 0.02. Input and output embeddings are untied.
+
+\begin{table}[t]
+\centering
+\caption{MedSparse Healthcare architecture.}
+\label{tab:arch}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Total parameters & 38,779,008 \\
+\quad Input + output embeddings & 23,040,768 (59.4\%) \\
+\quad Transformer blocks & 15,737,856 \\
+Active non-embedding parameters per token & 8,660,352 \\
+Layers / hidden size & 4 / 384 \\
+Query heads / key-value heads & 6 / 2 (GQA) \\
+Experts per layer / experts per token & 4 / 2 \\
+Expert intermediate size (SwiGLU) & 768 \\
+Vocabulary & 30,001 (byte-level BPE) \\
+Position encoding & RoPE, $\theta = 10^6$ \\
+Normalization & RMSNorm, $\epsilon = 10^{-5}$ \\
+Maximum positions & 2,048 \\
+Load-balancing loss coefficient & 0.02 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+At this scale the embeddings dominate the parameter count: the four Transformer blocks hold 15.7M parameters, of which each token activates 8.66M (attention plus two of four experts per layer).
+
+\section{Data and tokenizer}
+
+\paragraph{Tokenizer.} A byte-level BPE tokenizer~\citep{sennrich2016bpe,radford2019gpt2} with special tokens \texttt{<pad>}, \texttt{<unk>}, \texttt{<bos>} and \texttt{<eos>} was trained from scratch on healthcare text, giving 30,001 tokens. The same tokenizer is used in every stage.
+
+\paragraph{Pretraining corpus (Stage 1).} PubMed full text from \texttt{common-pile/pubmed\_filtered}, part of the Common Pile v0.1~\citep{kandpal2025commonpile}, screened by two rules: the per-record license must be CC0, public domain or CC-BY 2.0--4.0, and the text must pass a clinical keyword screen. A deterministic document-hash partition holds out 2\% of documents for validation.
+
+\paragraph{Medical SFT data (Stage 2).} The English configuration of \nolinkurl{FreedomIntelligence/medical-o1-reasoning-SFT}~\citep{chen2025huatuogpto1}, using the \texttt{Question} and \texttt{Response} fields only (the chain-of-thought field is not used as a target). A question-hash bucket holds out 5\% for validation.
+
+\paragraph{MIRIAD (Stage 3).} MIRIAD-5.8M contains 5,821,948 question--answer pairs~\citep{zheng2025miriad}. Because many pairs come from the same source paper, the validation split is drawn at the paper level. A pair is held out when
+\[ \mathrm{BLAKE2b}_{64}\big(\texttt{"42:"} \,\|\, \texttt{paper\_id}\big) \,/\, 2^{64} < 0.02, \]
+so no paper contributes to both training and validation.
+
+\paragraph{Prompt format.} All SFT stages use a fixed template with \texttt{\#\#\# System}, \texttt{\#\#\# User} and \texttt{\#\#\# Assistant} sections. The loss is completion-only: system, user and assistant-prefix tokens are masked, and only answer tokens and the end-of-sequence token are supervised.
+
+\section{Training}
+
+Table~\ref{tab:train} summarizes the three stages. All parameters (embeddings, attention, routers, experts, norms and the output head) are updated in every stage; no adapters or frozen layers are used. Optimization uses AdamW~\citep{loshchilov2019adamw}.
+
+\begin{table}[t]
+\centering
+\caption{Training stages. A dash marks a setting that was not recorded with the released checkpoint.}
+\label{tab:train}
+\small
+\begin{tabularx}{\textwidth}{@{}lYYY@{}}
+\toprule
+ & Stage 1: pretraining & Stage 2: medical SFT & Stage 3: MIRIAD SFT \\
+\midrule
+Initialization & Random & Stage 1 weights & Earlier MedSparse checkpoint \\
+Data & PubMed (Common Pile, filtered) & medical-o1 (en) & MIRIAD-5.8M, paper-disjoint \\
+Objective & Next token + aux. loss & Completion-only + aux. loss & Completion-only + aux. loss \\
+Sequence length & 128 & 128 & 192 \\
+Micro-batch $\times$ accumulation & --- & 1 $\times$ 4 & 1 $\times$ 4 \\
+Peak learning rate & --- & $2\times10^{-5}$ & $2\times10^{-5}$ \\
+Schedule & --- & 100 warm-up steps & 100 warm-up steps, then constant \\
+Weight decay / clipping & --- & --- & 0.01 / 1.0 \\
+Optimizer steps & 5,000 & 2,000 & one epoch, $\approx$1.42M \\
+Precision & --- & --- & fp32, gradient checkpointing \\
+Hardware & --- & --- & Single consumer laptop GPU \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Stage 3 on a laptop GPU.} Full-parameter AdamW training of a 38.8M-parameter model needs roughly 16 bytes per parameter for weights, gradients and optimizer states (about 0.6\,GB), so the full model, together with checkpointed activations, fits comfortably in the memory of a consumer laptop GPU. In Stage~3, when a question--answer pair does not fit in the 192-token window, the prompt keeps at most half of the window (its most recent tokens) and the answer is truncated with its end-of-sequence token retained. Data are streamed with a 1,024-example shuffle buffer. Every 500 optimizer steps, validation cross-entropy is measured on 64 held-out pairs and checkpoints are written. The run processes about 2.7--3.1 optimizer steps per second (11--12 examples per second), or roughly five to six days for one epoch; the exact wall-clock time will be reported with the Stage~3 results.
+
+\section{Evaluation}
+
+\paragraph{Protocol.} Both released checkpoints were evaluated with the project's in-browser inference engine (JavaScript, float32, CPU, 8 threads; harness commit \texttt{0c5e96e}). Held-out sets are drawn with the training-time split functions, so no evaluation item was seen in training:
+\begin{itemize}
+  \item \textbf{PubMed:} the first 40 articles of the first Common Pile PubMed shard that pass the training filters and fall in the 2\% validation partition; first 129 tokens per article, 128 scored (5,120 tokens).
+  \item \textbf{Medical Q\&A:} 80 answers from the medical-o1 5\% validation bucket, formatted exactly as in Stage~2 with completion-only scoring (7,943 answer tokens).
+  \item \textbf{MedMCQA:} the first 150 validation questions with four non-empty options. Each option is scored by its mean log-probability per token after the question (cloze format; options are not shown in the prompt).
+\end{itemize}
+Perplexity intervals are 2,000-sample bootstrap intervals over items, token-weighted with a fixed seed; accuracy intervals are Wilson score intervals; the stage comparison is a paired bootstrap over the same items.
+
+\begin{table}[t]
+\centering
+\caption{Held-out evaluation of the two released checkpoints (95\% intervals in brackets). Uniform-guess perplexity is 30,001.}
+\label{tab:results}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+ & Stage 1 (pretrained) & Stage 2 (medical SFT) \\
+\midrule
+PubMed perplexity & 572.15 [472.93, 704.14] & 667.04 [546.16, 822.56] \\
+PubMed top-1 next-token accuracy & 15.6\% & 14.3\% \\
+Medical Q\&A answer perplexity & 692.47 [643.46, 740.98] & 252.86 [233.14, 273.47] \\
+Medical Q\&A top-1 next-token accuracy & 14.4\% & 21.6\% \\
+MedMCQA accuracy (length-normalized) & 32.7\% [25.7, 40.5] & 28.7\% [22.0, 36.4] \\
+MedMCQA accuracy (sum of log-probs) & 23.3\% [17.3, 30.7] & 23.3\% [17.3, 30.7] \\
+Decoding speed in the browser & 13.7 tokens/s & 14.0 tokens/s \\
+\midrule
+\multicolumn{3}{@{}l}{Paired ratio, SFT / pretrained perplexity:} \\
+\quad Medical Q\&A & \multicolumn{2}{l}{0.365 [0.343, 0.389]} \\
+\quad PubMed & \multicolumn{2}{l}{1.166 [1.087, 1.244]} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Results.} Table~\ref{tab:results} shows a clear specialization trade-off. Medical SFT reduces answer perplexity by 63.5\% (ratio 0.365) and raises top-1 next-token accuracy on answers from 14.4\% to 21.6\%, while perplexity on held-out PubMed text rises by 16.6\%, consistent with partial forgetting of the pretraining distribution after 2,000 steps of narrow-domain SFT. MedMCQA accuracy is not separable from the 25\% chance level for either checkpoint, and both are below the 38\% obtained by always choosing the most frequent correct letter in this sample; length normalization alone moves accuracy from 23.3\% to 28.7--32.7\%. We therefore make no claim of exam-level medical knowledge at this scale.
+
+\paragraph{Routing.} Expert use stays balanced after SFT (Table~\ref{tab:routing}): normalized routing entropy, $H/\log E$ over the share of top-2 selections per expert, is at least 0.966 in every layer of both checkpoints, and SFT raises it in three of four layers.
+
+\begin{table}[t]
+\centering
+\caption{Normalized routing entropy per layer on held-out PubMed and Q\&A tokens (1.0 = perfectly even use of the four experts).}
+\label{tab:routing}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+ & Layer 1 & Layer 2 & Layer 3 & Layer 4 \\
+\midrule
+Stage 1 (pretrained) & 0.979 & 0.991 & 0.998 & 0.966 \\
+Stage 2 (medical SFT) & 0.982 & 0.997 & 0.997 & 0.998 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Stage 3 (MIRIAD).} Stage~3 is in progress at the time of writing. Its paper-disjoint MIRIAD validation loss, and the metrics of Table~\ref{tab:results} for the Stage~3 checkpoint measured with the same harness, will be added in version~1.0 of this report.
+
+\section{Engineering lessons from training on a laptop}
+
+\paragraph{The data pipeline, not the GPU, set the pace.} Stage~3 throughput stayed near 12 examples per second whether the GPU processed one example or sixteen per step, because streaming, shuffling and tokenizing on the CPU could not supply examples faster. Pre-tokenizing the corpus into a memory-mapped array before training would remove this bottleneck; on a laptop, other CPU load (for example a busy browser) measurably slows training.
+
+\paragraph{Crash-safe checkpoints are essential for multi-day runs.} An unexpected restart left an optimizer-state file that could no longer be loaded. Checkpoints are now written to a temporary name, flushed to disk with \texttt{fsync} and atomically renamed, and resuming selects the newest checkpoint whose files are all complete and verifies that data-order and optimization settings match the original run.
+
+\paragraph{Evaluate with the exact training split.} An early check of Stage~3 outputs drew ``held-out'' questions with a question-level rule instead of the paper-level rule used in training, so some evaluated questions came from training papers and the score was optimistic. All evaluation now imports the training split function itself.
+
+\paragraph{Precision.} Not every consumer GPU supports bfloat16. Mixed precision is possible with float16 autocast and dynamic loss scaling~\citep{micikevicius2018mixed}, but the reported Stage~3 run uses float32 for stability; gradient checkpointing~\citep{chen2016checkpointing} keeps activation memory small.
+
+\section{Limitations and responsible use}
+
+MedSparse Healthcare is a research model. It is not a medical device, has not been validated for clinical safety or accuracy, and must not be used for diagnosis, treatment, triage, medication dosing or patient communication. At 38.8M parameters it hallucinates and does not answer exam questions above chance. The Stage~2 and Stage~3 corpora contain machine-generated text (MIRIAD pairs were produced with GPT-3.5-Turbo from literature passages~\citep{zheng2025miriad}), which may carry errors or outdated guidance. Evaluation sets are small (40 articles, 80 answers, 150 questions), so intervals are wide; in the medical Q\&A set only 8.8\% of questions fit entirely within the 128-token window. The training data keep their own licenses, which users must check before reuse.
+
+\section{Availability}
+
+\begin{itemize}
+  \item Pretrained weights: \url{https://huggingface.co/sudhanshu42844/medsparse-healthcare-pretrained-from-scratch}
+  \item Medical SFT weights: \url{https://huggingface.co/sudhanshu42844/medsparse-healthcare-medical-sft}
+  \item Code, evaluation harness and results: \url{https://github.com/su394611-del/MedSparse-Healthcare-LLM-From-Scratch}
+  \item Project site and in-browser playground: \url{https://su394611-del.github.io/MedSparse-Healthcare-LLM-From-Scratch/}
+\end{itemize}
+Weights and code are released under the Apache License 2.0 (copyright 2026 Sudhanshu Shukla). MedSparse Healthcare was formerly published as ``Mixtral Healthcare''; the old repository and model URLs redirect to the new names.
+
+\begin{thebibliography}{99}
+\providecommand{\natexlab}[1]{#1}
+
+\bibitem[Ainslie et~al.(2023)]{ainslie2023gqa}
+J.~Ainslie, J.~Lee-Thorp, M.~de~Jong, Y.~Zemlyanskiy, F.~Lebr\'on, and S.~Sanghai.
+\newblock {GQA}: Training generalized multi-query Transformer models from multi-head checkpoints.
+\newblock In \emph{Proceedings of EMNLP}, 2023. arXiv:2305.13245.
+
+\bibitem[Chen et~al.(2016)]{chen2016checkpointing}
+T.~Chen, B.~Xu, C.~Zhang, and C.~Guestrin.
+\newblock Training deep nets with sublinear memory cost.
+\newblock arXiv:1604.06174, 2016.
+
+\bibitem[Chen et~al.(2025)]{chen2025huatuogpto1}
+J.~Chen, Z.~Cai, K.~Ji, X.~Wang, W.~Liu, R.~Wang, J.~Hou, and B.~Wang.
+\newblock Towards medical complex reasoning with {LLMs} through medical verifiable problems.
+\newblock In \emph{Findings of the Association for Computational Linguistics: ACL 2025}, pages 14552--14573, 2025. arXiv:2412.18925.
+
+\bibitem[Fedus et~al.(2022)]{fedus2022switch}
+W.~Fedus, B.~Zoph, and N.~Shazeer.
+\newblock Switch Transformers: Scaling to trillion parameter models with simple and efficient sparsity.
+\newblock \emph{Journal of Machine Learning Research}, 23(120):1--39, 2022.
+
+\bibitem[Gu et~al.(2021)]{gu2021pubmedbert}
+Y.~Gu, R.~Tinn, H.~Cheng, M.~Lucas, N.~Usuyama, X.~Liu, T.~Naumann, J.~Gao, and H.~Poon.
+\newblock Domain-specific language model pretraining for biomedical natural language processing.
+\newblock \emph{ACM Transactions on Computing for Healthcare}, 3(1), 2021. arXiv:2007.15779.
+
+\bibitem[Jiang et~al.(2024)]{jiang2024mixtral}
+A.~Q. Jiang, A.~Sablayrolles, A.~Roux, A.~Mensch, B.~Savary, C.~Bamford, D.~S. Chaplot, et~al.
+\newblock Mixtral of experts.
+\newblock arXiv:2401.04088, 2024.
+
+\bibitem[Kandpal et~al.(2025)]{kandpal2025commonpile}
+N.~Kandpal, B.~Lester, C.~Raffel, S.~Majstorovic, S.~Biderman, B.~Abbasi, L.~Soldaini, E.~Shippole, et~al.
+\newblock The Common Pile v0.1: An 8{TB} dataset of public domain and openly licensed text.
+\newblock In \emph{Advances in Neural Information Processing Systems 38, Datasets and Benchmarks Track}, 2025. arXiv:2506.05209.
+
+\bibitem[Loshchilov and Hutter(2019)]{loshchilov2019adamw}
+I.~Loshchilov and F.~Hutter.
+\newblock Decoupled weight decay regularization.
+\newblock In \emph{International Conference on Learning Representations (ICLR)}, 2019.
+
+\bibitem[Luo et~al.(2022)]{luo2022biogpt}
+R.~Luo, L.~Sun, Y.~Xia, T.~Qin, S.~Zhang, H.~Poon, and T.-Y. Liu.
+\newblock {BioGPT}: Generative pre-trained Transformer for biomedical text generation and mining.
+\newblock \emph{Briefings in Bioinformatics}, 23(6):bbac409, 2022.
+
+\bibitem[Micikevicius et~al.(2018)]{micikevicius2018mixed}
+P.~Micikevicius, S.~Narang, J.~Alben, G.~Diamos, E.~Elsen, D.~Garcia, B.~Ginsburg, M.~Houston, O.~Kuchaiev, G.~Venkatesh, and H.~Wu.
+\newblock Mixed precision training.
+\newblock In \emph{International Conference on Learning Representations (ICLR)}, 2018.
+
+\bibitem[Pal et~al.(2022)]{pal2022medmcqa}
+A.~Pal, L.~K. Umapathi, and M.~Sankarasubbu.
+\newblock {MedMCQA}: A large-scale multi-subject multi-choice dataset for medical domain question answering.
+\newblock In \emph{Proceedings of the Conference on Health, Inference, and Learning}, PMLR 174:248--260, 2022.
+
+\bibitem[Radford et~al.(2019)]{radford2019gpt2}
+A.~Radford, J.~Wu, R.~Child, D.~Luan, D.~Amodei, and I.~Sutskever.
+\newblock Language models are unsupervised multitask learners.
+\newblock OpenAI technical report, 2019.
+
+\bibitem[Sennrich et~al.(2016)]{sennrich2016bpe}
+R.~Sennrich, B.~Haddow, and A.~Birch.
+\newblock Neural machine translation of rare words with subword units.
+\newblock In \emph{Proceedings of ACL}, pages 1715--1725, 2016.
+
+\bibitem[Shazeer(2020)]{shazeer2020glu}
+N.~Shazeer.
+\newblock {GLU} variants improve Transformer.
+\newblock arXiv:2002.05202, 2020.
+
+\bibitem[Shazeer et~al.(2017)]{shazeer2017outrageously}
+N.~Shazeer, A.~Mirhoseini, K.~Maziarz, A.~Davis, Q.~Le, G.~Hinton, and J.~Dean.
+\newblock Outrageously large neural networks: The sparsely-gated mixture-of-experts layer.
+\newblock In \emph{International Conference on Learning Representations (ICLR)}, 2017. arXiv:1701.06538.
+
+\bibitem[Su et~al.(2024)]{su2024roformer}
+J.~Su, M.~Ahmed, Y.~Lu, S.~Pan, W.~Bo, and Y.~Liu.
+\newblock {RoFormer}: Enhanced Transformer with rotary position embedding.
+\newblock \emph{Neurocomputing}, 568:127063, 2024. arXiv:2104.09864.
+
+\bibitem[Vaswani et~al.(2017)]{vaswani2017attention}
+A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones, A.~N. Gomez, {\L}.~Kaiser, and I.~Polosukhin.
+\newblock Attention is all you need.
+\newblock In \emph{Advances in Neural Information Processing Systems 30}, 2017.
+
+\bibitem[Zhang and Sennrich(2019)]{zhang2019rmsnorm}
+B.~Zhang and R.~Sennrich.
+\newblock Root mean square layer normalization.
+\newblock In \emph{Advances in Neural Information Processing Systems 32}, 2019.
+
+\bibitem[Zheng et~al.(2025)]{zheng2025miriad}
+Q.~Zheng, S.~Abdullah, S.~Rawal, C.~Zakka, S.~Ostmeier, M.~Purk, E.~Reis, E.~J. Topol, J.~Leskovec, and M.~Moor.
+\newblock {MIRIAD}: Augmenting {LLMs} with millions of medical query-response pairs.
+\newblock arXiv:2506.06091, 2025.
+
+\end{thebibliography}
+
+\end{document}

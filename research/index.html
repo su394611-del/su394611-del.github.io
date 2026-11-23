@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="#070e1c" name="theme-color"/>
+<meta content="Sudhanshu Shukla" name="author"/>
+<title>Research | Sudhanshu Shukla's AI Lab</title>
+<meta content="Technical reports and research from Sudhanshu Shukla's AI Lab: language models built and trained from scratch, with open weights, code and held-out evaluation." name="description"/>
+<link href="https://su394611-del.github.io/research/" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Research | Sudhanshu Shukla's AI Lab" property="og:title"/>
+<meta content="https://su394611-del.github.io/research/" property="og:url"/>
+<link href="/assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<style>
+  :root {
+    --bg: #070e1c; --edge: #29415d; --text: #eef5ff; --muted: #aabed5; --dim: #829bb6;
+    --cyan: #7be2f0; --violet: #b3a9ff; --focus: #95eaff; color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+         color: var(--text); background: var(--bg); line-height: 1.65; -webkit-font-smoothing: antialiased;
+         padding: clamp(32px, 6vw, 72px) 20px; }
+  .page { max-width: 820px; margin: 0 auto; }
+  a { color: var(--cyan); }
+  a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+  .back-link { display: inline-block; margin-bottom: 28px; font-size: 13px; color: var(--muted); text-decoration: none; }
+  .back-link:hover { color: var(--text); }
+  .kicker { margin: 0 0 10px; font-size: 11px; font-weight: 800; letter-spacing: .18em; color: var(--cyan); text-transform: uppercase; }
+  h1 { margin: 0 0 12px; font-size: clamp(30px, 5vw, 44px); line-height: 1.12; letter-spacing: -.02em; }
+  .lede { margin: 0 0 30px; color: var(--muted); font-size: 17px; }
+  .paper { display: block; padding: 20px 22px; border: 1px solid #2d4663; border-radius: 16px; text-decoration: none;
+           background: linear-gradient(130deg, #14283f, #0c1b30); transition: border-color .2s, transform .2s; }
+  .paper:hover { border-color: var(--cyan); transform: translateY(-1px); }
+  .paper .meta { margin: 0 0 8px; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+  .paper h2 { margin: 0 0 8px; font-size: 20px; line-height: 1.3; color: var(--text); }
+  .paper p { margin: 0 0 10px; color: var(--muted); font-size: 14.5px; }
+  .paper .go { font-size: 13px; font-weight: 700; color: var(--cyan); }
+  footer { margin-top: 40px; padding-top: 22px; border-top: 1px solid rgba(117, 167, 211, .17); font-size: 13px; color: var(--dim); }
+</style>
+</head>
+<body>
+<main class="page">
+  <a class="back-link" href="/">← Back to the AI Lab</a>
+  <p class="kicker">Research</p>
+  <h1>Technical reports</h1>
+  <p class="lede">Models built and trained from scratch, each released with open weights, code and held-out evaluation.</p>
+  <a class="paper" href="/research/medsparse-healthcare-2026/">
+    <p class="meta">Technical report · Version 0.9 · 23 November 2026</p>
+    <h2>MedSparse Healthcare: A Sparse Mixture-of-Experts Medical Language Model Trained from Scratch on Consumer Hardware</h2>
+    <p>Sudhanshu Shukla. A 38.8M-parameter sparse MoE trained from random initialization on healthcare text: architecture, data, three training stages, held-out evaluation with 95% intervals, and lessons from training on a laptop.</p>
+    <span class="go">Read the abstract and PDF →</span>
+  </a>
+  <footer>© 2026 Sudhanshu Shukla · <a href="/">AI Lab</a> · <a href="/privacy/">Privacy</a></footer>
+</main>
+<script src="/assets/privacy.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="#070e1c" name="theme-color"/>
+<meta content="Sudhanshu Shukla" name="author"/>
+<title>MedSparse Healthcare: A Sparse Mixture-of-Experts Medical Language Model Trained from Scratch on Consumer Hardware | Sudhanshu Shukla's AI Lab</title>
+<meta content="Technical report on MedSparse Healthcare, a 38.8M-parameter sparse Mixture-of-Experts medical language model trained from random initialization, with held-out evaluation and lessons from training on a laptop." name="description"/>
+<link href="https://su394611-del.github.io/research/medsparse-healthcare-2026/" rel="canonical"/>
+<!-- Google Scholar (Highwire Press) tags -->
+<meta content="MedSparse Healthcare: A Sparse Mixture-of-Experts Medical Language Model Trained from Scratch on Consumer Hardware" name="citation_title"/>
+<meta content="Shukla, Sudhanshu" name="citation_author"/>
+<meta content="2026/11/23" name="citation_publication_date"/>
+<meta content="2026/11/23" name="citation_online_date"/>
+<meta content="Independent researcher" name="citation_technical_report_institution"/>
+<meta content="Version 0.9" name="citation_technical_report_number"/>
+<meta content="en" name="citation_language"/>
+<meta content="https://su394611-del.github.io/research/medsparse-healthcare-2026/medsparse-healthcare-technical-report.pdf" name="citation_pdf_url"/>
+<meta content="https://su394611-del.github.io/research/medsparse-healthcare-2026/" name="citation_abstract_html_url"/>
+<!-- Social previews -->
+<meta content="article" property="og:type"/>
+<meta content="MedSparse Healthcare — technical report" property="og:title"/>
+<meta content="A 38.8M-parameter sparse Mixture-of-Experts medical language model trained from scratch: architecture, data, training and held-out evaluation." property="og:description"/>
+<meta content="https://su394611-del.github.io/research/medsparse-healthcare-2026/" property="og:url"/>
+<link href="/assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"MedSparse Healthcare: A Sparse Mixture-of-Experts Medical Language Model Trained from Scratch on Consumer Hardware","name":"MedSparse Healthcare: A Sparse Mixture-of-Experts Medical Language Model Trained from Scratch on Consumer Hardware","author":{"@type":"Person","name":"Sudhanshu Shukla","url":"https://su394611-del.github.io/"},"datePublished":"2026-11-23","version":"0.9","inLanguage":"en","url":"https://su394611-del.github.io/research/medsparse-healthcare-2026/","encoding":{"@type":"MediaObject","encodingFormat":"application/pdf","contentUrl":"https://su394611-del.github.io/research/medsparse-healthcare-2026/medsparse-healthcare-technical-report.pdf"},"keywords":"mixture of experts, medical language model, pretraining from scratch, supervised fine-tuning, MIRIAD, MedMCQA","license":"https://www.apache.org/licenses/LICENSE-2.0","isBasedOn":["https://huggingface.co/sudhanshu42844/medsparse-healthcare-pretrained-from-scratch","https://huggingface.co/sudhanshu42844/medsparse-healthcare-medical-sft"]}</script>
+<style>
+  :root {
+    --bg: #070e1c; --panel: #0e1e33; --panel-2: #132841; --edge: #29415d;
+    --text: #eef5ff; --muted: #aabed5; --dim: #829bb6;
+    --cyan: #7be2f0; --violet: #b3a9ff; --green: #87e4c7; --focus: #95eaff;
+    color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--text); background: var(--bg); line-height: 1.65;
+    -webkit-font-smoothing: antialiased; padding: clamp(32px, 6vw, 72px) 20px;
+  }
+  .page { max-width: 820px; margin: 0 auto; }
+  a { color: var(--cyan); }
+  a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+  .back-link { display: inline-block; margin-bottom: 28px; font-size: 13px; color: var(--muted); text-decoration: none; }
+  .back-link:hover { color: var(--text); }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; margin: 0 0 14px; }
+  .badge { display: inline-flex; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: .04em;
+           color: #06111f; background: linear-gradient(135deg, var(--cyan), var(--violet)); }
+  .tag { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--dim); }
+  h1 { margin: 0 0 12px; font-size: clamp(26px, 4.2vw, 38px); line-height: 1.18; letter-spacing: -.02em; }
+  .byline { margin: 0 0 24px; color: var(--muted); font-size: 15px; }
+  .byline strong { color: var(--text); }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 34px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 9px 15px; border-radius: 10px; font-size: 13.5px; font-weight: 800; text-decoration: none; }
+  .btn-primary { color: #06111f; background: linear-gradient(110deg, var(--cyan), var(--violet)); }
+  .btn-outline { color: var(--text); border: 1px solid #3c5975; background: #122338; }
+  section { padding: 24px 0; border-top: 1px solid rgba(117, 167, 211, .17); }
+  h2 { margin: 0 0 12px; font-size: 20px; letter-spacing: -.01em; }
+  p { margin: 0 0 12px; color: var(--muted); }
+  p strong { color: var(--text); }
+  .abstract p { color: #c6d6e8; font-size: 16px; }
+  .note { padding: 14px 18px; border: 1px dashed #3e6585; border-radius: 14px; background: linear-gradient(130deg, #14283f, #0c1b30); }
+  .note p { margin: 0; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--edge); vertical-align: top; }
+  th { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); font-weight: 800; }
+  td { color: var(--muted); }
+  td:first-child { color: var(--text); }
+  .small { font-size: 13px; color: var(--dim); }
+  pre { margin: 0; padding: 14px 16px; overflow-x: auto; border: 1px solid var(--edge); border-radius: 12px; background: var(--panel);
+        font: 12.5px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--text); }
+  .copy { margin-top: 10px; min-height: 36px; padding: 6px 12px; border-radius: 8px; border: 1px solid #3c5975; background: #122338; color: var(--text); font-weight: 700; cursor: pointer; }
+  ul { margin: 0; padding-left: 20px; color: var(--muted); }
+  li { margin: 0 0 6px; }
+  footer { margin-top: 30px; padding-top: 22px; border-top: 1px solid rgba(117, 167, 211, .17); font-size: 13px; color: var(--dim); }
+</style>
+</head>
+<body>
+<main class="page">
+  <a class="back-link" href="/research/">← Research</a>
+  <div class="meta"><span class="badge">Technical report</span><span class="tag">Version 0.9 · 23 November 2026</span></div>
+  <h1>MedSparse Healthcare: A Sparse Mixture-of-Experts Medical Language Model Trained from Scratch on Consumer Hardware</h1>
+  <p class="byline"><strong>Sudhanshu Shukla</strong> · Independent researcher, Bengaluru, India</p>
+  <div class="actions">
+    <a class="btn btn-primary" href="medsparse-healthcare-technical-report.pdf">Download PDF · 7 pages</a>
+    <a class="btn btn-outline" href="medsparse-healthcare-technical-report.tex">LaTeX source</a>
+    <a class="btn btn-outline" href="https://github.com/su394611-del/MedSparse-Healthcare-LLM-From-Scratch" rel="noopener noreferrer" target="_blank">Code ↗</a>
+    <a class="btn btn-outline" href="https://huggingface.co/sudhanshu42844/medsparse-healthcare-medical-sft" rel="noopener noreferrer" target="_blank">Models ↗</a>
+    <a class="btn btn-outline" href="/playground/">Try it in the browser</a>
+  </div>
+
+  <section class="abstract" aria-labelledby="abstract">
+    <h2 id="abstract">Abstract</h2>
+    <p>We describe MedSparse Healthcare, a 38.8M-parameter decoder-only language model whose feed-forward layers are sparse mixtures of experts (four experts per layer, top-2 routing), trained from random initialization on healthcare text with a 30,001-token byte-level BPE tokenizer learned only from biomedical documents. Stage 1 pretrains on openly licensed PubMed full text from the Common Pile; Stage 2 applies full-parameter, completion-only supervised fine-tuning (SFT) on medical question–answer pairs. Evaluated with a float32 inference engine that runs in the browser, Stage 2 lowers held-out medical answer perplexity from 692.5 to 252.9 (ratio 0.365, 95% CI 0.343–0.389) while PubMed perplexity rises by 17% (ratio 1.166, 95% CI 1.087–1.244), and expert routing stays balanced (normalized routing entropy ≥ 0.966 in every layer). Multiple-choice accuracy on 150 MedMCQA validation questions (32.7% and 28.7%) is not distinguishable from the 25% chance level and stays below the 38% majority-answer baseline, which we report as a limitation of models at this scale. Stage 3 continues full-parameter SFT over all 5.8 million MIRIAD question–answer pairs, with a validation split that keeps whole source papers out of training, on a single consumer laptop GPU; it is in progress, and its results will be reported in version 1.0 of this report. We release the weights under the Apache License 2.0, together with the training code, the evaluation harness, and practical lessons for training on consumer hardware. The model is a research artifact and is not intended for clinical use.</p>
+  </section>
+
+  <section aria-labelledby="results">
+    <h2 id="results">Key results</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Held-out metric</th><th>Stage 1 · pretrained</th><th>Stage 2 · medical SFT</th></tr></thead>
+        <tbody>
+          <tr><td>Medical Q&amp;A answer perplexity</td><td>692.47 [643.46, 740.98]</td><td>252.86 [233.14, 273.47]</td></tr>
+          <tr><td>PubMed perplexity</td><td>572.15 [472.93, 704.14]</td><td>667.04 [546.16, 822.56]</td></tr>
+          <tr><td>MedMCQA accuracy (150 questions)</td><td>32.7% [25.7, 40.5]</td><td>28.7% [22.0, 36.4]</td></tr>
+          <tr><td>Lowest routing entropy across layers</td><td>0.966</td><td>0.982</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small">95% intervals in brackets: bootstrap over items for perplexity, Wilson for accuracy. Chance on MedMCQA is 25%; always picking the most common answer gives 38%. Full method and numbers are in the report and in <a href="https://github.com/su394611-del/MedSparse-Healthcare-LLM-From-Scratch/blob/main/eval/results.json" rel="noopener noreferrer" target="_blank">results.json</a>.</p>
+  </section>
+
+  <section aria-labelledby="status">
+    <h2 id="status">Status</h2>
+    <div class="note"><p><strong>Version 0.9 (preprint).</strong> Stage 3, full-parameter fine-tuning on all 5.8 million MIRIAD question–answer pairs, is still training. Version 1.0 will add its results, measured with the same evaluation harness.</p></div>
+  </section>
+
+  <section aria-labelledby="cite">
+    <h2 id="cite">Cite this report</h2>
+<pre id="bibtex">@techreport{shukla2026medsparse,
+  title       = {MedSparse Healthcare: A Sparse Mixture-of-Experts Medical
+                 Language Model Trained from Scratch on Consumer Hardware},
+  author      = {Shukla, Sudhanshu},
+  institution = {Independent researcher},
+  type        = {Technical Report},
+  number      = {Version 0.9},
+  year        = {2026},
+  month       = nov,
+  url         = {https://su394611-del.github.io/research/medsparse-healthcare-2026/}
+}</pre>
+    <button class="copy" id="copy-bibtex" type="button">Copy BibTeX</button>
+  </section>
+
+  <section aria-labelledby="versions">
+    <h2 id="versions">Versions</h2>
+    <ul><li><strong>0.9</strong> · 23 November 2026 · Stages 1–2 with full evaluation; Stage 3 setup.</li></ul>
+  </section>
+
+  <section aria-labelledby="use">
+    <h2 id="use">Responsible use</h2>
+    <p>MedSparse Healthcare is a research model. It is not a medical device and must not be used for diagnosis, treatment, triage, medication dosing or patient communication. It is an independent implementation inspired by the Mixtral architecture; it does not use or distribute Mistral AI or Mixtral weights and is not affiliated with Mistral AI.</p>
+  </section>
+
+  <footer>© 2026 Sudhanshu Shukla · <a href="/">AI Lab</a> · <a href="/research/">Research</a> · <a href="/privacy/">Privacy</a></footer>
+</main>
+<script>
+  (function () {
+    var b = document.getElementById("copy-bibtex");
+    if (!b || !navigator.clipboard) { if (b) b.hidden = true; return; }
+    b.addEventListener("click", function () {
+      navigator.clipboard.writeText(document.getElementById("bibtex").textContent).then(function () {
+        b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy BibTeX"; }, 1800);
+      });
+    });
+  })();
+</script>
+<script src="/assets/privacy.js" defer></script>
+</body>
+</html>
