@@ -100,6 +100,8 @@
     .tabs { gap: 4px; padding: 6px; }
     .tab { flex: 1 1 0; min-width: 0; white-space: normal; padding: 8px 6px; font-size: 12.5px; }
     .tab small { font-size: 10.5px; }
+    .tab small span { display: block; }
+    .tab small .sep { display: none; }
   }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
@@ -947,7 +949,13 @@ self.onmessage = (event) => {
     b.type = 'button'; b.className = 'tab'; b.id = 'tab-' + key; b.dataset.key = key;
     b.setAttribute('role', 'tab'); b.setAttribute('aria-controls', 'panel');
     b.innerHTML = '<span></span><small></small>';
-    b.firstChild.textContent = MODELS[key].tab; b.lastChild.textContent = MODELS[key].sub;
+    b.firstChild.textContent = MODELS[key].tab;
+    // Each part of the subtitle gets its own span so narrow tabs can stack the parts
+    // instead of leaving a dangling " · " at the end of a line.
+    MODELS[key].sub.split(' · ').forEach(function (part, i) {
+      if (i) { var sep = document.createElement('span'); sep.className = 'sep'; sep.textContent = ' · '; b.lastChild.appendChild(sep); }
+      var s = document.createElement('span'); s.textContent = part; b.lastChild.appendChild(s);
+    });
     b.addEventListener('click', function () { select(key); });
     tabs.appendChild(b);
   });

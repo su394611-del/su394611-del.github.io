@@ -7,7 +7,7 @@ html{scroll-padding-top:90px}*{min-width:0}a,button,input,summary{touch-action:m
 .directory-context p{font-size:12.5px;line-height:1.8;color:#b6cce1;margin:0}
 .directory-context strong{color:#e5f7ff}.directory-context a{color:#8de7f4;text-decoration:underline;text-underline-offset:3px}
 .project-toolbar{position:relative;z-index:11}.search-area{position:relative;flex:0 0 275px;max-width:100%}
-.search-area .search-control{width:100%;min-height:43px}.search-shortcut{display:grid;place-items:center;border:1px solid #456783;border-radius:5px;min-width:23px;height:22px;color:#8eb5d4;font-size:12px}
+.search-area .search-control{width:100%;min-height:43px}.search-area .search-control input{align-self:stretch;min-height:0;cursor:text}.search-shortcut{display:grid;place-items:center;border:1px solid #456783;border-radius:5px;min-width:23px;height:22px;color:#8eb5d4;font-size:12px}
 .suggestion-list{position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:50;padding:7px;background:#10233a;border:1px solid #4a7597;border-radius:12px;box-shadow:0 18px 50px rgba(1,6,14,.65);max-height:360px;overflow:auto}
 .suggestion-list[hidden]{display:none!important}
 .suggestion-item{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;width:100%;padding:11px 12px;border:0;border-radius:8px;background:transparent;color:#f0f6ff;font-size:12px;text-align:left;line-height:1.45}
