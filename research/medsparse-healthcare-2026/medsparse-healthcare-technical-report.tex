@@ -35,7 +35,7 @@
 \maketitle
 
 \begin{abstract}
-We describe MedSparse Healthcare, a 38.8M-parameter decoder-only language model whose feed-forward layers are sparse mixtures of experts (four experts per layer, top-2 routing), trained from random initialization on healthcare text with a 30,001-token byte-level BPE tokenizer learned only from biomedical documents. Stage~1 pretrains on openly licensed PubMed full text from the Common Pile; Stage~2 applies full-parameter, completion-only supervised fine-tuning (SFT) on medical question--answer pairs. Evaluated with a float32 inference engine that runs in the browser, Stage~2 lowers held-out medical answer perplexity from 692.5 to 252.9 (ratio 0.365, 95\% CI 0.343--0.389) while PubMed perplexity rises by 17\% (ratio 1.166, 95\% CI 1.087--1.244), and expert routing stays balanced (normalized routing entropy $\geq 0.966$ in every layer). Multiple-choice accuracy on 150 MedMCQA validation questions (32.7\% and 28.7\%) is not distinguishable from the 25\% chance level and stays below the 38\% majority-answer baseline, which we report as a limitation of models at this scale. Stage~3 continues full-parameter SFT over all 5.8 million MIRIAD question--answer pairs, with a validation split that keeps whole source papers out of training, on a single consumer laptop GPU; it is in progress, and its results will be reported in version~1.0 of this report. We release the weights under the Apache License 2.0, together with the training code, the evaluation harness, and practical lessons for training on consumer hardware. The model is a research artifact and is not intended for clinical use.
+We describe MedSparse Healthcare, a 38.8M-parameter decoder-only language model whose feed-forward layers are sparse mixtures of experts (four experts per layer, top-2 routing), trained from random initialization on healthcare text with a 30,001-token byte-level BPE tokenizer learned only from biomedical documents. Stage~1 pretrains on openly licensed PubMed full text from the Common Pile; Stage~2 applies full-parameter, completion-only supervised fine-tuning (SFT) on medical question--answer pairs. Evaluated with a float32 inference engine that runs in the browser, Stage~2 lowers held-out medical answer perplexity from 692.5 to 252.9 (ratio 0.365, 95\% CI 0.343--0.389) while PubMed perplexity rises by 17\% (ratio 1.166, 95\% CI 1.087--1.244), and expert routing stays balanced (normalized routing entropy $\geq 0.966$ in every layer). Multiple-choice accuracy on 150 MedMCQA validation questions (32.7\% and 28.7\%) is not distinguishable from the 25\% chance level and stays below the 38\% majority-answer baseline, which we report as a limitation of models at this scale. Stage~3 continues full-parameter SFT over all 5.8 million MIRIAD question--answer pairs, with a validation split that keeps whole source papers out of training, on a single consumer-grade GPU; it is in progress, and its results will be reported in version~1.0 of this report. We release the weights under the Apache License 2.0, together with the training code, the evaluation harness, and practical lessons for training on consumer hardware. The model is a research artifact and is not intended for clinical use.
 \end{abstract}
 
 \section{Introduction}
@@ -48,7 +48,7 @@ The architecture follows the sparse MoE decoder design popularized by Mixtral~\c
 \begin{itemize}
   \item A from-scratch sparse MoE medical language model (38,779,008 parameters, 8.66M active non-embedding parameters per token) with a domain-specific tokenizer, released openly in two stages (pretrained and medical SFT).
   \item A browser-based evaluation of both releases with bootstrap and Wilson 95\% intervals, a paired comparison between stages, and per-layer routing statistics.
-  \item Full-parameter SFT on the complete MIRIAD-5.8M corpus~\citep{zheng2025miriad} on a single consumer laptop GPU, using a paper-disjoint validation split.
+  \item Full-parameter SFT on the complete MIRIAD-5.8M corpus~\citep{zheng2025miriad} on a single consumer-grade GPU, using a paper-disjoint validation split.
   \item Engineering lessons for long training runs on consumer hardware: data-pipeline bottlenecks, crash-safe checkpointing, and split-consistent evaluation.
 \end{itemize}
 
@@ -122,12 +122,12 @@ Schedule & --- & 100 warm-up steps & 100 warm-up steps, then constant \\
 Weight decay / clipping & --- & --- & 0.01 / 1.0 \\
 Optimizer steps & 5,000 & 2,000 & one epoch, $\approx$1.42M \\
 Precision & --- & --- & fp32, gradient checkpointing \\
-Hardware & --- & --- & Single consumer laptop GPU \\
+Hardware & --- & --- & Single consumer-grade GPU \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\paragraph{Stage 3 on a laptop GPU.} Full-parameter AdamW training of a 38.8M-parameter model needs roughly 16 bytes per parameter for weights, gradients and optimizer states (about 0.6\,GB), so the full model, together with checkpointed activations, fits comfortably in the memory of a consumer laptop GPU. In Stage~3, when a question--answer pair does not fit in the 192-token window, the prompt keeps at most half of the window (its most recent tokens) and the answer is truncated with its end-of-sequence token retained. Data are streamed with a 1,024-example shuffle buffer. Every 500 optimizer steps, validation cross-entropy is measured on 64 held-out pairs and checkpoints are written. The run processes about 2.7--3.1 optimizer steps per second (11--12 examples per second), or roughly five to six days for one epoch; the exact wall-clock time will be reported with the Stage~3 results.
+\paragraph{Stage 3 on a consumer-grade GPU.} Full-parameter AdamW training of a 38.8M-parameter model needs roughly 16 bytes per parameter for weights, gradients and optimizer states (about 0.6\,GB), so the full model, together with checkpointed activations, fits comfortably in the memory of a consumer-grade GPU. In Stage~3, when a question--answer pair does not fit in the 192-token window, the prompt keeps at most half of the window (its most recent tokens) and the answer is truncated with its end-of-sequence token retained. Data are streamed with a 1,024-example shuffle buffer. Every 500 optimizer steps, validation cross-entropy is measured on 64 held-out pairs and checkpoints are written. The run processes about 2.7--3.1 optimizer steps per second (11--12 examples per second), or roughly five to six days for one epoch; the exact wall-clock time will be reported with the Stage~3 results.
 
 \section{Evaluation}
 
@@ -184,9 +184,9 @@ Stage 2 (medical SFT) & 0.982 & 0.997 & 0.997 & 0.998 \\
 
 \paragraph{Stage 3 (MIRIAD).} Stage~3 is in progress at the time of writing. Its paper-disjoint MIRIAD validation loss, and the metrics of Table~\ref{tab:results} for the Stage~3 checkpoint measured with the same harness, will be added in version~1.0 of this report.
 
-\section{Engineering lessons from training on a laptop}
+\section{Engineering lessons from training on consumer hardware}
 
-\paragraph{The data pipeline, not the GPU, set the pace.} Stage~3 throughput stayed near 12 examples per second whether the GPU processed one example or sixteen per step, because streaming, shuffling and tokenizing on the CPU could not supply examples faster. Pre-tokenizing the corpus into a memory-mapped array before training would remove this bottleneck; on a laptop, other CPU load (for example a busy browser) measurably slows training.
+\paragraph{The data pipeline, not the GPU, set the pace.} Stage~3 throughput stayed near 12 examples per second whether the GPU processed one example or sixteen per step, because streaming, shuffling and tokenizing on the CPU could not supply examples faster. Pre-tokenizing the corpus into a memory-mapped array before training would remove this bottleneck; on a personal computer, other CPU load (for example a busy browser) measurably slows training.
 
 \paragraph{Crash-safe checkpoints are essential for multi-day runs.} An unexpected restart left an optimizer-state file that could no longer be loaded. Checkpoints are now written to a temporary name, flushed to disk with \texttt{fsync} and atomically renamed, and resuming selects the newest checkpoint whose files are all complete and verifies that data-order and optimization settings match the original run.
 
