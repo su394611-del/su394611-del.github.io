@@ -10,16 +10,19 @@
 
 ## About this GitHub profile
 
+Live site: **[su394611-del.github.io](https://su394611-del.github.io/)**
+
 Welcome! This GitHub profile brings together **public Python, PyTorch, Hugging Face, LangChain, and LangGraph projects** focused on understanding and implementing modern AI systems.
 
 The repositories include practical examples of **retrieval-augmented generation (RAG)**, **Transformer architectures**, **language-model fine-tuning**, **distributed training**, **parallel inference**, **multi-agent orchestration**, and the **Model Context Protocol (MCP)**.
 
-**Project scope:** These are independent engineering demonstrations. Some contain offline tests or runnable notebooks; Check each repository's README for exact implementation status, hardware requirements, validation results, and limitations. No production deployment, benchmark, or enterprise-readiness claim is implied.
+**Project scope:** These are independent engineering demonstrations. Some contain offline tests or runnable notebooks; check each repository's README for exact implementation status, hardware requirements, validation results, and limitations. No production deployment, benchmark, or enterprise-readiness claim is implied.
 
 ## Project directory
 
 | Project | What the repository demonstrates | Key technologies |
 | --- | --- | --- |
+| **[MedSparse Healthcare](https://github.com/su394611-del/MedSparse-Healthcare-LLM-From-Scratch)** | A 38.8M-parameter sparse Mixture-of-Experts medical language model pretrained from random initialization and fully fine-tuned on medical Q&A, with a held-out evaluation, a [technical report](https://su394611-del.github.io/research/medsparse-healthcare-2026/) (DOI [10.5281/zenodo.24461542](https://doi.org/10.5281/zenodo.24461542)) and released weights. Research model; not for clinical use. | PyTorch, sparse MoE, Hugging Face |
 | **[Multi-Tenant RAG Service](https://github.com/su394611-del/RAG-service)** | Tenant-filtered vector retrieval, semantic caching, illustrative PII redaction, basic request safeguards, diagnostics, and a FastAPI interface. Primarily a retrieval/extractive-answering demo. | Python, Qdrant, Sentence Transformers, FastAPI |
 | **[LLM Fine-Tuning & Preference Optimization](https://github.com/su394611-del/Pre-training-and-Fine-tuning)** | Qwen LoRA fine-tuning and separate small-model demonstrations of SFT, DPO, and ORPO; notebooks, scripts, and example datasets. | PyTorch, Hugging Face Transformers, PEFT, TRL |
 | **[DistilBERT Full vs. Head-Only Fine-Tuning](https://github.com/su394611-del/Full-Fine-Training-Pre-Training-Mid-Training)** | Customer-support message classification and a comparison of full-model fine-tuning with a frozen-encoder classifier head. Despite the repository name, it does **not** demonstrate LLM pretraining or mid-training. | PyTorch, Transformers, DistilBERT, Jupyter |
@@ -45,6 +48,7 @@ The repositories include practical examples of **retrieval-augmented generation 
 
 ### Transformers, inference, and model internals
 
+- [MedSparse Healthcare](https://github.com/su394611-del/MedSparse-Healthcare-LLM-From-Scratch) — a sparse Mixture-of-Experts decoder trained from scratch on healthcare text, with a [live site](https://su394611-del.github.io/MedSparse-Healthcare-LLM-From-Scratch/) and an in-browser [model playground](https://su394611-del.github.io/playground/).
 - [Transformer Encoder from Scratch](https://github.com/su394611-del/LLM-from-scratch) — multi-head self-attention, masking, positional encoding, normalization, and encoder blocks.
 - [Parallel LLM Inference](https://github.com/su394611-del/Parallel-LLM-Inference) — multi-process batch inference, model replicas, output ordering, and JSONL processing.
 
@@ -62,7 +66,9 @@ The repositories include practical examples of **retrieval-augmented generation 
 **RAG / APIs:** Qdrant · Sentence Transformers · vector retrieval · FastAPI
 
 **Development:** Python · Jupyter notebooks · JSONL datasets · Windows/VS Code workflows · selected Google Colab/Kaggle examples
-**LLM from scratch:** Transformer models using an encoder-only architecture implemented. A small GPT-style decoder-only model that fits in Colab/Kaggle or on a consumer-grade GPU is planned for the next iteration.
+
+**LLM from scratch:** an educational Transformer encoder, Tiny GPT (a 1.06M-parameter GPT-2-style decoder trained from random weights on TinyStories) and MedSparse Healthcare (a 38.8M-parameter sparse Mixture-of-Experts decoder trained from scratch on healthcare text).
+
 These keywords reflect the public examples; they should not be read as a certification or a claim of production use for every technology.
 
 ## Getting started
@@ -89,7 +95,7 @@ Each linked repository may contain a project README, Python source code, noteboo
 Explore the [public repositories](https://github.com/su394611-del?tab=repositories) for code, technical notes, and project-specific documentation. For questions or proposed improvements, use the relevant repository's GitHub Issues or Discussions, if enabled.
 
 ## License
-This project is licensed under the Apache License, Version 2.0.© 2026 Sudhanshu Shukla · Licensed under the Apache License, Version 2.0.
+This project is licensed under the [Apache License, Version 2.0](LICENSE). © 2026 Sudhanshu Shukla.
 
 <div align="center">
 
