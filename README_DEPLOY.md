@@ -10,14 +10,15 @@ The ZIP includes the complete replacement `index.html`, `assets/app.js`, `assets
 4. Check Settings > Pages. The owner site should publish `main / (root)` (or whatever actual source is active). Wait for GitHub's deployment to finish before doing a hard refresh.
 5. Visit https://su394611-del.github.io/ and test each project card's **Open website** button, plus Source and README.
 
-## Why all nine sites might still be missing
+## If a project site is missing
 
-Changing the homepage links fixes **navigation**, not an undeployed subsite. Each project has a separate GitHub Pages deployment and must have the correct publishing source: `main /docs` for eight projects; **Parallel-LLM-Inference uses the `legacy` default branch**, so check its Settings > Pages and deploy from the configured branch/folder. Pages configuration can also use GitHub Actions; match the actual publishing source. Confirm `docs/index.html` was committed in each relevant branch, and check Actions/Pages deployment logs for errors. Project slugs are case-sensitive; the correct renamed repository path is `Transformers-Training` (not `Tarnsformers-Training`). 
+Changing the homepage links fixes **navigation**, not an undeployed subsite. Each project has a separate GitHub Pages deployment and must have the correct publishing source: `main /docs` for eight projects; **Parallel-LLM-Inference uses the `legacy` default branch**, so check its Settings > Pages and deploy from the configured branch/folder. Pages configuration can also use GitHub Actions; match the actual publishing source. Confirm `docs/index.html` was committed in each relevant branch, and check Actions/Pages deployment logs for errors. Project slugs are case-sensitive; the correct renamed repository path is `Transformers-Training` (not `Tarnsformers-Training`).
 
-This package cannot deploy sites automatically because GitHub connection permissions are read-only. Repository existence and Pages enablement were confirmed; actual HTTP access from this environment was unavailable, so do not interpret links as verified HTTP 200.
+All ten project sites below returned HTTP 200 when checked on 23 November 2026.
 
-## Copy of nine URLs
+## Project site URLs
 
+- MedSparse Healthcare (sparse MoE medical LLM): https://su394611-del.github.io/MedSparse-Healthcare-LLM-From-Scratch/
 - Multi-Tenant Retrieval & RAG Service: https://su394611-del.github.io/RAG-service/
 - Multi-Agent Workflows with LangGraph: https://su394611-del.github.io/Multi-agents-using-LangGraph/
 - LLM Fine-Tuning & Preference Optimization: https://su394611-del.github.io/Pre-training-and-Fine-tuning/
