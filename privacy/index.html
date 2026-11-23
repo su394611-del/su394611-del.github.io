@@ -9,6 +9,7 @@
 <link href="https://su394611-del.github.io/privacy/" rel="canonical"/>
 <title>Privacy | Sudhanshu Shukla</title>
 <link href="/assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<script>if (window.self !== window.top) document.documentElement.classList.add('is-embedded');</script>
 <style>
   :root {
     --bg: #070e1c; --panel: #0e1e33; --panel-2: #132841; --edge: #29415d;
@@ -26,8 +27,13 @@
   .page { max-width: 760px; margin: 0 auto; }
   a { color: var(--cyan); }
   a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
-  .back-link { display: inline-block; margin-bottom: 28px; font-size: 13px; color: var(--muted); text-decoration: none; }
-  .back-link:hover { color: var(--text); }
+  /* AI Lab home button: the same on every subproject page */
+  .home-nav{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin:0 0 28px}
+  .home-pill{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:8px 15px 8px 12px;border:1px solid #3c5975;border-radius:999px;background:#122338;color:#eef5ff;font:800 13px/1.2 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.01em;text-decoration:none;transition:border-color .15s,background-color .15s}
+  .home-pill:hover{border-color:#7be2f0;background:#163049;color:#eef5ff}
+  .home-pill:focus-visible{outline:3px solid #95eaff;outline-offset:2px}
+  .home-pill svg{display:block;flex:none;width:16px;height:16px;max-width:none;color:#7be2f0}
+  .is-embedded .home-nav,.is-embedded .home-pill{display:none}
   .kicker { margin: 0 0 10px; font-size: 11px; font-weight: 800; letter-spacing: .18em; color: var(--cyan); text-transform: uppercase; }
   h1 { margin: 0 0 14px; font-size: clamp(30px, 5vw, 44px); line-height: 1.12; letter-spacing: -.02em; }
   .lede { margin: 0 0 30px; color: var(--muted); font-size: 17px; }
@@ -59,7 +65,7 @@
 </head>
 <body>
 <main class="page">
-  <a class="back-link" href="/">← Back to the AI Lab</a>
+  <nav class="home-nav" aria-label="Site"><a class="home-pill" href="/"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h5v-6h4v6h5V9.5"/></svg>AI Lab home</a></nav>
   <p class="kicker">Privacy</p>
   <h1>What this site collects</h1>
   <p class="lede">No cookies, no ad or social trackers, and nothing that follows you to other sites. This page covers su394611-del.github.io and every project site under it.</p>
