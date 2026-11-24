@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="base-uri 'none'; object-src 'none'; script-src 'self'; script-src-attr 'none'; frame-src 'none'; worker-src 'self'; form-action 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AI Lab CDN Demo</title>
   <style>
@@ -23,52 +24,6 @@
     <noscript><p>Enable JavaScript to run the asset checks.</p></noscript>
   </main>
   <script src="/assets/vue-3.5.13.global.prod.js"></script>
-  <script type="module">
-    import { assets, revision } from "./assets.js";
-    import { createCdnAssetList } from "./vue.js";
-
-    const { createApp, h, ref } = window.Vue;
-    const CdnAssetList = createCdnAssetList(h);
-    const files = Object.values(assets);
-
-    createApp({
-      setup() {
-        const busy = ref(false);
-        const results = ref([]);
-
-        async function checkAssets() {
-          if (busy.value) return;
-          busy.value = true;
-          results.value = [];
-          results.value = await Promise.all(files.map(async (url) => {
-            const name = url.split("/").pop();
-            try {
-              const response = await fetch(url, {
-                credentials: "omit",
-                signal: AbortSignal.timeout(10000),
-              });
-              if (!response.ok) return name + " — HTTP " + response.status;
-              const body = await response.arrayBuffer();
-              return name + " — HTTP " + response.status + " · " + body.byteLength.toLocaleString() + " bytes";
-            } catch {
-              return name + " — request failed";
-            }
-          }));
-          busy.value = false;
-        }
-
-        return () => h("div", [
-          h("p", [h("img", { src: assets.favicon, width: 32, height: 32, alt: "" }), "Live icon loaded from jsDelivr"]),
-          h("p", ["Asset revision ", h("code", revision.slice(0, 12))]),
-          h(CdnAssetList),
-          h("button", { type: "button", disabled: busy.value, onClick: checkAssets }, "Check CDN assets"),
-          h("div", { "aria-live": "polite" },
-            busy.value ? "Checking…" :
-              results.value.length ? [h("ul", results.value.map((result) => h("li", { key: result }, result)))] : []
-          ),
-        ]);
-      },
-    }).mount("#demo");
-  </script>
+  <script type="module" src="./demo.js"></script>
 </body>
 </html>
