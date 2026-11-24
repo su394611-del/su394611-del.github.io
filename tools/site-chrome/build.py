@@ -173,8 +173,22 @@ def render_footer(site, page):
     note = site.get("notes", {}).get(pkey or "", "")
     note_html = f'<p class="ailab-footer-note">{note}</p>' if note else ""
     small_cols = len(cols) - 1  # columns after "Projects"
+    inv = site.get("invite")
+    invite_html = ""
+    if inv:
+        ctas = "".join(f'<a class="ailab-invite-cta{" is-primary" if i == 0 else ""}" {link_attrs(l["href"])}>{esc(l["label"])} <span aria-hidden="true">→</span></a>'
+                       for i, l in enumerate(inv["links"]))
+        invite_html = (
+            '<section class="ailab-wrap ailab-invite" aria-labelledby="ailab-invite-title">'
+            '<div class="ailab-invite-copy">'
+            f'<p class="ailab-group-label">{esc(inv["label"])}</p>'
+            f'<h2 class="ailab-invite-title" id="ailab-invite-title">{esc(inv["title"])}</h2>'
+            f'<p class="ailab-invite-text">{esc(inv["text"])}</p>'
+            f'<p class="ailab-invite-text">{esc(inv["recruit"])}</p></div>'
+            f'<div class="ailab-invite-actions">{ctas}</div></section>')
     return (
         '<footer class="ailab-footer">'
+        f'{invite_html}'
         f'<div class="ailab-wrap ailab-footer-grid" data-columns="{small_cols}">'
         '<div class="ailab-footer-brand">'
         '<a class="ailab-wordmark" href="/" aria-label="AI Lab home">SS <span aria-hidden="true">✳</span></a>'
