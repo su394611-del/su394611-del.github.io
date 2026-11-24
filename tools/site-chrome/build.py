@@ -66,6 +66,7 @@ def render_head(site, page):
     parts = ['<script defer src="/assets/vue-3.5.13.global.prod.js"></script>',
              f'<link rel="stylesheet" href="/assets/ailab-chrome.css?v={v}">',
              f'<script src="/assets/ailab-chrome.js?v={v}" defer></script>']
+    parts.append('<script defer src="/assets/privacy.js?v=20261124-consent1"></script>')
     if page.get("embeddable"):
         parts.insert(0, '<script src="/assets/embed-mode.js"></script>')
     return "".join(parts)
@@ -229,6 +230,7 @@ def main():
         with open(path, encoding="utf-8", newline="") as fh:
             original = fh.read()
         text = original
+        text = text.replace('<script src="/assets/privacy.js" defer></script>', '')
         text = stamp(text, "head", render_head(site, page))
         text = stamp(text, "header", render_header(site, page))
         text = stamp(text, "footer", render_footer(site, page))

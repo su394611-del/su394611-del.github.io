@@ -22,3 +22,11 @@ a:focus-visible,button:focus-visible{outline:3px solid #95eaff;outline-offset:2p
 }
 
 .inline .row { justify-content: flex-start; }
+
+[hidden]{display:none!important}
+.card:not(.inline){max-height:calc(100dvh - 24px);overflow:auto;bottom:max(12px,env(safe-area-inset-bottom))}
+.row button,.row a,.settings{min-height:44px}
+.row a{display:inline-flex;align-items:center;margin:0}
+button:disabled{opacity:.6;cursor:default}
+.note:empty{display:none}
+.settings{display:block;margin:10px auto;font:600 14px/1.4 system-ui,sans-serif}

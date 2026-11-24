@@ -1,139 +1,128 @@
-/*
- * Privacy notice shared by su394611-del.github.io and every project site under it.
- *
- * - Sets no cookies. The visitor's choice is one localStorage key (KEY below).
- * - Never shows inside embedded frames (contact form, playground preview).
- * - Visit counting is OFF until COUNTER is filled in. When it is, the counter
- *   script loads only for visitors who have not opted out and whose browser
- *   does not send Do Not Track or Global Privacy Control.
- *
- * To turn on cookieless counting with GoatCounter (https://www.goatcounter.com):
- *   var COUNTER = 'https://YOUR-CODE.goatcounter.com/count';
- */
+// Shared by the portfolio and its project sites. An embed relies on its parent
+// for consent controls and never counts an additional visit.
 (function () {
   'use strict';
-  if (window.self !== window.top) return;
+  if (window.self !== window.top || window.ssPrivacy) return;
 
-  var COUNTER = '';
-  var KEY = 'ss-privacy-choice'; // "in" | "out"
-  var PRIVACY_URL = '/privacy/';
+  const COUNTER = ''; // Optional HTTPS GoatCounter /count endpoint.
+  const KEY = 'ss-privacy-choice';
+  const stylesheet = new URL('privacy.css?v=20261124-consent1', document.currentScript.src);
+  const privacyUrl = new URL('https://su394611-del.github.io/privacy/');
+  let memo = null;
+  let counted = false;
+  let refresh = () => {};
 
-  var signal = navigator.globalPrivacyControl === true ||
-    navigator.doNotTrack === '1' || window.doNotTrack === '1';
-
-  function getChoice() {
-    try { return localStorage.getItem(KEY); } catch (e) { return null; }
+  function readChoice() {
+    try {
+      const value = localStorage.getItem(KEY);
+      memo = value === 'in' || value === 'out' ? value : null;
+    } catch (_) { /* Keep the in-memory preference if storage is unavailable. */ }
   }
-  function setChoice(value) {
-    try { localStorage.setItem(KEY, value); } catch (e) { /* storage blocked: choice lasts this page only */ }
-    memo = value;
-  }
-  var memo = getChoice();
-
-  // Opted in, or no choice yet and no Do Not Track / GPC signal.
-  function effectiveIn() {
-    return memo === 'in' || (memo === null && !signal);
+  function privacySignal() {
+    return navigator.globalPrivacyControl === true || navigator.doNotTrack === '1' || window.doNotTrack === '1';
   }
   function counting() {
-    return !!COUNTER && effectiveIn();
+    return Boolean(COUNTER && memo === 'in' && !privacySignal());
   }
-
-  var counterLoaded = false;
-  function maybeLoadCounter() {
-    if (counterLoaded || !counting()) return;
-    counterLoaded = true;
-    var s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://gc.zgo.at/count.js';
-    s.setAttribute('data-goatcounter', COUNTER);
-    document.head.appendChild(s);
+  function sync() {
+    readChoice();
+    refresh();
+    if (counted || !counting()) return;
+    const url = new URL(COUNTER);
+    url.searchParams.set('p', location.pathname);
+    url.searchParams.set('rnd', String(Date.now()));
+    const visit = new Image();
+    visit.referrerPolicy = 'no-referrer';
+    counted = true;
+    visit.src = url.href;
   }
-
-  var stylesheet = new URL('privacy.css', document.currentScript.src).href;
-
-  function sentence() {
-    return COUNTER
-      ? 'This site sets no cookies and runs no ad or social trackers. Visits are counted in aggregate, without cookies and without following you anywhere.'
-      : 'This site sets no cookies and runs no ad or social trackers. Any visit counting is aggregate only, without cookies and without following you anywhere.';
+  function choose(value) {
+    if (value === 'in' && privacySignal()) return;
+    memo = value;
+    try { localStorage.setItem(KEY, value); } catch (_) { /* This page still honours the choice. */ }
+    refresh();
+    if (counting()) sync();
   }
-
-  function build(host, inline) {
-    var root = host.attachShadow ? host.attachShadow({ mode: 'open' }) : host;
-    var style = document.createElement('link');
-    style.rel = 'stylesheet';
-    style.href = stylesheet;
-    root.appendChild(style);
-
-    var card = document.createElement('section');
-    card.className = inline ? 'card inline' : 'card';
-    card.setAttribute('role', 'region');
-    card.setAttribute('aria-label', 'Privacy notice');
-    card.innerHTML =
-      '<div class="head"><span class="dot" aria-hidden="true"></span>No tracking cookies</div>' +
-      '<p></p>' +
-      '<div class="row">' +
-      (inline ? '' : '<a href="' + PRIVACY_URL + '">What is collected</a>') +
-      '<button type="button" data-v="in">Opt in</button>' +
-      '<button type="button" data-v="out">Opt out</button>' +
-      '</div>' +
-      (inline ? '<div class="note" aria-live="polite"></div>' : '');
-    card.querySelector('p').textContent = sentence();
-    root.appendChild(card);
-
-    var buttons = card.querySelectorAll('button');
-    var note = card.querySelector('.note');
-    function paint() {
-      var on = effectiveIn();
-      var show = inline || memo !== null;
-      for (var i = 0; i < buttons.length; i++) {
-        var v = buttons[i].getAttribute('data-v');
-        buttons[i].setAttribute('aria-pressed', String(show && (v === 'in') === on));
-      }
-      if (note) {
-        var state = memo === 'out' ? 'You have opted out.' :
-          memo === 'in' ? 'You have opted in.' :
-          signal ? 'Your browser sends Do Not Track / Global Privacy Control, so you are treated as opted out.' :
-          'No choice saved yet.';
-        note.textContent = state + (COUNTER ? '' : ' No visit counter is active on this site right now.');
-      }
-    }
-    for (var i = 0; i < buttons.length; i++) {
-      buttons[i].addEventListener('click', function (e) {
-        setChoice(e.currentTarget.getAttribute('data-v'));
-        maybeLoadCounter();
-        if (inline) { paint(); return; }
-        host.remove();
-      });
-    }
-    paint();
-  }
+  readChoice();
+  window.ssPrivacy = {
+    choice: () => memo,
+    counting,
+    optIn: () => choose('in'),
+    optOut: () => choose('out')
+  };
+  window.addEventListener('storage', event => {
+    if (event.key === KEY || event.key === null) sync();
+  });
+  window.addEventListener('pageshow', sync);
 
   function init() {
-    maybeLoadCounter();
-
-    var slot = document.getElementById('privacy-controls');
-    if (slot) build(slot, true);
-
-    if (memo === null && !slot) {
-      var host = document.createElement('div');
+    const slot = document.getElementById('privacy-controls');
+    const host = slot || document.createElement('div');
+    if (!slot) {
       host.id = 'ss-privacy-notice';
-      document.body.appendChild(host);
-      build(host, false);
+      document.body.append(host);
     }
-
-    var flags = document.querySelectorAll('[data-privacy-if]');
-    for (var j = 0; j < flags.length; j++) {
-      var want = flags[j].getAttribute('data-privacy-if');
-      flags[j].hidden = want === 'counter' ? !COUNTER : !!COUNTER;
+    const root = host.attachShadow({mode: 'open'});
+    const style = document.createElement('link');
+    style.rel = 'stylesheet';
+    style.href = stylesheet.href;
+    const panel = document.createElement('section');
+    panel.className = slot ? 'card inline' : 'card';
+    panel.setAttribute('aria-label', 'Visit counting preferences');
+    panel.innerHTML = '<div class="head">Visit counting</div><p></p><div class="row"><button type="button" data-v="in">Opt in</button><button type="button" data-v="out">Opt out</button></div><div class="note" aria-live="polite"></div>';
+    const details = document.createElement('a');
+    details.textContent = 'Privacy details';
+    details.href = privacyUrl.href;
+    if (!slot) panel.querySelector('.row').append(details);
+    const settings = document.createElement('button');
+    settings.type = 'button';
+    settings.className = 'settings';
+    settings.textContent = 'Privacy settings';
+    settings.setAttribute('aria-controls', 'visit-preferences');
+    panel.id = 'visit-preferences';
+    let reopened = false;
+    const allow = panel.querySelector('[data-v="in"]');
+    const decline = panel.querySelector('[data-v="out"]');
+    settings.addEventListener('click', () => {
+      reopened = !reopened;
+      refresh();
+      if (reopened) (allow.disabled ? decline : allow).focus();
+    });
+    function save(value) {
+      const returnToSettings = reopened;
+      reopened = false;
+      choose(value);
+      if (returnToSettings) settings.focus({preventScroll: true});
     }
+    panel.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && reopened) {
+        reopened = false;
+        refresh();
+        settings.focus();
+      }
+    });
+    allow.addEventListener('click', () => save('in'));
+    decline.addEventListener('click', () => save('out'));
+    root.append(style, settings, panel);
+    refresh = () => {
+      const signal = privacySignal();
+      panel.hidden = !slot && !reopened && (memo !== null || signal);
+      settings.hidden = Boolean(slot) || (!panel.hidden && !reopened);
+      settings.setAttribute('aria-expanded', String(!panel.hidden));
+      allow.disabled = signal;
+      allow.setAttribute('aria-pressed', String(memo === 'in' && !signal));
+      decline.setAttribute('aria-pressed', String(signal || memo === 'out'));
+      panel.querySelector('p').textContent = COUNTER
+        ? 'Allow anonymous visit counting across this site and its project pages?'
+        : 'Choose whether to allow anonymous visit counting. No counter is active.';
+      panel.querySelector('.note').textContent = signal ? 'Your browser requests no tracking. Counting is off.' :
+        memo === 'in' ? 'Opted in.' : memo === 'out' ? 'Opted out.' : '';
+    };
+    for (const flag of document.querySelectorAll('[data-privacy-if]')) {
+      flag.hidden = (flag.dataset.privacyIf === 'counter') !== Boolean(COUNTER);
+    }
+    sync();
   }
-
-  window.ssPrivacy = {
-    choice: function () { return memo; },
-    counting: counting,
-    optIn: function () { setChoice('in'); maybeLoadCounter(); },
-    optOut: function () { setChoice('out'); }
-  };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
