@@ -164,6 +164,8 @@
 .ailab-menu-panel .ailab-group-label { margin-top: 18px; }
 .ailab-menu-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
 .ailab-menu-links .ailab-link { min-height: 44px; }
+/* The visit-counting card is fixed above everything; hide it while a header menu is open so it can't cover links. */
+html:has(.ailab-menu[open], .ailab-dd[open]) #ss-privacy-notice { display: none !important; }
 
 /* ---------------------------------------------------------------- section bar (project pages) */
 .ailab-subnav {
