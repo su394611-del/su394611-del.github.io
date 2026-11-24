@@ -155,7 +155,7 @@ def render_footer(site, page):
         return f'<li><a {link_attrs(href)}{c}>{esc(label)}{arrow(href)}</a>{b}</li>'
 
     projects = "".join(f"<li>{project_link(p, current_proj, cls='', blurb=False)}</li>" for p in site["projects"])
-    cols = [f'<nav class="ailab-footer-col" aria-label="Projects"><p class="ailab-group-label">Projects</p><ul>{projects}</ul></nav>']
+    cols = [f'<nav class="ailab-footer-col ailab-col-projects" aria-label="Projects"><p class="ailab-group-label">Projects</p><ul>{projects}</ul></nav>']
 
     pkey = page.get("project")
     if pkey:
@@ -165,7 +165,7 @@ def render_footer(site, page):
         cols.append(f'<nav class="ailab-footer-col" aria-label="This project"><p class="ailab-group-label">This project</p><ul>{"".join(own)}</ul></nav>')
 
     lab = "".join(li(l["label"], l["href"], cur=(current == l["key"]), badge=l.get("badge")) for l in site["lab_links"])
-    cols.append(f'<nav class="ailab-footer-col" aria-label="AI Lab"><p class="ailab-group-label">AI Lab</p><ul>{lab}</ul></nav>')
+    cols.append(f'<nav class="ailab-footer-col ailab-col-lab" aria-label="AI Lab"><p class="ailab-group-label">AI Lab</p><ul>{lab}</ul></nav>')
     other = "".join(li(l["label"], l["href"]) for l in site["elsewhere_links"])
     cols.append(f'<nav class="ailab-footer-col" aria-label="Elsewhere"><p class="ailab-group-label">Elsewhere</p><ul>{other}</ul></nav>')
 

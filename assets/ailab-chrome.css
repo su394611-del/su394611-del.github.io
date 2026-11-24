@@ -238,7 +238,7 @@
   font-size: 12px; color: #829bb6;
 }
 .ailab-footer-bottom p { max-width: 760px; }
-.ailab-top-link { font-weight: 700; color: #a5c2d8 !important; }
+.ailab-top-link { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: #a5c2d8 !important; }
 .ailab-top-link:hover { color: #fff !important; }
 
 /* ---------------------------------------------------------------- simple root pages */
@@ -265,11 +265,11 @@ html:not(.is-embedded) body.ailab-page > main {
   .ailab-nav { display: none; }
   .ailab-menu > summary, .ailab-subnav-cta { min-width: 44px; min-height: 44px; justify-content: center; }
   .ailab-menu-panel { max-height: calc(100dvh - 64px); padding-bottom: max(24px, env(safe-area-inset-bottom)); }
-  .ailab-subnav-links a, .ailab-footer-col a, .ailab-top-link {
-    display: inline-flex; align-items: center; min-height: 44px;
-  }
-  .ailab-footer-col a { display: inline-block; align-content: center; padding-block: 8px; overflow-wrap: anywhere; }
-  .ailab-footer-col ul { gap: 2px; }
+  /* Touch targets: 44px for the bars; footer links stay compact (about 36px rows, above the 24px minimum). */
+  .ailab-subnav-links a { display: inline-flex; align-items: center; min-height: 44px; }
+  .ailab-top-link { min-height: 44px; }
+  .ailab-footer-col ul { gap: 0; }
+  .ailab-footer-col a { display: inline-block; padding-block: 8px; overflow-wrap: anywhere; }
   .ailab-menu { display: block; }
   .ailab-subnav-title { max-width: 200px; }
 }
@@ -285,13 +285,15 @@ html:not(.is-embedded) body.ailab-page > main {
   .ailab-subnav-links { padding-inline: 4px; }
   .ailab-subnav-links a { padding: 7px 9px; font-size: 12.5px; }
   .ailab-subnav-cta { padding: 6px 10px; }
-  .ailab-subnav-cta .ailab-cta-word { display: inline; }
+  .ailab-subnav-cta .ailab-cta-word { display: none; }
   .ailab-footer { padding-top: 44px; }
   .ailab-footer-grid { gap: 28px 18px; }
   .ailab-footer-bottom { margin-top: 32px; }
-}
-@media (max-width: 480px) {
-  .ailab-footer-col[aria-label="Projects"] { grid-column: 1 / -1; }
+  /* Projects run full width in two columns; AI Lab spans two rows so "This project" and "Elsewhere" stack beside it. */
+  .ailab-col-projects { grid-column: 1 / -1; }
+  .ailab-col-projects ul { display: block; columns: 2; column-gap: 18px; }
+  .ailab-col-projects li { break-inside: avoid; }
+  .ailab-col-lab { grid-row: span 2; }
 }
 @media (max-width: 380px) {
   .ailab-brand-text small { display: none; }
