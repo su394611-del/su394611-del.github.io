@@ -49,33 +49,7 @@
     document.head.appendChild(s);
   }
 
-  var CSS = [
-    ':host{all:initial}',
-    '*,*::before,*::after{box-sizing:border-box}',
-    '.card{position:fixed;left:20px;bottom:20px;z-index:2147483000;width:min(392px,calc(100vw - 40px));',
-    'padding:18px 18px 16px;border-radius:16px;border:1px solid #29415d;',
-    'background:linear-gradient(160deg,#11233b,#0b1729);color:#eef5ff;',
-    'font:14px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;',
-    '-webkit-font-smoothing:antialiased;box-shadow:0 18px 50px rgba(0,0,0,.45);',
-    'animation:in .32s ease-out both}',
-    '@keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}',
-    '@media (prefers-reduced-motion:reduce){.card{animation:none}}',
-    '.head{display:flex;align-items:center;gap:9px;margin:0 0 6px;font-size:11px;font-weight:800;',
-    'letter-spacing:.16em;text-transform:uppercase;color:#7be2f0}',
-    '.dot{width:8px;height:8px;border-radius:50%;background:#87e4c7;box-shadow:0 0 0 4px rgba(135,228,199,.14)}',
-    'p{margin:0 0 12px;color:#aabed5}',
-    '.row{display:flex;align-items:center;flex-wrap:wrap;gap:8px}',
-    'a{color:#7be2f0;font-weight:650;text-decoration:none;margin-right:auto}',
-    'a:hover{text-decoration:underline}',
-    'button{font:inherit;font-size:13px;font-weight:700;cursor:pointer;padding:7px 14px;border-radius:999px;',
-    'border:1px solid #3a5a7c;background:#132841;color:#eef5ff}',
-    'button:hover{border-color:#7be2f0}',
-    'button[aria-pressed="true"]{background:#7be2f0;border-color:#7be2f0;color:#06111f}',
-    'a:focus-visible,button:focus-visible{outline:3px solid #95eaff;outline-offset:2px}',
-    '.note{margin:10px 0 0;font-size:12px;color:#829bb6}',
-    '.inline{position:static;width:auto;box-shadow:none;animation:none}',
-    '@media (max-width:520px){.card:not(.inline){left:10px;right:10px;bottom:10px;width:auto}}'
-  ].join('');
+  var stylesheet = new URL('privacy.css', document.currentScript.src).href;
 
   function sentence() {
     return COUNTER
@@ -85,8 +59,9 @@
 
   function build(host, inline) {
     var root = host.attachShadow ? host.attachShadow({ mode: 'open' }) : host;
-    var style = document.createElement('style');
-    style.textContent = CSS;
+    var style = document.createElement('link');
+    style.rel = 'stylesheet';
+    style.href = stylesheet;
     root.appendChild(style);
 
     var card = document.createElement('section');
@@ -103,7 +78,6 @@
       '</div>' +
       (inline ? '<div class="note" aria-live="polite"></div>' : '');
     card.querySelector('p').textContent = sentence();
-    if (inline) card.querySelector('.row').style.justifyContent = 'flex-start';
     root.appendChild(card);
 
     var buttons = card.querySelectorAll('button');

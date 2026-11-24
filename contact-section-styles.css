@@ -1,0 +1,11 @@
+/* Contact section: the Formspree form itself lives in /contact.html and is embedded via iframe. */
+.contact-section{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(32px,5vw,64px);align-items:start;padding:clamp(56px,7vw,96px) 0 clamp(72px,9vw,112px);scroll-margin-top:88px}
+.contact-copy{max-width:460px}
+.contact-section .section-intro p.contact-elsewhere{margin-top:18px;font-size:14px;color:var(--dim,#829bb6)}
+.contact-elsewhere a{color:var(--cyan,#7be2f0);text-decoration:none}
+.contact-elsewhere a:hover,.contact-elsewhere a:focus-visible{text-decoration:underline;text-underline-offset:3px}
+.contact-frame{display:block;width:100%;height:560px;border:0;background:transparent;color-scheme:dark;transition:height .2s ease}
+.contact-fallback{margin:10px 2px 0;font-size:12px;color:var(--dim,#829bb6)}
+.contact-fallback a{color:var(--muted,#aabed5)}
+@media (max-width:880px){.contact-section{grid-template-columns:1fr}.contact-copy{max-width:none}}
+@media (prefers-reduced-motion:reduce){.contact-frame{transition:none}}

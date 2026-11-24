@@ -8,86 +8,9 @@
 <meta content="Sudhanshu Shukla" name="author"/>
 <title>Contact | Sudhanshu Shukla</title>
 <link href="/assets/favicon.svg" rel="icon" type="image/svg+xml"/>
-<script>
-  /* Embedded in index.html via iframe? Drop the page chrome so the form blends into the parent section. */
-  if (window.self !== window.top) document.documentElement.classList.add('is-embedded');
-</script>
-<style>
-  :root {
-    --bg: #070e1c; --panel: #0e1e33; --panel-2: #132841; --edge: #29415d;
-    --text: #eef5ff; --muted: #aabed5; --dim: #829bb6;
-    --cyan: #7be2f0; --violet: #b3a9ff; --green: #87e4c7; --focus: #95eaff; --danger: #ffa3b4;
-    color-scheme: dark;
-  }
-  *, *::before, *::after { box-sizing: border-box; }
-  html, body { margin: 0; }
-  body {
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    color: var(--text); background: var(--bg); line-height: 1.6;
-    -webkit-font-smoothing: antialiased; padding: clamp(32px, 6vw, 72px) 20px;
-  }
-  .is-embedded body { background: transparent; padding: 2px; }
-  .page { max-width: 640px; margin: 0 auto; }
-  .is-embedded .page { max-width: none; }
-  .is-embedded .standalone-only { display: none; }
 
-  .standalone-head { margin-bottom: 28px; }
-  .back-link { display: inline-block; margin-bottom: 28px; font-size: 13px; color: var(--muted); text-decoration: none; }
-  .back-link:hover, .back-link:focus-visible { color: var(--text); }
-  /* AI Lab home button: the same on every subproject page */
-  .home-nav{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin:0 0 28px}
-  .home-pill{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:8px 15px 8px 12px;border:1px solid #3c5975;border-radius:999px;background:#122338;color:#eef5ff;font:800 13px/1.2 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.01em;text-decoration:none;transition:border-color .15s,background-color .15s}
-  .home-pill:hover{border-color:#7be2f0;background:#163049;color:#eef5ff}
-  .home-pill:focus-visible{outline:3px solid #95eaff;outline-offset:2px}
-  .home-pill svg{display:block;flex:none;width:16px;height:16px;max-width:none;color:#7be2f0}
-  .is-embedded .home-nav,.is-embedded .home-pill{display:none}
-  .home-nav .back-link{margin:0}
-  .back-link[hidden]{display:none}
-  .kicker { margin: 0 0 10px; font-size: 11px; font-weight: 700; letter-spacing: .18em; color: var(--cyan); }
-  h1 { margin: 0; font-size: clamp(28px, 5vw, 40px); line-height: 1.15; letter-spacing: -.02em; }
-
-  .card {
-    border: 1px solid var(--edge); border-radius: 20px; padding: clamp(22px, 4vw, 32px);
-    background: linear-gradient(145deg, var(--panel-2) 0%, var(--panel) 55%, #0a1628 100%);
-  }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
-  .field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
-  label { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-  input, textarea {
-    width: 100%; font: inherit; font-size: 15px; color: var(--text);
-    background: rgba(7, 14, 28, .72); border: 1px solid var(--edge); border-radius: 12px;
-    padding: 13px 14px; transition: border-color .15s ease, box-shadow .15s ease; touch-action: manipulation;
-  }
-  textarea { min-height: 150px; resize: vertical; }
-  input::placeholder, textarea::placeholder { color: var(--dim); opacity: 1; }
-  input:hover, textarea:hover { border-color: #3a5878; }
-  input:focus-visible, textarea:focus-visible { outline: none; border-color: var(--focus); box-shadow: 0 0 0 3px rgba(149, 234, 255, .22); }
-  input:user-invalid, textarea:user-invalid { border-color: var(--danger); }
-
-  /* Formspree honeypot: hidden from people, filled in by bots. */
-  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
-
-  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; margin-top: 4px; }
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 24px;
-    border: 0; border-radius: 12px; cursor: pointer; font: inherit; font-size: 13px; font-weight: 700; letter-spacing: .03em;
-    color: #06111f; background: linear-gradient(135deg, var(--cyan), var(--violet));
-    transition: transform .15s ease, filter .15s ease;
-  }
-  .btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
-  .btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
-  .btn[disabled] { opacity: .65; cursor: progress; transform: none; filter: none; }
-  .note { margin: 0; font-size: 12.5px; color: var(--dim); }
-
-  .status { margin: 18px 0 0; padding: 12px 14px; border-radius: 12px; font-size: 14px; border: 1px solid transparent; }
-  .status:empty { display: none; }
-  .status[data-state="success"] { color: var(--green); background: rgba(135, 228, 199, .08); border-color: rgba(135, 228, 199, .32); }
-  .status[data-state="error"] { color: var(--danger); background: rgba(255, 163, 180, .08); border-color: rgba(255, 163, 180, .32); }
-
-  @media (max-width: 560px) { .row { grid-template-columns: 1fr; } .btn { width: 100%; } }
-  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
-</style>
-<!-- ailab:head:start --><script>if(window.self!==window.top)document.documentElement.classList.add('is-embedded');</script><link rel="stylesheet" href="/assets/ailab-chrome.css?v=20261124-mobile1"><script src="/assets/ailab-chrome.js?v=20261124-mobile1" defer></script><!-- ailab:head:end -->
+<link rel="stylesheet" href="contact-page.css">
+<!-- ailab:head:start --><script src="/assets/embed-mode.js"></script><script defer src="/assets/vue-3.5.13.global.prod.js"></script><link rel="stylesheet" href="/assets/ailab-chrome.css?v=20261124-vue1"><script src="/assets/ailab-chrome.js?v=20261124-vue1" defer></script><!-- ailab:head:end -->
 </head>
 <body class="ailab-page">
 <!-- ailab:header:start --><a class="ailab-skip" href="#ailab-content">Skip to content</a><header class="ailab-header ailab-sticky" id="ailab-top"><div class="ailab-wrap ailab-bar"><a class="ailab-brand" href="/" aria-label="Sudhanshu Shukla's AI Lab home"><span class="ailab-mark" aria-hidden="true">SS</span><span class="ailab-brand-text"><strong>Sudhanshu Shukla</strong><small>AI Lab · GenAI Engineering</small></span></a><nav class="ailab-nav" aria-label="AI Lab"><details class="ailab-dd"><summary class="ailab-link">Projects<svg class="ailab-chev" aria-hidden="true" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></summary><div class="ailab-dd-panel"><div class="ailab-dd-grid"><div><div class="ailab-dd-group"><p class="ailab-group-label">Model training</p><ul><li><a class="ailab-proj" href="/MedSparse-Healthcare-LLM-From-Scratch/">MedSparse Healthcare LLM<small>38.8M sparse MoE, trained from scratch</small></a></li><li><a class="ailab-proj" href="/Pre-training-and-Fine-tuning/">LLM Fine-Tuning &amp; Preference Optimization<small>LoRA, SFT, DPO and ORPO</small></a></li><li><a class="ailab-proj" href="/Distributed-Data-Parallel-Processing/">Distributed LLM Training with PyTorch DDP<small>torchrun, Gloo/NCCL, LoRA</small></a></li><li><a class="ailab-proj" href="/LLM-from-scratch/">Transformer Encoder from Scratch<small>Hand-built attention in PyTorch</small></a></li><li><a class="ailab-proj" href="/Full-Fine-Training-Pre-Training-Mid-Training/">DistilBERT Full vs. Frozen Fine-Tuning<small>Full encoder vs head-only training</small></a></li><li><a class="ailab-proj" href="/Transformers-Training/">Transformer Training &amp; Model Evaluation<small>DistilBERT classification walkthrough</small></a></li><li><a class="ailab-proj" href="https://huggingface.co/sudhanshu42844/my-tiny-llm" target="_blank" rel="noopener noreferrer">Tiny GPT-Style Language Model<span class="ailab-ext" aria-hidden="true"> ↗</span><small>1.06M parameters, on Hugging Face</small></a></li></ul></div></div><div><div class="ailab-dd-group"><p class="ailab-group-label">Retrieval &amp; RAG</p><ul><li><a class="ailab-proj" href="/RAG-service/">Multi-Tenant RAG Service<small>Qdrant, FastAPI, tenant isolation</small></a></li></ul></div><div class="ailab-dd-group"><p class="ailab-group-label">Agents &amp; MCP</p><ul><li><a class="ailab-proj" href="/Multi-agents-using-LangGraph/">Multi-Agent Workflows with LangGraph<small>StateGraph, reducers, subgraphs</small></a></li><li><a class="ailab-proj" href="/Stock-market-trading-Application-using-MCP-langchain-langgraph/">MCP &amp; LangGraph Market Simulation<small>MCP servers and a ReAct tool loop</small></a></li></ul></div><div class="ailab-dd-group"><p class="ailab-group-label">Inference &amp; scale</p><ul><li><a class="ailab-proj" href="/Parallel-LLM-Inference/">Parallel LLM Batch Inference<small>Per-GPU replicas, ordered JSONL</small></a></li></ul></div></div></div><a class="ailab-dd-all" href="/#projects">Browse all 11 projects <span aria-hidden="true">→</span></a></div></details><a class="ailab-link" href="/research/">Research</a><a class="ailab-link" href="/playground/">Playground</a><a class="ailab-link" href="/contact.html" aria-current="page">Contact</a><a class="ailab-gh" href="https://github.com/su394611-del" target="_blank" rel="noopener noreferrer"><svg class="ailab-ico" aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .9C5.86.9.9 5.88.9 12.03c0 4.92 3.19 9.1 7.62 10.57.56.1.76-.24.76-.54v-2.11c-3.1.67-3.76-1.32-3.76-1.32-.5-1.28-1.24-1.62-1.24-1.62-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1.01 1.73 2.65 1.23 3.3.94.1-.73.39-1.23.72-1.52-2.47-.28-5.07-1.24-5.07-5.5 0-1.21.44-2.19 1.15-2.96-.12-.28-.5-1.4.11-2.91 0 0 .94-.3 3.06 1.13a10.67 10.67 0 0 1 5.58 0c2.12-1.44 3.05-1.13 3.05-1.13.61 1.51.23 2.63.11 2.91.72.77 1.15 1.75 1.15 2.97 0 4.26-2.6 5.21-5.08 5.49.4.35.75 1.04.75 2.1v3.12c0 .3.2.65.77.54 4.42-1.48 7.6-5.65 7.6-10.56C23.1 5.88 18.14.9 12 .9Z"/></svg><span>GitHub</span><span aria-hidden="true">↗</span></a></nav><details class="ailab-menu"><summary><svg class="ailab-menu-icon" aria-hidden="true" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path class="ailab-burger" d="M2 4h12M2 8h12M2 12h12"/><path class="ailab-x" d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></svg><span>Menu</span></summary><nav class="ailab-menu-panel" aria-label="AI Lab menu"><p class="ailab-group-label">AI Lab</p><div class="ailab-menu-links"><a class="ailab-link" href="/">AI Lab home</a><a class="ailab-link" href="/#projects">All projects</a><a class="ailab-link" href="/research/">Research</a><a class="ailab-link" href="/playground/">Playground</a><a class="ailab-link" href="/contact.html" aria-current="page">Contact</a><a class="ailab-link" href="https://github.com/su394611-del" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div><p class="ailab-group-label">Projects</p><ul><li><a class="ailab-proj" href="/MedSparse-Healthcare-LLM-From-Scratch/">MedSparse Healthcare LLM<small>38.8M sparse MoE, trained from scratch</small></a></li><li><a class="ailab-proj" href="/RAG-service/">Multi-Tenant RAG Service<small>Qdrant, FastAPI, tenant isolation</small></a></li><li><a class="ailab-proj" href="/Multi-agents-using-LangGraph/">Multi-Agent Workflows with LangGraph<small>StateGraph, reducers, subgraphs</small></a></li><li><a class="ailab-proj" href="/Pre-training-and-Fine-tuning/">LLM Fine-Tuning &amp; Preference Optimization<small>LoRA, SFT, DPO and ORPO</small></a></li><li><a class="ailab-proj" href="/Distributed-Data-Parallel-Processing/">Distributed LLM Training with PyTorch DDP<small>torchrun, Gloo/NCCL, LoRA</small></a></li><li><a class="ailab-proj" href="/Parallel-LLM-Inference/">Parallel LLM Batch Inference<small>Per-GPU replicas, ordered JSONL</small></a></li><li><a class="ailab-proj" href="/LLM-from-scratch/">Transformer Encoder from Scratch<small>Hand-built attention in PyTorch</small></a></li><li><a class="ailab-proj" href="/Full-Fine-Training-Pre-Training-Mid-Training/">DistilBERT Full vs. Frozen Fine-Tuning<small>Full encoder vs head-only training</small></a></li><li><a class="ailab-proj" href="/Transformers-Training/">Transformer Training &amp; Model Evaluation<small>DistilBERT classification walkthrough</small></a></li><li><a class="ailab-proj" href="/Stock-market-trading-Application-using-MCP-langchain-langgraph/">MCP &amp; LangGraph Market Simulation<small>MCP servers and a ReAct tool loop</small></a></li><li><a class="ailab-proj" href="https://huggingface.co/sudhanshu42844/my-tiny-llm" target="_blank" rel="noopener noreferrer">Tiny GPT-Style Language Model<span class="ailab-ext" aria-hidden="true"> ↗</span><small>1.06M parameters, on Hugging Face</small></a></li></ul></nav></details></div></header><!-- ailab:header:end -->
@@ -127,99 +50,9 @@
     <p aria-live="polite" class="status" id="cf-status" role="status"></p>
   </form>
 </main>
-<!-- ailab:footer:start --><footer class="ailab-footer"><div class="ailab-wrap ailab-footer-grid" style="--ailab-cols:2"><div class="ailab-footer-brand"><a class="ailab-wordmark" href="/" aria-label="AI Lab home">SS <span aria-hidden="true">✳</span></a><p class="ailab-footer-about">Sudhanshu Shukla&#x27;s AI Lab: hands-on engineering and research on language models, retrieval, agents, training and inference.</p></div><nav class="ailab-footer-col" aria-label="Projects"><p class="ailab-group-label">Projects</p><ul><li><a href="/MedSparse-Healthcare-LLM-From-Scratch/">MedSparse Healthcare LLM</a></li><li><a href="/RAG-service/">Multi-Tenant RAG Service</a></li><li><a href="/Multi-agents-using-LangGraph/">Multi-Agent Workflows with LangGraph</a></li><li><a href="/Pre-training-and-Fine-tuning/">LLM Fine-Tuning &amp; Preference Optimization</a></li><li><a href="/Distributed-Data-Parallel-Processing/">Distributed LLM Training with PyTorch DDP</a></li><li><a href="/Parallel-LLM-Inference/">Parallel LLM Batch Inference</a></li><li><a href="/LLM-from-scratch/">Transformer Encoder from Scratch</a></li><li><a href="/Full-Fine-Training-Pre-Training-Mid-Training/">DistilBERT Full vs. Frozen Fine-Tuning</a></li><li><a href="/Transformers-Training/">Transformer Training &amp; Model Evaluation</a></li><li><a href="/Stock-market-trading-Application-using-MCP-langchain-langgraph/">MCP &amp; LangGraph Market Simulation</a></li><li><a href="https://huggingface.co/sudhanshu42844/my-tiny-llm" target="_blank" rel="noopener noreferrer">Tiny GPT-Style Language Model<span class="ailab-ext" aria-hidden="true"> ↗</span></a></li></ul></nav><nav class="ailab-footer-col" aria-label="AI Lab"><p class="ailab-group-label">AI Lab</p><ul><li><a href="/">AI Lab home</a></li><li><a href="/research/">Research</a></li><li><a href="/playground/">Model playground</a></li><li><a href="/codemind/">CodeMind</a><span class="ailab-badge">Soon</span></li><li><a href="/contact.html" aria-current="page">Contact</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/sitemap.xml">Sitemap</a></li></ul></nav><nav class="ailab-footer-col" aria-label="Elsewhere"><p class="ailab-group-label">Elsewhere</p><ul><li><a href="https://github.com/su394611-del" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></li><li><a href="https://huggingface.co/sudhanshu42844" target="_blank" rel="noopener noreferrer">Hugging Face <span aria-hidden="true">↗</span></a></li><li><a href="https://pypi.org/project/medsparse-playground/" target="_blank" rel="noopener noreferrer">PyPI: medsparse-playground <span aria-hidden="true">↗</span></a></li></ul></nav></div><div class="ailab-wrap ailab-footer-bottom"><p>© 2026 Sudhanshu Shukla. Source code is Apache-2.0 unless a repository says otherwise; see each repository for third-party notices.</p><a class="ailab-top-link" href="#ailab-top">Back to top <span aria-hidden="true">↑</span></a></div></footer><!-- ailab:footer:end -->
+<!-- ailab:footer:start --><footer class="ailab-footer"><div class="ailab-wrap ailab-footer-grid" data-columns="2"><div class="ailab-footer-brand"><a class="ailab-wordmark" href="/" aria-label="AI Lab home">SS <span aria-hidden="true">✳</span></a><p class="ailab-footer-about">Sudhanshu Shukla&#x27;s AI Lab: hands-on engineering and research on language models, retrieval, agents, training and inference.</p></div><nav class="ailab-footer-col" aria-label="Projects"><p class="ailab-group-label">Projects</p><ul><li><a href="/MedSparse-Healthcare-LLM-From-Scratch/">MedSparse Healthcare LLM</a></li><li><a href="/RAG-service/">Multi-Tenant RAG Service</a></li><li><a href="/Multi-agents-using-LangGraph/">Multi-Agent Workflows with LangGraph</a></li><li><a href="/Pre-training-and-Fine-tuning/">LLM Fine-Tuning &amp; Preference Optimization</a></li><li><a href="/Distributed-Data-Parallel-Processing/">Distributed LLM Training with PyTorch DDP</a></li><li><a href="/Parallel-LLM-Inference/">Parallel LLM Batch Inference</a></li><li><a href="/LLM-from-scratch/">Transformer Encoder from Scratch</a></li><li><a href="/Full-Fine-Training-Pre-Training-Mid-Training/">DistilBERT Full vs. Frozen Fine-Tuning</a></li><li><a href="/Transformers-Training/">Transformer Training &amp; Model Evaluation</a></li><li><a href="/Stock-market-trading-Application-using-MCP-langchain-langgraph/">MCP &amp; LangGraph Market Simulation</a></li><li><a href="https://huggingface.co/sudhanshu42844/my-tiny-llm" target="_blank" rel="noopener noreferrer">Tiny GPT-Style Language Model<span class="ailab-ext" aria-hidden="true"> ↗</span></a></li></ul></nav><nav class="ailab-footer-col" aria-label="AI Lab"><p class="ailab-group-label">AI Lab</p><ul><li><a href="/">AI Lab home</a></li><li><a href="/research/">Research</a></li><li><a href="/playground/">Model playground</a></li><li><a href="/codemind/">CodeMind</a><span class="ailab-badge">Soon</span></li><li><a href="/contact.html" aria-current="page">Contact</a></li><li><a href="/privacy/">Privacy</a></li><li><a href="/sitemap.xml">Sitemap</a></li></ul></nav><nav class="ailab-footer-col" aria-label="Elsewhere"><p class="ailab-group-label">Elsewhere</p><ul><li><a href="https://github.com/su394611-del" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></li><li><a href="https://huggingface.co/sudhanshu42844" target="_blank" rel="noopener noreferrer">Hugging Face <span aria-hidden="true">↗</span></a></li><li><a href="https://pypi.org/project/medsparse-playground/" target="_blank" rel="noopener noreferrer">PyPI: medsparse-playground <span aria-hidden="true">↗</span></a></li></ul></nav></div><div class="ailab-wrap ailab-footer-bottom"><p>© 2026 Sudhanshu Shukla. Source code is Apache-2.0 unless a repository says otherwise; see each repository for third-party notices.</p><a class="ailab-top-link" href="#ailab-top">Back to top <span aria-hidden="true">↑</span></a></div></footer><!-- ailab:footer:end -->
 
-<script>
-(function () {
-  'use strict';
-  var form = document.getElementById('contact-form');
-  var status = document.getElementById('cf-status');
-  var button = form.querySelector('button[type="submit"]');
-  var label = button.querySelector('.btn-label');
-  var subject = form.querySelector('input[name="_subject"]');
-  var baseSubject = subject.defaultValue;
-  var embedded = window.self !== window.top;
-
-  /* Project pages embed this form as /contact.html?from=<repo-name>; tag the message with it. */
-  var source = '';
-  try { source = new URLSearchParams(window.location.search).get('from') || ''; } catch (e) { source = ''; }
-  source = source.replace(/[^A-Za-z0-9._-]/g, '').slice(0, 80);
-  if (source) {
-    form.querySelector('input[name="project"]').value = source;
-    var back = document.getElementById('cf-back');
-    if (back) { back.href = '/' + source + '/'; back.hidden = false; }
-  }
-
-  /* Tell index.html how tall the form is so the iframe never scrolls. */
-  function postHeight() {
-    if (!embedded) return;
-    try {
-      var height = Math.ceil(document.body.getBoundingClientRect().height);
-      window.parent.postMessage({ type: 'contact-frame:height', height: height }, '/');
-    } catch (e) { /* parent on another origin: keep the default iframe height */ }
-  }
-
-  function setStatus(message, state) {
-    status.textContent = message;
-    if (state) status.setAttribute('data-state', state); else status.removeAttribute('data-state');
-    postHeight();
-  }
-
-  function setBusy(busy) {
-    button.disabled = busy;
-    label.textContent = busy ? 'Sending…' : 'Send message';
-    if (busy) form.setAttribute('aria-busy', 'true'); else form.removeAttribute('aria-busy');
-  }
-
-  form.addEventListener('submit', function (event) {
-    if (!window.fetch || !window.FormData) return; /* very old browser: plain POST to Formspree */
-    event.preventDefault();
-
-    /* Split so a find-and-replace of the placeholder in this file doesn't also rewrite this check. */
-    if (form.action.indexOf('YOUR_' + 'FORM_ID') !== -1) {
-      setStatus('This form isn’t connected yet. Add your Formspree form ID to contact.html.', 'error');
-      return;
-    }
-
-    var nameField = form.elements.namedItem('name');
-    var name = nameField ? nameField.value.trim() : '';
-    subject.value = baseSubject + (source ? ' — ' + source : '') + (name ? ' — ' + name : '');
-
-    setBusy(true);
-    setStatus('', null);
-
-    fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
-      .then(function (response) {
-        if (response.ok) {
-          form.reset();
-          setStatus('Thanks, your message has been sent. I’ll get back to you by email.', 'success');
-          return;
-        }
-        return response.json().catch(function () { return {}; }).then(function (data) {
-          var detail = data && Array.isArray(data.errors)
-            ? data.errors.map(function (e) {
-                if (!e || !e.message) return '';
-                var field = e.field ? e.field.charAt(0).toUpperCase() + e.field.slice(1) + ' ' : '';
-                return field + e.message + '.';
-              }).filter(Boolean).join(' ')
-            : '';
-          setStatus(detail || 'Sorry, your message couldn’t be sent. Please try again in a moment.', 'error');
-        });
-      })
-      .catch(function () {
-        setStatus('Network error. Please check your connection and try again.', 'error');
-      })
-      .then(function () { setBusy(false); });
-  });
-
-  if (embedded) {
-    if ('ResizeObserver' in window) new ResizeObserver(postHeight).observe(document.body);
-    window.addEventListener('load', postHeight);
-    window.addEventListener('resize', postHeight);
-    postHeight();
-  }
-})();
-</script>
+<script src="contact-contact-frame.js"></script>
 <script src="/assets/privacy.js" defer></script>
 </body>
 </html>

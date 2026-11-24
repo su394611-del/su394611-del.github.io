@@ -63,10 +63,11 @@ def project_link(p, current, cls="ailab-proj", blurb=True):
 
 def render_head(site, page):
     v = site["version"]
-    parts = [f'<link rel="stylesheet" href="/assets/ailab-chrome.css?v={v}">',
+    parts = ['<script defer src="/assets/vue-3.5.13.global.prod.js"></script>',
+             f'<link rel="stylesheet" href="/assets/ailab-chrome.css?v={v}">',
              f'<script src="/assets/ailab-chrome.js?v={v}" defer></script>']
     if page.get("embeddable"):
-        parts.insert(0, "<script>if(window.self!==window.top)document.documentElement.classList.add('is-embedded');</script>")
+        parts.insert(0, '<script src="/assets/embed-mode.js"></script>')
     return "".join(parts)
 
 
@@ -173,7 +174,7 @@ def render_footer(site, page):
     small_cols = len(cols) - 1  # columns after "Projects"
     return (
         '<footer class="ailab-footer">'
-        f'<div class="ailab-wrap ailab-footer-grid" style="--ailab-cols:{small_cols}">'
+        f'<div class="ailab-wrap ailab-footer-grid" data-columns="{small_cols}">'
         '<div class="ailab-footer-brand">'
         '<a class="ailab-wordmark" href="/" aria-label="AI Lab home">SS <span aria-hidden="true">✳</span></a>'
         f'<p class="ailab-footer-about">{esc(site["about"])}</p>{note_html}</div>'

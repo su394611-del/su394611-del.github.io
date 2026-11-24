@@ -304,3 +304,5 @@ html:not(.is-embedded) body.ailab-page > main {
   .ailab-header, .ailab-subnav { position: static; }
   .ailab-dd, .ailab-menu, .ailab-subnav-links { display: none; }
 }
+
+.ailab-footer-grid[data-columns="3"] { --ailab-cols: 3; }
