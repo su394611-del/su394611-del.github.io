@@ -1,0 +1,107 @@
+{
+  "version": "20261124",
+  "owner": "Sudhanshu Shukla",
+  "tagline": "AI Lab · GenAI Engineering",
+  "about": "Sudhanshu Shukla's AI Lab: hands-on engineering and research on language models, retrieval, agents, training and inference.",
+  "copyright": "© 2026 Sudhanshu Shukla. Source code is Apache-2.0 unless a repository says otherwise; see each repository for third-party notices.",
+  "github": "https://github.com/su394611-del",
+
+  "groups": ["Model training", "Retrieval & RAG", "Agents & MCP", "Inference & scale"],
+
+  "projects": [
+    {"key": "medsparse", "name": "MedSparse Healthcare LLM", "blurb": "38.8M sparse MoE, trained from scratch", "group": "Model training",
+     "href": "/MedSparse-Healthcare-LLM-From-Scratch/", "repo": "https://github.com/su394611-del/MedSparse-Healthcare-LLM-From-Scratch"},
+    {"key": "rag", "name": "Multi-Tenant RAG Service", "blurb": "Qdrant, FastAPI, tenant isolation", "group": "Retrieval & RAG",
+     "href": "/RAG-service/", "repo": "https://github.com/su394611-del/RAG-service"},
+    {"key": "langgraph", "name": "Multi-Agent Workflows with LangGraph", "blurb": "StateGraph, reducers, subgraphs", "group": "Agents & MCP",
+     "href": "/Multi-agents-using-LangGraph/", "repo": "https://github.com/su394611-del/Multi-agents-using-LangGraph"},
+    {"key": "finetune", "name": "LLM Fine-Tuning & Preference Optimization", "blurb": "LoRA, SFT, DPO and ORPO", "group": "Model training",
+     "href": "/Pre-training-and-Fine-tuning/", "repo": "https://github.com/su394611-del/Pre-training-and-Fine-tuning"},
+    {"key": "ddp", "name": "Distributed LLM Training with PyTorch DDP", "blurb": "torchrun, Gloo/NCCL, LoRA", "group": "Model training",
+     "href": "/Distributed-Data-Parallel-Processing/", "repo": "https://github.com/su394611-del/Distributed-Data-Parallel-Processing"},
+    {"key": "inference", "name": "Parallel LLM Batch Inference", "blurb": "Per-GPU replicas, ordered JSONL", "group": "Inference & scale",
+     "href": "/Parallel-LLM-Inference/", "repo": "https://github.com/su394611-del/Parallel-LLM-Inference"},
+    {"key": "encoder", "name": "Transformer Encoder from Scratch", "blurb": "Hand-built attention in PyTorch", "group": "Model training",
+     "href": "/LLM-from-scratch/", "repo": "https://github.com/su394611-del/LLM-from-scratch"},
+    {"key": "distilbert", "name": "DistilBERT Full vs. Frozen Fine-Tuning", "blurb": "Full encoder vs head-only training", "group": "Model training",
+     "href": "/Full-Fine-Training-Pre-Training-Mid-Training/", "repo": "https://github.com/su394611-del/Full-Fine-Training-Pre-Training-Mid-Training"},
+    {"key": "transformers", "name": "Transformer Training & Model Evaluation", "blurb": "DistilBERT classification walkthrough", "group": "Model training",
+     "href": "/Transformers-Training/", "repo": "https://github.com/su394611-del/Transformers-Training"},
+    {"key": "market", "name": "MCP & LangGraph Market Simulation", "blurb": "MCP servers and a ReAct tool loop", "group": "Agents & MCP",
+     "href": "/Stock-market-trading-Application-using-MCP-langchain-langgraph/", "repo": "https://github.com/su394611-del/Stock-market-trading-Application-using-MCP-langchain-langgraph"},
+    {"key": "tinygpt", "name": "Tiny GPT-Style Language Model", "blurb": "1.06M parameters, on Hugging Face", "group": "Model training",
+     "href": "https://huggingface.co/sudhanshu42844/my-tiny-llm", "external": true}
+  ],
+
+  "header_links": [
+    {"key": "research", "label": "Research", "href": "/research/"},
+    {"key": "playground", "label": "Playground", "href": "/playground/"},
+    {"key": "contact", "label": "Contact", "href": "/contact.html"}
+  ],
+
+  "lab_links": [
+    {"key": "home", "label": "AI Lab home", "href": "/"},
+    {"key": "research", "label": "Research", "href": "/research/"},
+    {"key": "playground", "label": "Model playground", "href": "/playground/"},
+    {"key": "codemind", "label": "CodeMind", "href": "/codemind/", "badge": "Soon"},
+    {"key": "contact", "label": "Contact", "href": "/contact.html"},
+    {"key": "privacy", "label": "Privacy", "href": "/privacy/"},
+    {"key": "sitemap", "label": "Sitemap", "href": "/sitemap.xml"}
+  ],
+
+  "elsewhere_links": [
+    {"label": "GitHub", "href": "https://github.com/su394611-del"},
+    {"label": "Hugging Face", "href": "https://huggingface.co/sudhanshu42844"},
+    {"label": "PyPI: medsparse-playground", "href": "https://pypi.org/project/medsparse-playground/"}
+  ],
+
+  "notes": {
+    "medsparse": "<strong>Not medical advice</strong> or a clinically validated system. MedSparse Healthcare is a custom Mixtral-<em>inspired</em> sparse Mixture-of-Experts model, built and trained from scratch. It does not use or distribute official Mistral AI or Mixtral weights, and it is not affiliated with or endorsed by Mistral AI.",
+    "market": "<strong>Simulation only.</strong> Fictional quotes, synthetic news and non-executing trade actions. Nothing here is investment advice or a live trading service."
+  },
+
+  "project_extras": {
+    "medsparse": [
+      {"label": "Technical report", "href": "/research/medsparse-healthcare-2026/"},
+      {"label": "Run it in the playground", "href": "/playground/?model=sft"},
+      {"label": "Models on Hugging Face", "href": "https://huggingface.co/sudhanshu42844"}
+    ],
+    "market": [
+      {"label": "Agent Lab", "href": "/Stock-market-trading-Application-using-MCP-langchain-langgraph/lab/agent-lab.html"}
+    ]
+  },
+
+  "pages": [
+    {"repo": "su394611-del.github.io", "file": "index.html", "kind": "home", "current": "home"},
+    {"repo": "su394611-del.github.io", "file": "research/index.html", "kind": "page", "skip_to": "ailab-content", "current": "research", "simple": true},
+    {"repo": "su394611-del.github.io", "file": "research/medsparse-healthcare-2026/index.html", "kind": "page", "skip_to": "ailab-content", "current": "research", "simple": true},
+    {"repo": "su394611-del.github.io", "file": "codemind/index.html", "kind": "page", "skip_to": "ailab-content", "current": "codemind", "simple": true},
+    {"repo": "su394611-del.github.io", "file": "privacy/index.html", "kind": "page", "skip_to": "ailab-content", "current": "privacy", "simple": true},
+    {"repo": "su394611-del.github.io", "file": "playground/index.html", "kind": "page", "skip_to": "ailab-content", "current": "playground", "simple": true, "embeddable": true},
+    {"repo": "su394611-del.github.io", "file": "contact.html", "kind": "page", "skip_to": "ailab-content", "current": "contact", "simple": true, "embeddable": true},
+    {"repo": "su394611-del.github.io", "file": "training-logs/tiny-gpt/index.html", "kind": "page", "skip_to": "ailab-content", "simple": true, "embeddable": true},
+    {"repo": "su394611-del.github.io", "file": "404.html", "kind": "page", "skip_to": "ailab-content", "simple": true},
+
+    {"repo": "MedSparse-Healthcare-LLM-From-Scratch", "file": "index.html", "kind": "project", "project": "medsparse",
+     "nav": [["Overview", "#overview"], ["Architecture", "#architecture"], ["Training", "#training"], ["Models", "#models"], ["Evaluation", "#evaluation"], ["Report", "#report", {"data-open-report": ""}], ["Documentation", "#resources"], ["Contact", "#contact"]]},
+    {"repo": "RAG-service", "file": "docs/index.html", "kind": "project", "project": "rag",
+     "nav": [["Features", "#features"], ["Architecture", "#architecture"], ["API", "#api"], ["Try it live", "#live"], ["Quick start", "#quickstart"], ["Contact", "#contact"]]},
+    {"repo": "Multi-agents-using-LangGraph", "file": "docs/index.html", "kind": "project", "project": "langgraph",
+     "nav": [["Architecture", "#architecture"], ["Capabilities", "#capabilities"], ["18 examples", "#examples"], ["Run locally", "#getting-started"], ["Contact", "#contact"]]},
+    {"repo": "Pre-training-and-Fine-tuning", "file": "docs/index.html", "kind": "project", "project": "finetune", "top_id": "top",
+     "nav": [["Architecture", "#architecture"], ["Capabilities", "#capabilities"], ["Training", "#training"], ["Run locally", "#implementation"], ["Source", "#source"], ["Contact", "#contact"]]},
+    {"repo": "Distributed-Data-Parallel-Processing", "file": "docs/index.html", "kind": "project", "project": "ddp",
+     "nav": [["Capabilities", "#features"], ["Architecture", "#architecture"], ["Training modes", "#workflows"], ["Quickstart", "#quickstart"], ["Source & docs", "#resources"], ["Contact", "#contact"]]},
+    {"repo": "Parallel-LLM-Inference", "file": "docs/index.html", "kind": "project", "project": "inference",
+     "nav": [["Capabilities", "#capabilities"], ["Architecture", "#architecture"], ["Inference modes", "#modes"], ["Run locally", "#implementation"], ["Contact", "#contact"]]},
+    {"repo": "LLM-from-scratch", "file": "docs/index.html", "kind": "project", "project": "encoder",
+     "nav": [["Architecture", "#architecture"], ["Training", "#training"], ["Quick start", "#quickstart"], ["Contact", "#contact"]]},
+    {"repo": "Full-Fine-Training-Pre-Training-Mid-Training", "file": "docs/index.html", "kind": "project", "project": "distilbert",
+     "nav": [["Capabilities", "#capabilities"], ["Architecture", "#architecture"], ["Comparison", "#comparison"], ["Run locally", "#implementation"], ["Source", "#source"], ["Contact", "#contact"]]},
+    {"repo": "Transformers-Training", "file": "docs/index.html", "kind": "project", "project": "transformers",
+     "nav": [["Overview", "#overview"], ["Workflow", "#workflow"], ["Training", "#training"], ["Evaluation", "#evaluation"], ["Run locally", "#run"], ["Documentation", "#resources"], ["Contact", "#contact"]]},
+    {"repo": "Stock-market-trading-Application-using-MCP-langchain-langgraph", "file": "index.html", "kind": "project", "project": "market",
+     "nav": [["Overview", "#overview"], ["Architecture", "#architecture"], ["MCP Tools", "#tools"], ["Quick start", "#quickstart"], ["Agent Lab", "#lab"], ["Explore", "#explorer"], ["Contact", "#contact"]]},
+    {"repo": "Stock-market-trading-Application-using-MCP-langchain-langgraph", "file": "lab/agent-lab.html", "kind": "page", "skip_to": "ailab-content", "project": "market", "embeddable": true}
+  ]
+}
