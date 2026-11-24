@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link crossorigin="anonymous" href="https://cdn.jsdelivr.net" rel="preconnect"/><meta charset="utf-8"/>
+
+<meta http-equiv="Content-Security-Policy" content="base-uri 'none'; object-src 'none'; script-src 'self'; script-src-attr 'none'; frame-src 'self' https://su394611-del.github.io https://huggingface.co; worker-src 'self'; form-action 'none'"><link crossorigin="anonymous" href="https://cdn.jsdelivr.net" rel="preconnect"/><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#080f1d" name="theme-color"/>
 <meta content="Sudhanshu Shukla" name="author"/>
@@ -33,7 +34,7 @@
 
 
 <link rel="stylesheet" href="model-eval-styles.css">
-<!-- ailab:head:start --><script defer src="/assets/vue-3.5.13.global.prod.js"></script><link rel="stylesheet" href="/assets/ailab-chrome.css?v=20261124-vue2"><script src="/assets/ailab-chrome.js?v=20261124-vue2" defer></script><!-- ailab:head:end --><script defer="" src="/assets/app.js"></script>
+<!-- ailab:head:start --><script defer src="/assets/vue-3.5.13.global.prod.js"></script><link rel="stylesheet" href="/assets/ailab-chrome.css?v=20261124-csp1"><script src="/assets/ailab-chrome.js?v=20261124-csp1" defer></script><!-- ailab:head:end --><script defer="" src="/assets/app.js"></script>
 <link rel="stylesheet" href="page-details.css">
 <link rel="stylesheet" href="evaluation-chart.css">
 </head>
@@ -84,11 +85,11 @@
 <p><strong>Explore 11 linked AI projects and model releases.</strong> The directory spans <a href="#project-medsparse-healthcare">healthcare LLM pretraining and Mixture-of-Experts</a>, <a href="#project-rag-service">tenant-scoped retrieval and RAG</a>, <a href="#project-langgraph-agents">LangGraph multi-agent workflows</a>, <a href="#project-pretraining-finetuning">LLM fine-tuning and preference optimization</a>, <a href="#project-distributed-training">PyTorch distributed training</a> and <a href="#project-parallel-inference">parallel language-model inference</a>. Each entry includes a direct destination, implementation notes and supporting code or a model card.</p>
 <p>Use <strong>autocomplete search</strong> to find tools such as Qdrant, LangGraph, PyTorch, LoRA, DDP, Hugging Face and MCP. Select <strong>Preview in page</strong> for an on-demand iframe of the project website, or open the destination directly. Some external hosts can disallow iframe embedding.</p>
 </div>
-<div class="project-toolbar"><div aria-label="Filter projects by category" class="filter-scroller" role="group"><button :aria-pressed="String(category === 'all')" :class="{ active: category === 'all' }" @click="category = 'all'" class="filter-chip" type="button">All projects</button>
-<button :aria-pressed="String(category === 'retrieval')" :class="{ active: category === 'retrieval' }" @click="category = 'retrieval'" class="filter-chip" type="button">Retrieval / RAG</button>
-<button :aria-pressed="String(category === 'agents')" :class="{ active: category === 'agents' }" @click="category = 'agents'" class="filter-chip" type="button">Agents / MCP</button>
-<button :aria-pressed="String(category === 'training')" :class="{ active: category === 'training' }" @click="category = 'training'" class="filter-chip" type="button">Model training</button>
-<button :aria-pressed="String(category === 'inference')" :class="{ active: category === 'inference' }" @click="category = 'inference'" class="filter-chip" type="button">Inference / scale</button>
+<div class="project-toolbar"><div aria-label="Filter projects by category" class="filter-scroller" role="group"><button :aria-pressed="String(category === 'all')" :class="{ active: category === 'all' }" data-category="all" class="filter-chip" type="button">All projects</button>
+<button :aria-pressed="String(category === 'retrieval')" :class="{ active: category === 'retrieval' }" data-category="retrieval" class="filter-chip" type="button">Retrieval / RAG</button>
+<button :aria-pressed="String(category === 'agents')" :class="{ active: category === 'agents' }" data-category="agents" class="filter-chip" type="button">Agents / MCP</button>
+<button :aria-pressed="String(category === 'training')" :class="{ active: category === 'training' }" data-category="training" class="filter-chip" type="button">Model training</button>
+<button :aria-pressed="String(category === 'inference')" :class="{ active: category === 'inference' }" data-category="inference" class="filter-chip" type="button">Inference / scale</button>
 </div><div class="search-area">
 <div class="search-control" role="search">
 <svg aria-hidden="true" fill="none" height="19" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="19"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>

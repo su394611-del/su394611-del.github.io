@@ -131,7 +131,11 @@
   var examples = Vue.createApp({
     data: function () { return { prompts: [] }; },
     methods: { choose: function (text) { $('prompt').value = text; $('prompt').focus(); } },
-    template: '<button v-for="text in prompts" :key="text" type="button" class="chip" @click="choose(text)">{{ text }}</button>'
+    render: function () {
+      return this.prompts.map(text => Vue.h('button', {
+        key: text, type: 'button', class: 'chip', onClick: () => this.choose(text)
+      }, text));
+    }
   }).mount($('examples'));
 
   function select(key, focus) {
@@ -210,7 +214,7 @@
   $('prompt').addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey) && !$('run').disabled) run(); });
 
   var initial = 'sft';
-  try { var q = new URLSearchParams(location.search).get('model'); if (MODELS[q]) initial = q; } catch (e) {}
+  try { var q = new URLSearchParams(location.search).get('model'); if (Object.hasOwn(MODELS, q)) initial = q; } catch (e) {}
   select(initial);
 
   // Tell an embedding page how tall we are, so its iframe can fit the content.

@@ -1,7 +1,3 @@
-/* Vue 3 enhancement for the static, crawlable 11-project directory.
- * Project cards, descriptions, and hrefs are already in index.html; no API is needed.
- * If Vue cannot load, accessible native search/filter/autocomplete is initialized instead.
- */
 (() => {
   'use strict';
   const records = [...document.querySelectorAll('#projects-grid .project-card[data-repo]')].map(card => {
@@ -61,62 +57,7 @@
   ensureRel();
   installShortcut();
 
-  if (window.Vue && typeof window.Vue.createApp === 'function') {
-    try {
-      window.Vue.createApp({
-        data() { return { category:'all', query:'', suggestionsOpen:false, activeSuggestion:-1, previewSlug:null }; },
-        computed: {
-          totalCount() { return records.length; },
-          visibleCount() { return records.filter(item => this.matches(item.category, item.repo)).length; },
-          suggestions() { return suggest(this.query, this.category); },
-          previewTitle() { return lookup.get(this.previewSlug)?.title || ''; },
-          previewUrl() { return lookup.get(this.previewSlug)?.url || ''; }
-        },
-        methods: {
-          resetFilters() { this.category='all'; this.query=''; this.suggestionsOpen=false; this.activeSuggestion=-1; },
-          focusCategory(value) { this.category=value; this.query=''; this.suggestionsOpen=false; this.activeSuggestion=-1; },
-          matches(category, repo) {
-            const item = records.find(entry => entry.repo === repo);
-            return !!item && (this.category === 'all' || category === this.category) && textMatches(item,this.query);
-          },
-          categoryLabel(category) { return categoryNames[category] || category; },
-          onInput() { this.activeSuggestion=-1; this.suggestionsOpen=true; },
-          moveSuggestion(step) {
-            if (!this.suggestions.length) return;
-            this.suggestionsOpen=true;
-            this.activeSuggestion = (this.activeSuggestion + step + this.suggestions.length) % this.suggestions.length;
-          },
-          activateSuggestion() {
-            if (!this.suggestionsOpen || !this.suggestions.length) return;
-            this.chooseSuggestion(this.suggestions[Math.max(0,this.activeSuggestion)].slug);
-          },
-          chooseSuggestion(slug) {
-            const item = lookup.get(slug); if (!item) return;
-            this.category='all'; this.query=item.title; this.suggestionsOpen=false;
-            this.activeSuggestion=-1;
-            this.$nextTick(() => {
-              const target = document.getElementById('project-'+slug);
-              target?.scrollIntoView({behavior:'smooth',block:'center'});
-            });
-          },
-          closeSuggestions() { window.setTimeout(() => { this.suggestionsOpen=false; this.activeSuggestion=-1; },130); },
-          openPreview(slug) {
-            if (!lookup.has(slug)) return;
-            this.previewSlug=slug;
-            this.suggestionsOpen=false;
-            this.$nextTick(scrollToPreview);
-          },
-          closePreview() { this.previewSlug=null; }
-        }
-      }).mount('#app');
-      document.documentElement.classList.add('vue-ready');
-      return;
-    } catch (error) {
-      console.warn('Vue could not initialize; enabling native enhancement.',error);
-    }
-  }
-
-  function initFallback() {
+  function initDirectory() {
     let category='all', query='', active=-1, matchesList=[];
     const status=document.getElementById('project-results-count');
     const buttons=[...document.querySelectorAll('.filter-chip')];
@@ -135,7 +76,7 @@
         item.element.hidden=!show;item.element.style.display=show?'':'none';if(show)visible++;
       });
       buttons.forEach(b => {
-        const cat=b.getAttribute('@click')?.match(/category\s*=\s*'([^']+)'/)?.[1]||'all';
+        const cat=b.dataset.category;
         b.classList.toggle('active',cat===category);b.setAttribute('aria-pressed',String(cat===category));
       });
       if(status)status.textContent=`Showing ${visible} of ${records.length} projects`;
@@ -144,29 +85,31 @@
       renderSuggestions();
     }
     function renderSuggestions() {
-      matchesList=suggest(query,category);active=-1;
+      matchesList=suggest(query,category);active=-1;input?.removeAttribute('aria-activedescendant');
       if(!suggestionsEl)return;
       suggestionsEl.replaceChildren();
       suggestionsEl.hidden=!(matchesList.length && document.activeElement===input);
       input?.setAttribute('aria-expanded',String(!suggestionsEl.hidden));
       for(const item of matchesList){
         const option=document.createElement('button');option.type='button';option.className='suggestion-item';option.setAttribute('role','option');
+        option.id='suggestion-'+item.slug;option.setAttribute('aria-selected','false');
         option.textContent=item.title+' · '+categoryNames[item.category];
         option.addEventListener('mousedown',e=>e.preventDefault());
         option.addEventListener('click',()=>choose(item));suggestionsEl.appendChild(option);
       }
     }
     function choose(item){category='all';query=item.title;input.value=query;input.blur();render();suggestionsEl.hidden=true;item.element.scrollIntoView({block:'center'});}
-    buttons.forEach(btn=>btn.addEventListener('click',()=>{category=btn.getAttribute('@click')?.match(/category\s*=\s*'([^']+)'/)?.[1]||'all';render();}));
+    buttons.forEach(btn=>btn.addEventListener('click',()=>{category=btn.dataset.category;render();}));
     document.querySelectorAll('.focus-tile').forEach((tile,i)=>tile.addEventListener('click',()=>{category=['retrieval','agents','training','inference'][i];query='';if(input)input.value='';render();}));
     input?.addEventListener('input',()=>{query=input.value;render();});
     input?.addEventListener('focus',renderSuggestions);
     input?.addEventListener('blur',()=>window.setTimeout(()=>{if(suggestionsEl)suggestionsEl.hidden=true;input.setAttribute('aria-expanded','false');},120));
     input?.addEventListener('keydown',e=>{
-      if(e.key==='Escape'){suggestionsEl.hidden=true;return;}
+      if(e.key==='Escape'){suggestionsEl.hidden=true;input.setAttribute('aria-expanded','false');input.removeAttribute('aria-activedescendant');return;}
       if(e.key==='ArrowDown'||e.key==='ArrowUp'){
         if(!matchesList.length)return;e.preventDefault();active=(active+(e.key==='ArrowDown'?1:-1)+matchesList.length)%matchesList.length;
-        const opts=[...suggestionsEl.querySelectorAll('.suggestion-item')];opts.forEach((el,i)=>el.classList.toggle('selected',i===active));
+        const opts=[...suggestionsEl.querySelectorAll('.suggestion-item')];opts.forEach((el,i)=>{el.classList.toggle('selected',i===active);el.setAttribute('aria-selected',String(i===active));});
+        input.setAttribute('aria-activedescendant',opts[active].id);
         suggestionsEl.hidden=false;
       }
       if(e.key==='Enter'&&matchesList.length&&document.activeElement===input){e.preventDefault();choose(matchesList[Math.max(active,0)]);}
@@ -174,6 +117,8 @@
     reset.addEventListener('click',()=>{category='all';query='';if(input)input.value='';render();});
     document.querySelectorAll('[data-preview]').forEach(btn=>btn.addEventListener('click',()=>{
       const item=lookup.get(btn.dataset.preview);if(!item||!previewSection)return;
+      const destination=new URL(item.url,location.href);
+      if(!['https://su394611-del.github.io','https://huggingface.co'].includes(destination.origin))return;
       previewSection.style.display='block';
       previewSection.querySelector('.preview-description').textContent=item.title;
       previewSection.querySelector('.chrome-url').textContent=item.url;
@@ -187,5 +132,5 @@
     document.documentElement.classList.add('native-fallback');
     render();
   }
-  initFallback();
+  initDirectory();
 })();

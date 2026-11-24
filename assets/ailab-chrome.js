@@ -11,34 +11,41 @@
     var bar = doc.querySelector('.ailab-header .ailab-bar');
     if (!bar || !window.Vue) return;
     var menus = bar.querySelectorAll('details.ailab-dd, details.ailab-menu');
-    menus.forEach(function (menu) {
-      var name = menu.classList.contains('ailab-menu') ? 'mobile' : 'desktop';
-      menu.setAttribute('v-bind:open', "active === '" + name + "'");
-      menu.querySelector('summary').setAttribute('v-on:click.prevent', "toggle('" + name + "')");
-    });
+    var controller = doc.createElement('span');
+    controller.hidden = true;
+    bar.appendChild(controller);
     Vue.createApp({
-      data: function () { return { active: null }; },
-      methods: {
-        toggle: function (name) { this.active = this.active === name ? null : name; },
-        dismiss: function (event) {
-          if (!event.target.closest('.ailab-dd, .ailab-menu') || event.target.closest('a')) this.active = null;
-        },
-        escape: function (event) {
-          if (event.key !== 'Escape' || !this.active) return;
-          var summary = bar.querySelector('details[open] > summary');
-          if (summary) summary.focus();
-          this.active = null;
+      render: function () { return null; },
+      setup: function () {
+        var active = Vue.shallowRef(null);
+        Vue.watchEffect(function () {
+          menus.forEach(function (menu) { menu.open = active.value === menu; });
+        });
+        function click(event) {
+          var summary = event.target.closest('summary');
+          if (summary && Array.from(menus).includes(summary.parentElement)) {
+            event.preventDefault();
+            active.value = active.value === summary.parentElement ? null : summary.parentElement;
+          } else if (!event.target.closest('.ailab-dd, .ailab-menu') || event.target.closest('a')) {
+            active.value = null;
+          }
         }
-      },
-      mounted: function () {
-        doc.addEventListener('click', this.dismiss);
-        doc.addEventListener('keydown', this.escape);
-      },
-      beforeUnmount: function () {
-        doc.removeEventListener('click', this.dismiss);
-        doc.removeEventListener('keydown', this.escape);
+        function escape(event) {
+          if (event.key === 'Escape' && active.value) {
+            active.value.querySelector('summary').focus();
+            active.value = null;
+          }
+        }
+        Vue.onMounted(function () {
+          doc.addEventListener('click', click);
+          doc.addEventListener('keydown', escape);
+        });
+        Vue.onBeforeUnmount(function () {
+          doc.removeEventListener('click', click);
+          doc.removeEventListener('keydown', escape);
+        });
       }
-    }).mount(bar);
+    }).mount(controller);
   }
 
   function ready(fn) {
