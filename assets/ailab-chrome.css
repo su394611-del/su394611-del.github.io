@@ -1,0 +1,296 @@
+/* AI Lab shared site chrome: header, section bar and footer.
+ * One stylesheet for su394611-del.github.io and every project site under it.
+ * Markup is stamped into each page by tools/site-chrome/build.py; edit site.json there, not the pages.
+ * Every selector is prefixed "ailab-" and resets the properties page styles might set on header/footer/nav/ul/li/button.
+ */
+
+.ailab-header,
+.ailab-subnav,
+.ailab-footer {
+  --ailab-bg: #070e1c;
+  --ailab-bar: rgba(7, 14, 27, .9);
+  --ailab-edge: rgba(117, 167, 211, .17);
+  --ailab-line: #29415d;
+  --ailab-panel: #0e1e33;
+  --ailab-panel-2: #132841;
+  --ailab-text: #eef5ff;
+  --ailab-muted: #b6c7d8;
+  --ailab-dim: #8fa7bf;
+  --ailab-label: #92b7d4;
+  --ailab-cyan: #7be2f0;
+  --ailab-violet: #b3a9ff;
+  --ailab-focus: #95eaff;
+  --ailab-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  display: block;
+  box-sizing: border-box;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  color: var(--ailab-text);
+  font-family: var(--ailab-font);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.45;
+  text-align: left;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+}
+
+.ailab-header *, .ailab-header *::before, .ailab-header *::after,
+.ailab-subnav *, .ailab-subnav *::before, .ailab-subnav *::after,
+.ailab-footer *, .ailab-footer *::before, .ailab-footer *::after { box-sizing: border-box; }
+
+.ailab-header a, .ailab-subnav a, .ailab-footer a { color: inherit; text-decoration: none; }
+.ailab-header a:focus-visible, .ailab-header summary:focus-visible,
+.ailab-subnav a:focus-visible, .ailab-footer a:focus-visible {
+  outline: 3px solid var(--ailab-focus);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+.ailab-header ul, .ailab-footer ul { list-style: none; margin: 0; padding: 0; }
+.ailab-header li, .ailab-footer li { margin: 0; padding: 0; }
+.ailab-header p, .ailab-footer p { margin: 0; }
+.ailab-header svg, .ailab-subnav svg, .ailab-footer svg { display: block; flex: none; max-width: none; }
+.ailab-ico { width: 17px; height: 17px; }
+.ailab-subnav-cta .ailab-ico { width: 15px; height: 15px; }
+
+.ailab-wrap { width: min(1200px, calc(100% - 48px)); margin-inline: auto; }
+.ailab-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* Skip link (only stamped on pages that had none) */
+.ailab-skip {
+  position: fixed; left: 16px; top: -80px; z-index: 100;
+  padding: 10px 16px; border-radius: 9px;
+  background: #fff; color: #0a1626 !important; font: 700 14px/1.2 Inter, system-ui, sans-serif;
+}
+.ailab-skip:focus { top: 14px; }
+
+/* ---------------------------------------------------------------- header */
+.ailab-header {
+  position: relative;
+  z-index: 60;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--ailab-edge);
+  background: var(--ailab-bar);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+.ailab-header.ailab-sticky { position: sticky; top: 0; }
+
+.ailab-bar { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 64px; }
+
+.ailab-brand { display: flex; align-items: center; gap: 12px; min-width: 0; color: var(--ailab-text); }
+.ailab-mark {
+  display: grid; place-items: center; flex: none;
+  width: 40px; height: 40px; border-radius: 12px;
+  background: linear-gradient(135deg, #76e1ed, #b0aaf9);
+  color: #102134; font-size: 17px; font-weight: 900; letter-spacing: -.09em; line-height: 1;
+}
+.ailab-brand-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.ailab-brand-text strong { font-size: 14px; font-weight: 800; letter-spacing: -.02em; color: var(--ailab-text); white-space: nowrap; }
+.ailab-brand-text small { margin-top: 4px; font-size: 9px; font-weight: 850; letter-spacing: .13em; text-transform: uppercase; color: var(--ailab-label); white-space: nowrap; }
+
+.ailab-nav { display: flex; align-items: center; gap: 4px; }
+.ailab-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 38px; padding: 8px 12px; border-radius: 10px;
+  font-size: 13px; font-weight: 750; color: var(--ailab-muted);
+}
+.ailab-link:hover { color: #fff; background: rgba(123, 226, 240, .07); }
+.ailab-link[aria-current="page"] { color: #fff; box-shadow: inset 0 -2px 0 var(--ailab-cyan); border-radius: 10px 10px 4px 4px; }
+
+.ailab-gh {
+  display: inline-flex; align-items: center; gap: 9px; margin-left: 10px;
+  min-height: 40px; padding: 9px 14px; border: 1px solid #405676; border-radius: 11px;
+  background: #172942; font-size: 13px; font-weight: 750; color: var(--ailab-text);
+}
+.ailab-gh:hover { border-color: #89e0f3; background: #243b59; }
+
+/* Projects dropdown (works without JavaScript via <details>) */
+.ailab-dd { position: relative; margin: 0; padding: 0; border: 0; }
+.ailab-dd > summary { list-style: none; cursor: pointer; user-select: none; }
+.ailab-dd > summary::-webkit-details-marker { display: none; }
+.ailab-dd > summary::marker { content: ""; }
+.ailab-chev { width: 12px; height: 12px; transition: transform .15s ease; }
+.ailab-dd[open] > summary { color: #fff; background: rgba(123, 226, 240, .08); }
+.ailab-dd[open] .ailab-chev { transform: rotate(180deg); }
+.ailab-dd-panel {
+  position: absolute; top: calc(100% + 10px); right: -120px; z-index: 70;
+  width: min(680px, calc(100vw - 32px));
+  padding: 18px; border: 1px solid #2d4663; border-radius: 16px;
+  background: linear-gradient(150deg, #11233a, #0b1729 75%);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .45);
+}
+.ailab-dd-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 18px; }
+.ailab-dd-group + .ailab-dd-group { margin-top: 12px; }
+.ailab-group-label {
+  margin: 0 0 6px; padding: 0 10px;
+  font-size: 10px; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; color: var(--ailab-label);
+}
+.ailab-proj {
+  display: block; padding: 8px 10px; border-radius: 10px;
+  font-size: 13px; font-weight: 700; line-height: 1.3; color: var(--ailab-text);
+}
+.ailab-proj small { display: block; margin-top: 2px; font-size: 11.5px; font-weight: 500; color: var(--ailab-dim); }
+.ailab-proj:hover { background: rgba(123, 226, 240, .08); }
+.ailab-proj[aria-current="page"] { background: rgba(123, 226, 240, .1); box-shadow: inset 3px 0 0 var(--ailab-cyan); }
+.ailab-ext { font-weight: 500; color: var(--ailab-dim); }
+.ailab-dd-all {
+  display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding: 12px 10px 2px;
+  border-top: 1px solid var(--ailab-line); font-size: 13px; font-weight: 750; color: var(--ailab-cyan);
+}
+.ailab-dd-all:hover { color: #fff; }
+
+/* Mobile menu */
+.ailab-menu { display: none; margin: 0; padding: 0; border: 0; }
+.ailab-menu > summary {
+  display: inline-flex; align-items: center; gap: 8px; list-style: none; cursor: pointer;
+  min-height: 40px; padding: 8px 12px; border: 1px solid #405676; border-radius: 11px;
+  background: #172942; font-size: 13px; font-weight: 750; color: var(--ailab-text);
+}
+.ailab-menu > summary::-webkit-details-marker { display: none; }
+.ailab-menu > summary::marker { content: ""; }
+.ailab-menu-icon { width: 16px; height: 16px; }
+.ailab-menu-icon .ailab-x { display: none; }
+.ailab-menu[open] .ailab-menu-icon .ailab-x { display: inline; }
+.ailab-menu[open] .ailab-menu-icon .ailab-burger { display: none; }
+.ailab-menu-panel {
+  position: absolute; left: 0; right: 0; top: 100%; z-index: 70;
+  max-height: calc(100vh - 64px); overflow-y: auto; overscroll-behavior: contain;
+  padding: 8px 16px 24px; border-bottom: 1px solid var(--ailab-line);
+  background: #0a1628; box-shadow: 0 24px 50px rgba(0, 0, 0, .5);
+}
+.ailab-menu-panel .ailab-group-label { margin-top: 18px; }
+.ailab-menu-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
+.ailab-menu-links .ailab-link { min-height: 44px; }
+
+/* ---------------------------------------------------------------- section bar (project pages) */
+.ailab-subnav {
+  position: sticky; top: 0; z-index: 55;
+  padding: 0; border: 0; border-bottom: 1px solid var(--ailab-edge);
+  background: rgba(9, 19, 34, .92);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+.ailab-subnav-inner { display: flex; align-items: center; gap: 14px; min-height: 50px; }
+.ailab-subnav-home { display: none; flex: none; }
+.ailab-subnav.is-stuck .ailab-subnav-home { display: block; }
+.ailab-subnav-home .ailab-mark { width: 30px; height: 30px; border-radius: 9px; font-size: 13px; }
+.ailab-subnav-title {
+  flex: none; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 14px; font-weight: 800; letter-spacing: -.01em; color: var(--ailab-text);
+}
+.ailab-subnav-title:hover { color: var(--ailab-cyan); }
+.ailab-subnav-links {
+  display: flex; align-items: center; gap: 2px; flex: 1 1 auto; min-width: 0;
+  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12px, #000 calc(100% - 16px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 12px, #000 calc(100% - 16px), transparent 100%);
+  padding-inline: 8px;
+}
+.ailab-subnav-links::-webkit-scrollbar { display: none; }
+.ailab-subnav-links a {
+  flex: none; padding: 7px 10px; border-radius: 8px;
+  font-size: 13px; font-weight: 700; color: #a9bdd2; white-space: nowrap;
+}
+.ailab-subnav-links a:hover { color: #fff; background: rgba(123, 226, 240, .07); }
+.ailab-subnav-links a.is-active { color: #fff; box-shadow: inset 0 -2px 0 var(--ailab-cyan); border-radius: 8px 8px 3px 3px; }
+.ailab-subnav-cta {
+  display: inline-flex; align-items: center; gap: 6px; flex: none;
+  min-height: 34px; padding: 6px 12px; border: 1px solid #405676; border-radius: 10px;
+  background: #172942; font-size: 12.5px; font-weight: 750; color: var(--ailab-text);
+}
+.ailab-subnav-cta:hover { border-color: #89e0f3; background: #243b59; }
+
+/* ---------------------------------------------------------------- footer */
+.ailab-footer {
+  padding: 56px 0 0; border: 0; border-top: 1px solid #243b53;
+  background: #091322; color: var(--ailab-dim); font-size: 13px; line-height: 1.6;
+}
+.ailab-footer-grid {
+  display: grid; gap: 34px 28px;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1.35fr) repeat(var(--ailab-cols, 2), minmax(0, .85fr));
+}
+.ailab-wordmark { display: inline-block; font-size: 26px; font-weight: 850; letter-spacing: -.07em; line-height: 1; color: var(--ailab-text); }
+.ailab-wordmark span { font-weight: 400; color: #8adbea; }
+.ailab-footer-about { max-width: 340px; margin-top: 12px !important; font-size: 13px; color: #a3b8cd; }
+.ailab-footer-note {
+  max-width: 420px; margin-top: 16px !important; padding: 12px 14px;
+  border: 1px solid var(--ailab-line); border-radius: 12px; background: var(--ailab-panel);
+  font-size: 12px; line-height: 1.6; color: #aabed5;
+}
+.ailab-footer-note strong { color: var(--ailab-text); font-weight: 750; }
+.ailab-footer-col .ailab-group-label { padding: 0; margin-bottom: 12px; }
+.ailab-footer-col ul { display: grid; gap: 7px; }
+.ailab-footer-col li { font-size: 13px; line-height: 1.45; }
+.ailab-footer-col a { color: #b6c9dc; }
+.ailab-footer-col a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.ailab-footer-col a[aria-current="page"] { color: var(--ailab-cyan); }
+.ailab-badge {
+  display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 999px;
+  border: 1px solid rgba(135, 228, 199, .35); background: rgba(135, 228, 199, .1);
+  font-size: 10px; font-weight: 800; letter-spacing: .04em; color: #87e4c7; vertical-align: 1px;
+}
+.ailab-footer-bottom {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 24px;
+  margin-top: 44px; padding: 20px 0 28px; border-top: 1px solid #1c3047;
+  font-size: 12px; color: #829bb6;
+}
+.ailab-footer-bottom p { max-width: 760px; }
+.ailab-top-link { font-weight: 700; color: #a5c2d8 !important; }
+.ailab-top-link:hover { color: #fff !important; }
+
+/* ---------------------------------------------------------------- simple root pages */
+/* Pages like /research/ used body padding; move it onto <main> so the header and footer run edge to edge. */
+html:not(.is-embedded) body.ailab-page { padding: 0 !important; display: block !important; min-height: 0 !important; }
+html:not(.is-embedded) body.ailab-page > main {
+  box-sizing: content-box;
+  margin-inline: auto;
+  padding: clamp(32px, 6vw, 64px) 20px clamp(48px, 7vw, 88px);
+}
+
+/* Pages that are also embedded in an iframe hide the site chrome there. */
+.is-embedded .ailab-header, .is-embedded .ailab-subnav, .is-embedded .ailab-footer, .is-embedded .ailab-skip { display: none !important; }
+
+/* Default anchor offset under a sticky bar; zero specificity so page rules win. */
+:where(html) { scroll-padding-top: 80px; }
+
+/* ---------------------------------------------------------------- responsive */
+@media (max-width: 1080px) {
+  .ailab-footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ailab-footer-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 900px) {
+  .ailab-nav { display: none; }
+  .ailab-menu { display: block; }
+  .ailab-subnav-title { max-width: 200px; }
+}
+@media (max-width: 640px) {
+  .ailab-wrap { width: calc(100% - 32px); }
+  .ailab-bar { min-height: 58px; gap: 10px; }
+  .ailab-mark { width: 36px; height: 36px; font-size: 15px; border-radius: 10px; }
+  .ailab-brand-text strong { font-size: 13px; }
+  .ailab-brand-text small { font-size: 8px; letter-spacing: .1em; }
+  .ailab-menu-panel { max-height: calc(100vh - 58px); }
+  .ailab-subnav-inner { gap: 8px; min-height: 46px; }
+  .ailab-subnav-title { display: none; }
+  .ailab-subnav-links { padding-inline: 4px; }
+  .ailab-subnav-links a { padding: 7px 9px; font-size: 12.5px; }
+  .ailab-subnav-cta { padding: 6px 10px; }
+  .ailab-subnav-cta .ailab-cta-word { display: none; }
+  .ailab-footer { padding-top: 44px; }
+  .ailab-footer-grid { gap: 28px 18px; }
+  .ailab-footer-bottom { margin-top: 32px; }
+}
+@media (max-width: 380px) {
+  .ailab-brand-text small { display: none; }
+  .ailab-menu-links { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ailab-chev { transition: none; }
+}
+@media print {
+  .ailab-header, .ailab-subnav { position: static; }
+  .ailab-dd, .ailab-menu, .ailab-subnav-links { display: none; }
+}
