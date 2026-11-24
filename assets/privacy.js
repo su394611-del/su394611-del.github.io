@@ -6,7 +6,7 @@
 
   const COUNTER = ''; // Optional HTTPS GoatCounter /count endpoint.
   const KEY = 'ss-privacy-choice';
-  const stylesheet = new URL('privacy.css?v=20261124-consent1', document.currentScript.src);
+  const stylesheet = new URL('privacy.css?v=20261124-consent2', document.currentScript.src);
   const privacyUrl = new URL('https://su394611-del.github.io/privacy/');
   let memo = null;
   let counted = false;
@@ -57,11 +57,12 @@
 
   function init() {
     const slot = document.getElementById('privacy-controls');
-    const host = slot || document.createElement('div');
-    if (!slot) {
-      host.id = 'ss-privacy-notice';
-      document.body.append(host);
-    }
+    // Pages with the shared footer provide a spot for the "Privacy settings" button in its bottom row;
+    // the notice card itself stays position:fixed, so it still floats over the page.
+    const footerSlot = slot ? null : document.querySelector('[data-privacy-settings]');
+    const host = slot || footerSlot || document.createElement('div');
+    if (!slot) host.id = 'ss-privacy-notice';
+    if (!slot && !footerSlot) document.body.append(host);
     const root = host.attachShadow({mode: 'open'});
     const style = document.createElement('link');
     style.rel = 'stylesheet';

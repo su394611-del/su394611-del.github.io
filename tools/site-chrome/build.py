@@ -66,7 +66,7 @@ def render_head(site, page):
     parts = ['<script defer src="/assets/vue-3.5.13.global.prod.js"></script>',
              f'<link rel="stylesheet" href="/assets/ailab-chrome.css?v={v}">',
              f'<script src="/assets/ailab-chrome.js?v={v}" defer></script>']
-    parts.append('<script defer src="/assets/privacy.js?v=20261124-consent1"></script>')
+    parts.append('<script defer src="/assets/privacy.js?v=20261124-consent2"></script>')
     if page.get("embeddable"):
         parts.insert(0, '<script src="/assets/embed-mode.js"></script>')
     return "".join(parts)
@@ -181,7 +181,8 @@ def render_footer(site, page):
         f'<p class="ailab-footer-about">{esc(site["about"])}</p>{note_html}</div>'
         f'{"".join(cols)}</div>'
         f'<div class="ailab-wrap ailab-footer-bottom"><p>{esc(site["copyright"])}</p>'
-        f'<a class="ailab-top-link" href="#{esc(top_id)}">Back to top <span aria-hidden="true">↑</span></a></div>'
+        '<div class="ailab-footer-actions"><span class="ailab-privacy-slot" data-privacy-settings></span>'
+        f'<a class="ailab-top-link" href="#{esc(top_id)}">Back to top <span aria-hidden="true">↑</span></a></div></div>'
         '</footer>')
 
 
