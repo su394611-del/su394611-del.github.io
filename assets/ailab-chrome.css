@@ -263,6 +263,13 @@ html:not(.is-embedded) body.ailab-page > main {
 }
 @media (max-width: 900px) {
   .ailab-nav { display: none; }
+  .ailab-menu > summary, .ailab-subnav-cta { min-width: 44px; min-height: 44px; justify-content: center; }
+  .ailab-menu-panel { max-height: calc(100dvh - 64px); padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+  .ailab-subnav-links a, .ailab-footer-col a, .ailab-top-link {
+    display: inline-flex; align-items: center; min-height: 44px;
+  }
+  .ailab-footer-col a { display: inline-block; align-content: center; padding-block: 8px; overflow-wrap: anywhere; }
+  .ailab-footer-col ul { gap: 2px; }
   .ailab-menu { display: block; }
   .ailab-subnav-title { max-width: 200px; }
 }
@@ -272,16 +279,19 @@ html:not(.is-embedded) body.ailab-page > main {
   .ailab-mark { width: 36px; height: 36px; font-size: 15px; border-radius: 10px; }
   .ailab-brand-text strong { font-size: 13px; }
   .ailab-brand-text small { font-size: 8px; letter-spacing: .1em; }
-  .ailab-menu-panel { max-height: calc(100vh - 58px); }
+  .ailab-menu-panel { max-height: calc(100vh - 58px); max-height: calc(100dvh - 58px); }
   .ailab-subnav-inner { gap: 8px; min-height: 46px; }
   .ailab-subnav-title { display: none; }
   .ailab-subnav-links { padding-inline: 4px; }
   .ailab-subnav-links a { padding: 7px 9px; font-size: 12.5px; }
   .ailab-subnav-cta { padding: 6px 10px; }
-  .ailab-subnav-cta .ailab-cta-word { display: none; }
+  .ailab-subnav-cta .ailab-cta-word { display: inline; }
   .ailab-footer { padding-top: 44px; }
   .ailab-footer-grid { gap: 28px 18px; }
   .ailab-footer-bottom { margin-top: 32px; }
+}
+@media (max-width: 480px) {
+  .ailab-footer-col[aria-label="Projects"] { grid-column: 1 / -1; }
 }
 @media (max-width: 380px) {
   .ailab-brand-text small { display: none; }

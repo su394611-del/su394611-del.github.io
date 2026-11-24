@@ -104,7 +104,8 @@ def render_header(site, page):
 
     menu_lab = "".join(
         f'<a class="ailab-link" href="{esc(l["href"])}"' + (' aria-current="page"' if current == l["key"] else "") + f'>{esc(l["label"])}</a>'
-        for l in ([{"key": "home", "label": "AI Lab home", "href": "/"}] + site["header_links"]))
+        for l in ([{"key": "home", "label": "AI Lab home", "href": "/"},
+                   {"key": "projects", "label": "All projects", "href": "/#projects"}] + site["header_links"]))
     menu_lab += f'<a class="ailab-link" {link_attrs(site["github"])}>GitHub{arrow(site["github"])}</a>'
     menu_projects = "".join(f"<li>{project_link(p, current)}</li>" for p in site["projects"])
 
