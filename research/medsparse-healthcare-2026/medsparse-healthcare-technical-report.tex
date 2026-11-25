@@ -14,9 +14,6 @@
 \usepackage{array}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 
-% Items still to be filled in once the Stage 3 run has finished.
-\newcommand{\pending}[1]{\textcolor{orange!85!black}{\textbf{[#1]}}}
-
 \hypersetup{
   pdftitle={MedSparse Healthcare: A Sparse Mixture-of-Experts Medical Language Model Trained from Scratch on Consumer Hardware},
   pdfauthor={Sudhanshu Shukla},
@@ -28,14 +25,13 @@
 \author{Sudhanshu Shukla\\[2pt]
 \small Independent researcher, Bengaluru, India\\
 \small \url{https://su394611-del.github.io}}
-\date{\small Technical report \textperiodcentered{} Version 0.9 (preprint), 23 November 2026\\[2pt]
-\small Stage~3 results will be added in version 1.0.}
+\date{\small Technical report \textperiodcentered{} Version 1.0, 25 November 2026}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-We describe MedSparse Healthcare, a 38.8M-parameter decoder-only language model whose feed-forward layers are sparse mixtures of experts (four experts per layer, top-2 routing), trained from random initialization on healthcare text with a 30,001-token byte-level BPE tokenizer learned only from biomedical documents. Stage~1 pretrains on openly licensed PubMed full text from the Common Pile; Stage~2 applies full-parameter, completion-only supervised fine-tuning (SFT) on medical question--answer pairs. Evaluated with a float32 inference engine that runs in the browser, Stage~2 lowers held-out medical answer perplexity from 692.5 to 252.9 (ratio 0.365, 95\% CI 0.343--0.389) while PubMed perplexity rises by 17\% (ratio 1.166, 95\% CI 1.087--1.244), and expert routing stays balanced (normalized routing entropy $\geq 0.966$ in every layer). Multiple-choice accuracy on 150 MedMCQA validation questions (32.7\% and 28.7\%) is not distinguishable from the 25\% chance level and stays below the 38\% majority-answer baseline, which we report as a limitation of models at this scale. Stage~3 continues full-parameter SFT over all 5.8 million MIRIAD question--answer pairs, with a validation split that keeps whole source papers out of training, on a single consumer-grade GPU; it is in progress, and its results will be reported in version~1.0 of this report. We release the weights under the Apache License 2.0, together with the training code, the evaluation harness, and practical lessons for training on consumer hardware. The model is a research artifact and is not intended for clinical use.
+We describe MedSparse Healthcare, a 38.8M-parameter decoder-only language model whose feed-forward layers are sparse mixtures of experts (four experts per layer, top-2 routing), trained from random initialization on healthcare text with a 30,001-token byte-level BPE tokenizer learned only from biomedical documents. Stage~1 pretrains on openly licensed PubMed full text from the Common Pile; Stage~2 applies full-parameter, completion-only supervised fine-tuning (SFT) on medical question--answer pairs. Evaluated with a float32 inference engine that runs in the browser, Stage~2 lowers held-out medical answer perplexity from 692.5 to 252.9 (ratio 0.365, 95\% CI 0.343--0.389) while PubMed perplexity rises by 17\% (ratio 1.166, 95\% CI 1.087--1.244), and expert routing stays balanced (normalized routing entropy $\geq 0.966$ in every layer). Multiple-choice accuracy on 150 MedMCQA validation questions (32.7\% and 28.7\%) is not distinguishable from the 25\% chance level and stays below the 38\% majority-answer baseline, which we report as a limitation of models at this scale. Stage~3 continues full-parameter SFT from the Stage~2 checkpoint on the 5.8 million MIRIAD question--answer pairs, with a validation split that keeps whole source papers out of training, for 1,507,000 optimizer steps on a single consumer-grade GPU. On the same held-out items it lowers medical answer perplexity further to 59.6 (ratio to Stage~2 0.236, 95\% CI 0.194--0.287), brings PubMed perplexity back to 585.6 (ratio 0.878, 95\% CI 0.710--1.080) and raises answer top-1 next-token accuracy to 33.8\%; on 15 MIRIAD questions from held-out papers its reference-answer perplexity is 9.5, against 383 for Stage~2. MedMCQA accuracy (31.3\%) remains at chance, and an informal reading of 15 generated answers found 3 correct or mostly correct and 7 wrong. We release the weights under the Apache License 2.0, together with the training code, the evaluation harness, and practical lessons for training on consumer hardware. The model is a research artifact and is not intended for clinical use.
 \end{abstract}
 
 \section{Introduction}
@@ -46,9 +42,9 @@ The architecture follows the sparse MoE decoder design popularized by Mixtral~\c
 
 \paragraph{Contributions.}
 \begin{itemize}
-  \item A from-scratch sparse MoE medical language model (38,779,008 parameters, 8.66M active non-embedding parameters per token) with a domain-specific tokenizer, released openly in two stages (pretrained and medical SFT).
-  \item A browser-based evaluation of both releases with bootstrap and Wilson 95\% intervals, a paired comparison between stages, and per-layer routing statistics.
-  \item Full-parameter SFT on the complete MIRIAD-5.8M corpus~\citep{zheng2025miriad} on a single consumer-grade GPU, using a paper-disjoint validation split.
+  \item A from-scratch sparse MoE medical language model (38,779,008 parameters, 8.66M active non-embedding parameters per token) with a domain-specific tokenizer, released openly in three stages (pretrained, medical SFT and MIRIAD SFT).
+  \item A browser-based evaluation of all three releases on identical held-out items with bootstrap and Wilson 95\% intervals, paired comparisons between stages, per-layer routing statistics, and an exact reproduction check of earlier results.
+  \item Full-parameter SFT on the MIRIAD-5.8M corpus~\citep{zheng2025miriad} on a single consumer-grade GPU, using a paper-disjoint validation split, with its held-out results.
   \item Engineering lessons for long training runs on consumer hardware: data-pipeline bottlenecks, crash-safe checkpointing, and split-consistent evaluation.
 \end{itemize}
 
@@ -112,7 +108,7 @@ Table~\ref{tab:train} summarizes the three stages. All parameters (embeddings, a
 \toprule
  & Stage 1: pretraining & Stage 2: medical SFT & Stage 3: MIRIAD SFT \\
 \midrule
-Initialization & Random & Stage 1 weights & Earlier MedSparse checkpoint \\
+Initialization & Random & Stage 1 weights & Stage 2 weights \\
 Data & PubMed (Common Pile, filtered) & medical-o1 (en) & MIRIAD-5.8M, paper-disjoint \\
 Objective & Next token + aux. loss & Completion-only + aux. loss & Completion-only + aux. loss \\
 Sequence length & 128 & 128 & 192 \\
@@ -120,18 +116,21 @@ Micro-batch $\times$ accumulation & --- & 1 $\times$ 4 & 1 $\times$ 4 \\
 Peak learning rate & --- & $2\times10^{-5}$ & $2\times10^{-5}$ \\
 Schedule & --- & 100 warm-up steps & 100 warm-up steps, then constant \\
 Weight decay / clipping & --- & --- & 0.01 / 1.0 \\
-Optimizer steps & 5,000 & 2,000 & one epoch, $\approx$1.42M \\
+Optimizer steps & 5,000 & 2,000 & 1,507,000 (released checkpoint) \\
+Examples processed & --- & --- & $\approx$6.03M (see \S\ref{sec:coverage}) \\
+Answers truncated & --- & --- & 6.6\% (398,337) \\
+Best validation loss & --- & --- & 2.19 (completion CE, 64 pairs) \\
 Precision & --- & --- & fp32, gradient checkpointing \\
 Hardware & --- & --- & Single consumer-grade GPU \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\paragraph{Stage 3 on a consumer-grade GPU.} Full-parameter AdamW training of a 38.8M-parameter model needs roughly 16 bytes per parameter for weights, gradients and optimizer states (about 0.6\,GB), so the full model, together with checkpointed activations, fits comfortably in the memory of a consumer-grade GPU. In Stage~3, when a question--answer pair does not fit in the 192-token window, the prompt keeps at most half of the window (its most recent tokens) and the answer is truncated with its end-of-sequence token retained. Data are streamed with a 1,024-example shuffle buffer. Every 500 optimizer steps, validation cross-entropy is measured on 64 held-out pairs and checkpoints are written. The run processes about 2.7--3.1 optimizer steps per second (11--12 examples per second), or roughly five to six days for one epoch; the exact wall-clock time will be reported with the Stage~3 results.
+\paragraph{Stage 3 on a consumer-grade GPU.} Full-parameter AdamW training of a 38.8M-parameter model needs roughly 16 bytes per parameter for weights, gradients and optimizer states (about 0.6\,GB), so the full model, together with checkpointed activations, fits comfortably in the memory of a consumer-grade GPU. In Stage~3, when a question--answer pair does not fit in the 192-token window, the prompt keeps at most half of the window (its most recent tokens) and the answer is truncated with its end-of-sequence token retained. Data are streamed with a 1,024-example shuffle buffer. Every 500 optimizer steps, validation cross-entropy is measured on 64 held-out pairs and checkpoints are written. The run processed about 2.7--3.1 optimizer steps per second (11--12 examples per second) and was resumed several times. The released checkpoint is the one with the lowest validation loss, 2.19 nats per answer token, reached at optimizer step 1,507,000.
 
 \section{Evaluation}
 
-\paragraph{Protocol.} Both released checkpoints were evaluated with the project's in-browser inference engine (JavaScript, float32, CPU, 8 threads; harness commit \texttt{0c5e96e}). Held-out sets are drawn with the training-time split functions, so no evaluation item was seen in training:
+\paragraph{Protocol.} The released checkpoints were evaluated with the project's in-browser inference engine (JavaScript, float32, CPU, 8 threads). Stages~1--2 were measured on 20 November 2026 (harness commit \texttt{0c5e96e}); Stage~3 on 25 November 2026 on the identical row indices (harness commit \texttt{d91bf5d}), when Stage~2 was re-scored in the same run and reproduced its earlier perplexities exactly (252.86 and 667.04). Held-out sets are drawn with the training-time split functions, so no evaluation item was seen in training:
 \begin{itemize}
   \item \textbf{PubMed:} the first 40 articles of the first Common Pile PubMed shard that pass the training filters and fall in the 2\% validation partition; first 129 tokens per article, 128 scored (5,120 tokens).
   \item \textbf{Medical Q\&A:} 80 answers from the medical-o1 5\% validation bucket, formatted exactly as in Stage~2 with completion-only scoring (7,943 answer tokens).
@@ -141,31 +140,39 @@ Perplexity intervals are 2,000-sample bootstrap intervals over items, token-weig
 
 \begin{table}[t]
 \centering
-\caption{Held-out evaluation of the two released checkpoints (95\% intervals in brackets). Uniform-guess perplexity is 30,001.}
+\caption{Held-out evaluation of the three released checkpoints on identical items (95\% intervals in brackets). Uniform-guess perplexity is 30,001.}
 \label{tab:results}
-\small
-\begin{tabular}{@{}lll@{}}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llll@{}}
 \toprule
- & Stage 1 (pretrained) & Stage 2 (medical SFT) \\
+ & Stage 1 (pretrained) & Stage 2 (medical SFT) & Stage 3 (MIRIAD SFT) \\
 \midrule
-PubMed perplexity & 572.15 [472.93, 704.14] & 667.04 [546.16, 822.56] \\
-PubMed top-1 next-token accuracy & 15.6\% & 14.3\% \\
-Medical Q\&A answer perplexity & 692.47 [643.46, 740.98] & 252.86 [233.14, 273.47] \\
-Medical Q\&A top-1 next-token accuracy & 14.4\% & 21.6\% \\
-MedMCQA accuracy (length-normalized) & 32.7\% [25.7, 40.5] & 28.7\% [22.0, 36.4] \\
-MedMCQA accuracy (sum of log-probs) & 23.3\% [17.3, 30.7] & 23.3\% [17.3, 30.7] \\
-Decoding speed in the browser & 13.7 tokens/s & 14.0 tokens/s \\
+PubMed perplexity & 572.15 [472.93, 704.14] & 667.04 [546.16, 822.56] & 585.59 [445.76, 788.83] \\
+PubMed top-1 next-token acc. & 15.6\% & 14.3\% & 16.8\% \\
+Medical Q\&A answer perplexity & 692.47 [643.46, 740.98] & 252.86 [233.14, 273.47] & 59.58 [48.58, 72.82] \\
+Medical Q\&A top-1 next-token acc. & 14.4\% & 21.6\% & 33.8\% \\
+MedMCQA acc. (length-normalized) & 32.7\% [25.7, 40.5] & 28.7\% [22.0, 36.4] & 31.3\% [24.5, 39.1] \\
+MedMCQA acc. (sum of log-probs) & 23.3\% [17.3, 30.7] & 23.3\% [17.3, 30.7] & 25.3\% [19.0, 32.8] \\
+Decoding speed in the browser & 13.7 tokens/s & 14.0 tokens/s & 28.3 tokens/s$^{\dagger}$ \\
 \midrule
-\multicolumn{3}{@{}l}{Paired ratio, SFT / pretrained perplexity:} \\
-\quad Medical Q\&A & \multicolumn{2}{l}{0.365 [0.343, 0.389]} \\
-\quad PubMed & \multicolumn{2}{l}{1.166 [1.087, 1.244]} \\
+\multicolumn{4}{@{}l}{Paired perplexity ratios (same items):} \\
+\quad Stage 2 / Stage 1, medical Q\&A & \multicolumn{3}{l}{0.365 [0.343, 0.389]} \\
+\quad Stage 2 / Stage 1, PubMed & \multicolumn{3}{l}{1.166 [1.087, 1.244]} \\
+\quad Stage 3 / Stage 2, medical Q\&A & \multicolumn{3}{l}{0.236 [0.194, 0.287]} \\
+\quad Stage 3 / Stage 2, PubMed & \multicolumn{3}{l}{0.878 [0.710, 1.080]} \\
 \bottomrule
 \end{tabular}
+
+\smallskip
+\parbox{\textwidth}{\footnotesize $^{\dagger}$Measured in a separate session with the browser window in the background, so not comparable with the Stage 1--2 speeds; all three checkpoints share the same architecture and cost per token.}
 \end{table}
 
-\paragraph{Results.} Table~\ref{tab:results} shows a clear specialization trade-off. Medical SFT reduces answer perplexity by 63.5\% (ratio 0.365) and raises top-1 next-token accuracy on answers from 14.4\% to 21.6\%, while perplexity on held-out PubMed text rises by 16.6\%, consistent with partial forgetting of the pretraining distribution after 2,000 steps of narrow-domain SFT. MedMCQA accuracy is not separable from the 25\% chance level for either checkpoint, and both are below the 38\% obtained by always choosing the most frequent correct letter in this sample; length normalization alone moves accuracy from 23.3\% to 28.7--32.7\%. We therefore make no claim of exam-level medical knowledge at this scale.
+\paragraph{Results.} Table~\ref{tab:results} shows a clear specialization trade-off. Medical SFT reduces answer perplexity by 63.5\% (ratio 0.365) and raises top-1 next-token accuracy on answers from 14.4\% to 21.6\%, while perplexity on held-out PubMed text rises by 16.6\%, consistent with partial forgetting of the pretraining distribution after 2,000 steps of narrow-domain SFT. MedMCQA accuracy is not separable from the 25\% chance level for either of the first two checkpoints, and both are below the 38\% obtained by always choosing the most frequent correct letter in this sample; length normalization alone moves accuracy from 23.3\% to 28.7--32.7\%. We therefore make no claim of exam-level medical knowledge at this scale.
 
-\paragraph{Routing.} Expert use stays balanced after SFT (Table~\ref{tab:routing}): normalized routing entropy, $H/\log E$ over the share of top-2 selections per expert, is at least 0.966 in every layer of both checkpoints, and SFT raises it in three of four layers.
+Stage~3 continues the specialization without its cost. Medical answer perplexity falls a further 76\% (paired ratio 0.236) and answer top-1 accuracy rises to 33.8\%, while PubMed perplexity returns to 585.6, close to the pretrained checkpoint; the change relative to Stage~2 on PubMed is within noise (ratio 0.878, interval spanning 1). MedMCQA accuracy is unchanged within its interval (31.3\%), and still below the majority-answer baseline.
+
+\paragraph{Routing.} Expert use stays balanced after SFT (Table~\ref{tab:routing}): normalized routing entropy, $H/\log E$ over the share of top-2 selections per expert, is at least 0.966 in every layer of all three checkpoints; Stage~2 SFT raises it in three of four layers, and Stage~3 keeps it at 0.972 or above.
 
 \begin{table}[t]
 \centering
@@ -178,11 +185,28 @@ Decoding speed in the browser & 13.7 tokens/s & 14.0 tokens/s \\
 \midrule
 Stage 1 (pretrained) & 0.979 & 0.991 & 0.998 & 0.966 \\
 Stage 2 (medical SFT) & 0.982 & 0.997 & 0.997 & 0.998 \\
+Stage 3 (MIRIAD SFT) & 0.985 & 0.988 & 0.996 & 0.972 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\paragraph{Stage 3 (MIRIAD).} Stage~3 is in progress at the time of writing. Its paper-disjoint MIRIAD validation loss, and the metrics of Table~\ref{tab:results} for the Stage~3 checkpoint measured with the same harness, will be added in version~1.0 of this report.
+\paragraph{MIRIAD held-out questions.} To test Stage~3 on its own data, 15 questions were drawn from the paper-level MIRIAD validation split, one per paper and spread across the 64 dataset shards, using the training script's split function. Each was scored in PyTorch on CPU with the 192-token Stage~3 template and answered with greedy decoding (repetition penalty 1.2, at most 120 new tokens). Table~\ref{tab:miriad} compares Stage~3 with the Stage~2 checkpoint it started from. Stage~2 answered every question with near-identical templated text; Stage~3 answers each question on topic and in fluent English. An informal reading of the 15 answers, which is not an expert clinical review, judged 3 correct or mostly correct, 5 on topic but vague or incomplete, and 7 wrong. Errors include word-sense confusion (rowing ``stroke rate'' read as the disease), invented indications for a drug, a tocolytic described as an anti-cancer antioxidant, a wrong geographic grouping, and a repeated word in place of a list.
+
+\begin{table}[t]
+\centering
+\caption{Fifteen MIRIAD questions from papers held out of training.}
+\label{tab:miriad}
+\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+ & Stage 2 (medical SFT) & Stage 3 (MIRIAD SFT) \\
+\midrule
+Reference-answer perplexity & 383.49 & 9.50 \\
+Mean word-overlap F1 with reference & 0.185 & 0.346 \\
+Answers judged correct or mostly correct (informal) & --- & 3 of 15 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Engineering lessons from training on consumer hardware}
 
@@ -190,20 +214,24 @@ Stage 2 (medical SFT) & 0.982 & 0.997 & 0.997 & 0.998 \\
 
 \paragraph{Crash-safe checkpoints are essential for multi-day runs.} An unexpected restart left an optimizer-state file that could no longer be loaded. Checkpoints are now written to a temporary name, flushed to disk with \texttt{fsync} and atomically renamed, and resuming selects the newest checkpoint whose files are all complete and verifies that data-order and optimization settings match the original run.
 
+\paragraph{A shuffled stream plus \texttt{skip()} is not a safe resume.}\label{sec:coverage} Stage~3 streamed MIRIAD through a shuffle buffer and, on each resume, skipped the number of rows already consumed. The skip did not line up with the shuffled stream: by the released checkpoint the epoch's row counter had reached 6,150,107 rows, 328,159 past the 5,821,948 rows in the dataset, so some pairs were trained more than once and some may not have been seen. The paper-level validation filter is applied to every row, so no held-out paper entered training, but full per-row coverage of MIRIAD is not verified. Future runs should resume from a deterministic, pre-shuffled index (or record the identifiers of rows consumed) rather than replaying a shuffled stream.
+
 \paragraph{Evaluate with the exact training split.} An early check of Stage~3 outputs drew ``held-out'' questions with a question-level rule instead of the paper-level rule used in training, so some evaluated questions came from training papers and the score was optimistic. All evaluation now imports the training split function itself.
 
 \paragraph{Precision.} Not every consumer GPU supports bfloat16. Mixed precision is possible with float16 autocast and dynamic loss scaling~\citep{micikevicius2018mixed}, but the reported Stage~3 run uses float32 for stability; gradient checkpointing~\citep{chen2016checkpointing} keeps activation memory small.
 
 \section{Limitations and responsible use}
 
-MedSparse Healthcare is a research model. It is not a medical device, has not been validated for clinical safety or accuracy, and must not be used for diagnosis, treatment, triage, medication dosing or patient communication. At 38.8M parameters it hallucinates and does not answer exam questions above chance. The Stage~2 and Stage~3 corpora contain machine-generated text (MIRIAD pairs were produced with GPT-3.5-Turbo from literature passages~\citep{zheng2025miriad}), which may carry errors or outdated guidance. Evaluation sets are small (40 articles, 80 answers, 150 questions), so intervals are wide; in the medical Q\&A set only 8.8\% of questions fit entirely within the 128-token window. The training data keep their own licenses, which users must check before reuse.
+MedSparse Healthcare is a research model. It is not a medical device, has not been validated for clinical safety or accuracy, and must not be used for diagnosis, treatment, triage, medication dosing or patient communication. At 38.8M parameters it hallucinates and does not answer exam questions above chance. The Stage~2 and Stage~3 corpora contain machine-generated text (MIRIAD pairs were produced with GPT-3.5-Turbo from literature passages~\citep{zheng2025miriad}), which may carry errors or outdated guidance. Evaluation sets are small (40 articles, 80 answers, 150 questions), so intervals are wide; in the medical Q\&A set only 8.8\% of questions fit entirely within the 128-token window. The MIRIAD check uses only 15 questions, and its correctness judgments are informal. In Stage~3, 6.6\% of training answers were truncated to the 192-token window, so long answers were learned only in part, and MIRIAD coverage was not exact (Section~\ref{sec:coverage}). Coding benchmarks such as HumanEval do not apply to this model; standard medical QA suites such as MedQA and PubMedQA have not yet been run. The training data keep their own licenses, which users must check before reuse.
 
 \section{Availability}
 
 \begin{itemize}
   \item Pretrained weights: \url{https://huggingface.co/sudhanshu42844/medsparse-healthcare-pretrained-from-scratch}
   \item Medical SFT weights: \url{https://huggingface.co/sudhanshu42844/medsparse-healthcare-medical-sft}
-  \item Code, evaluation harness and results: \url{https://github.com/su394611-del/MedSparse-Healthcare-LLM-From-Scratch}
+  \item MIRIAD SFT weights: \url{https://huggingface.co/sudhanshu42844/medsparse-healthcare-miriad-sft}
+  \item MIRIAD dataset: \url{https://huggingface.co/datasets/miriad/miriad-5.8M}
+  \item Code, evaluation harness and results (\texttt{eval/results.json}, \texttt{eval/results\_miriad.json}): \url{https://github.com/su394611-del/MedSparse-Healthcare-LLM-From-Scratch}
   \item Project site and in-browser playground: \url{https://su394611-del.github.io/MedSparse-Healthcare-LLM-From-Scratch/}
 \end{itemize}
 Weights and code are released under the Apache License 2.0 (copyright 2026 Sudhanshu Shukla). MedSparse Healthcare was formerly published as ``Mixtral Healthcare''; the old repository and model URLs redirect to the new names.
