@@ -12,6 +12,7 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{xurl}
 \usepackage{array}
+\usepackage{needspace}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 
 \hypersetup{
@@ -25,13 +26,13 @@
 \author{Sudhanshu Shukla\\[2pt]
 \small Independent researcher, Bengaluru, India\\
 \small \url{https://su394611-del.github.io}}
-\date{\small Technical report \textperiodcentered{} Version 1.0, 25 November 2026}
+\date{\small Technical report \textperiodcentered{} Version 1.0.1, 25 November 2026}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-We describe MedSparse Healthcare, a 38.8M-parameter decoder-only language model whose feed-forward layers are sparse mixtures of experts (four experts per layer, top-2 routing), trained from random initialization on healthcare text with a 30,001-token byte-level BPE tokenizer learned only from biomedical documents. Stage~1 pretrains on openly licensed PubMed full text from the Common Pile; Stage~2 applies full-parameter, completion-only supervised fine-tuning (SFT) on medical question--answer pairs. Evaluated with a float32 inference engine that runs in the browser, Stage~2 lowers held-out medical answer perplexity from 692.5 to 252.9 (ratio 0.365, 95\% CI 0.343--0.389) while PubMed perplexity rises by 17\% (ratio 1.166, 95\% CI 1.087--1.244), and expert routing stays balanced (normalized routing entropy $\geq 0.966$ in every layer). Multiple-choice accuracy on 150 MedMCQA validation questions (32.7\% and 28.7\%) is not distinguishable from the 25\% chance level and stays below the 38\% majority-answer baseline, which we report as a limitation of models at this scale. Stage~3 continues full-parameter SFT from the Stage~2 checkpoint on the 5.8 million MIRIAD question--answer pairs, with a validation split that keeps whole source papers out of training, for 1,507,000 optimizer steps on a single consumer-grade GPU. On the same held-out items it lowers medical answer perplexity further to 59.6 (ratio to Stage~2 0.236, 95\% CI 0.194--0.287), brings PubMed perplexity back to 585.6 (ratio 0.878, 95\% CI 0.710--1.080) and raises answer top-1 next-token accuracy to 33.8\%; on 15 MIRIAD questions from held-out papers its reference-answer perplexity is 9.5, against 383 for Stage~2. MedMCQA accuracy (31.3\%) remains at chance, and an informal reading of 15 generated answers found 3 correct or mostly correct and 7 wrong. We release the weights under the Apache License 2.0, together with the training code, the evaluation harness, and practical lessons for training on consumer hardware. The model is a research artifact and is not intended for clinical use.
+We describe MedSparse Healthcare, a 38.8M-parameter decoder-only language model whose feed-forward layers are sparse mixtures of experts (four experts per layer, top-2 routing), trained from random initialization on healthcare text with a 30,001-token byte-level BPE tokenizer learned only from biomedical documents. Stage~1 pretrains on openly licensed PubMed full text from the Common Pile; Stage~2 applies full-parameter, completion-only supervised fine-tuning (SFT) on medical question--answer pairs. Evaluated with a float32 inference engine that runs in the browser, Stage~2 lowers held-out medical answer perplexity from 692.5 to 252.9 (ratio 0.365, 95\% CI 0.343--0.389) while PubMed perplexity rises by 17\% (ratio 1.166, 95\% CI 1.087--1.244), and expert routing stays balanced (normalized routing entropy $\geq 0.966$ in every layer). On 150 MedMCQA questions, Stage~1 scored 32.7\% (95\% Wilson CI 25.7--40.5\%) and Stage~2 scored 28.7\% (22.0--36.4\%). The Stage~2 interval includes the 25\% chance baseline. Both point estimates are below the 38\% majority-answer baseline. Stage~3 continues full-parameter SFT from the Stage~2 checkpoint using the MIRIAD 5.8M question--answer dataset, with a validation split that keeps whole source papers out of training, for 1,507,000 optimizer steps on a single consumer-grade GPU. A shuffle-resume issue led to repeated rows, so unique training coverage is unverified. On the same held-out items it lowers medical answer perplexity further to 59.6 (ratio to Stage~2 0.236, 95\% CI 0.194--0.287), brings PubMed perplexity back to 585.6 (ratio 0.878, 95\% CI 0.710--1.080) and raises answer top-1 next-token accuracy to 33.8\%; on 15 MIRIAD questions from held-out papers its reference-answer perplexity is 9.5, against 383 for Stage~2. Stage~3 scored 31.3\% on MedMCQA (95\% Wilson CI 24.5--39.1\%), an interval that includes the 25\% chance baseline and a point estimate below the 38\% majority-answer baseline. An informal reading of 15 generated answers found 3 correct or mostly correct and 7 wrong. We release the weights under the Apache License 2.0, together with the Stage~1--2 training code, the evaluation harness, and practical lessons for training on consumer hardware. The model is a research artifact and is not intended for clinical use.
 \end{abstract}
 
 \section{Introduction}
@@ -40,6 +41,7 @@ Most open medical language models are adapted from general-purpose models with b
 
 The architecture follows the sparse MoE decoder design popularized by Mixtral~\citep{jiang2024mixtral}, scaled down by several orders of magnitude. MedSparse Healthcare is an independent implementation: it does not use or distribute Mistral AI or Mixtral weights and is not affiliated with Mistral AI.
 
+\needspace{8\baselineskip}
 \paragraph{Contributions.}
 \begin{itemize}
   \item A from-scratch sparse MoE medical language model (38,779,008 parameters, 8.66M active non-embedding parameters per token) with a domain-specific tokenizer, released openly in three stages (pretrained, medical SFT and MIRIAD SFT).
@@ -65,6 +67,7 @@ MedSparse Healthcare is a decoder-only Transformer~\citep{vaswani2017attention} 
 Total parameters & 38,779,008 \\
 \quad Input + output embeddings & 23,040,768 (59.4\%) \\
 \quad Transformer blocks & 15,737,856 \\
+\quad Final RMSNorm & 384 \\
 Active non-embedding parameters per token & 8,660,352 \\
 Layers / hidden size & 4 / 384 \\
 Query heads / key-value heads & 6 / 2 (GQA) \\
@@ -130,7 +133,7 @@ Hardware & --- & --- & Single consumer-grade GPU \\
 
 \section{Evaluation}
 
-\paragraph{Protocol.} The released checkpoints were evaluated with the project's in-browser inference engine (JavaScript, float32, CPU, 8 threads). Stages~1--2 were measured on 20 November 2026 (harness commit \texttt{0c5e96e}); Stage~3 on 25 November 2026 on the identical row indices (harness commit \texttt{d91bf5d}), when Stage~2 was re-scored in the same run and reproduced its earlier perplexities exactly (252.86 and 667.04). Held-out sets are drawn with the training-time split functions, so no evaluation item was seen in training:
+\paragraph{Protocol.} The released checkpoints were evaluated with the project's in-browser inference engine (JavaScript, float32, one Web Worker on an 8-thread CPU). Stages~1--2 were measured on 20 November 2026 (harness commit \texttt{0c5e96e}); Stage~3 on 25 November 2026 on the identical row indices (harness commit \texttt{d91bf5d}), when Stage~2 was re-scored in the same run and reproduced its earlier perplexities exactly (252.86 and 667.04). Held-out sets are drawn with the training-time split functions, so no evaluation item was seen in training:
 \begin{itemize}
   \item \textbf{PubMed:} the first 40 articles of the first Common Pile PubMed shard that pass the training filters and fall in the 2\% validation partition; first 129 tokens per article, 128 scored (5,120 tokens).
   \item \textbf{Medical Q\&A:} 80 answers from the medical-o1 5\% validation bucket, formatted exactly as in Stage~2 with completion-only scoring (7,943 answer tokens).
@@ -168,7 +171,7 @@ Decoding speed in the browser & 13.7 tokens/s & 14.0 tokens/s & 28.3 tokens/s$^{
 \parbox{\textwidth}{\footnotesize $^{\dagger}$Measured in a separate session with the browser window in the background, so not comparable with the Stage 1--2 speeds; all three checkpoints share the same architecture and cost per token.}
 \end{table}
 
-\paragraph{Results.} Table~\ref{tab:results} shows a clear specialization trade-off. Medical SFT reduces answer perplexity by 63.5\% (ratio 0.365) and raises top-1 next-token accuracy on answers from 14.4\% to 21.6\%, while perplexity on held-out PubMed text rises by 16.6\%, consistent with partial forgetting of the pretraining distribution after 2,000 steps of narrow-domain SFT. MedMCQA accuracy is not separable from the 25\% chance level for either of the first two checkpoints, and both are below the 38\% obtained by always choosing the most frequent correct letter in this sample; length normalization alone moves accuracy from 23.3\% to 28.7--32.7\%. We therefore make no claim of exam-level medical knowledge at this scale.
+\paragraph{Results.} Table~\ref{tab:results} shows a clear specialization trade-off. Medical SFT reduces answer perplexity by 63.5\% (ratio 0.365) and raises top-1 next-token accuracy on answers from 14.4\% to 21.6\%, while perplexity on held-out PubMed text rises by 16.6\%, consistent with partial forgetting of the pretraining distribution after 2,000 steps of narrow-domain SFT. On MedMCQA, Stage~2's interval includes the 25\% chance level and Stage~1's (25.7--40.5\%) excludes it only narrowly; both are below the 38\% obtained by always choosing the most frequent correct letter in this sample; length normalization alone moves accuracy from 23.3\% to 28.7--32.7\%. We therefore make no claim of exam-level medical knowledge at this scale.
 
 Stage~3 continues the specialization without its cost. Medical answer perplexity falls a further 76\% (paired ratio 0.236) and answer top-1 accuracy rises to 33.8\%, while PubMed perplexity returns to 585.6, close to the pretrained checkpoint; the change relative to Stage~2 on PubMed is within noise (ratio 0.878, interval spanning 1). MedMCQA accuracy is unchanged within its interval (31.3\%), and still below the majority-answer baseline.
 
@@ -222,7 +225,7 @@ Answers judged correct or mostly correct (informal) & --- & 3 of 15 \\
 
 \section{Limitations and responsible use}
 
-MedSparse Healthcare is a research model. It is not a medical device, has not been validated for clinical safety or accuracy, and must not be used for diagnosis, treatment, triage, medication dosing or patient communication. At 38.8M parameters it hallucinates and does not answer exam questions above chance. The Stage~2 and Stage~3 corpora contain machine-generated text (MIRIAD pairs were produced with GPT-3.5-Turbo from literature passages~\citep{zheng2025miriad}), which may carry errors or outdated guidance. Evaluation sets are small (40 articles, 80 answers, 150 questions), so intervals are wide; in the medical Q\&A set only 8.8\% of questions fit entirely within the 128-token window. The MIRIAD check uses only 15 questions, and its correctness judgments are informal. In Stage~3, 6.6\% of training answers were truncated to the 192-token window, so long answers were learned only in part, and MIRIAD coverage was not exact (Section~\ref{sec:coverage}). Coding benchmarks such as HumanEval do not apply to this model; standard medical QA suites such as MedQA and PubMedQA have not yet been run. The training data keep their own licenses, which users must check before reuse.
+MedSparse Healthcare is a research model. It is not a medical device, has not been validated for clinical safety or accuracy, and must not be used for diagnosis, treatment, triage, medication dosing or patient communication. At 38.8M parameters it hallucinates and does not reliably answer exam questions above chance. The Stage~2 and Stage~3 corpora contain machine-generated text (MIRIAD pairs were produced with GPT-3.5-Turbo from literature passages~\citep{zheng2025miriad}), which may carry errors or outdated guidance. Evaluation sets are small (40 articles, 80 answers, 150 questions), so intervals are wide; in the medical Q\&A set only 8.8\% of questions fit entirely within the 128-token window. The MIRIAD check uses only 15 questions, and its correctness judgments are informal. In Stage~3, 6.6\% of training answers were truncated to the 192-token window, so long answers were learned only in part, and MIRIAD coverage was not exact (Section~\ref{sec:coverage}). Coding benchmarks such as HumanEval do not apply to this model; standard medical QA suites such as MedQA and PubMedQA have not yet been run. The training data keep their own licenses, which users must check before reuse.
 
 \section{Availability}
 
@@ -231,7 +234,7 @@ MedSparse Healthcare is a research model. It is not a medical device, has not be
   \item Medical SFT weights: \url{https://huggingface.co/sudhanshu42844/medsparse-healthcare-medical-sft}
   \item MIRIAD SFT weights: \url{https://huggingface.co/sudhanshu42844/medsparse-healthcare-miriad-sft}
   \item MIRIAD dataset: \url{https://huggingface.co/datasets/miriad/miriad-5.8M}
-  \item Code, evaluation harness and results (\texttt{eval/results.json}, \texttt{eval/results\_miriad.json}): \url{https://github.com/su394611-del/MedSparse-Healthcare-LLM-From-Scratch}
+  \item Stage~1--2 training code, evaluation harness and results (in \texttt{eval/}): \url{https://github.com/su394611-del/MedSparse-Healthcare-LLM-From-Scratch}
   \item Project site and in-browser playground: \url{https://su394611-del.github.io/MedSparse-Healthcare-LLM-From-Scratch/}
 \end{itemize}
 Weights and code are released under the Apache License 2.0 (copyright 2026 Sudhanshu Shukla). MedSparse Healthcare was formerly published as ``Mixtral Healthcare''; the old repository and model URLs redirect to the new names.
@@ -315,7 +318,7 @@ N.~Shazeer, A.~Mirhoseini, K.~Maziarz, A.~Davis, Q.~Le, G.~Hinton, and J.~Dean.
 \newblock In \emph{International Conference on Learning Representations (ICLR)}, 2017. arXiv:1701.06538.
 
 \bibitem[Su et~al.(2024)]{su2024roformer}
-J.~Su, M.~Ahmed, Y.~Lu, S.~Pan, W.~Bo, and Y.~Liu.
+J.~Su, Y.~Lu, S.~Pan, A.~Murtadha, B.~Wen, and Y.~Liu.
 \newblock {RoFormer}: Enhanced Transformer with rotary position embedding.
 \newblock \emph{Neurocomputing}, 568:127063, 2024. arXiv:2104.09864.
 
