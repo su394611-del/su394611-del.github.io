@@ -58,7 +58,7 @@
 <div class="orbit-node node-agents"><span class="node-icon">◇</span><span>AGENTS</span></div>
 <div class="orbit-node node-training"><span class="node-icon">∑</span><span>TRAINING</span></div>
 <div class="orbit-node node-inference"><span class="node-icon">↗</span><span>INFERENCE</span></div>
-<div class="graphic-bottom"><span>PYTHON</span><span>PYTORCH</span><span>LANGGRAPH,LANGCHAIN</span><span>MCP</span></div>
+<div class="graphic-bottom"><span>PYTHON</span><span>PYTORCH</span><span>LANGGRAPH · LANGCHAIN</span><span>MCP</span></div>
 </div>
 </section>
 <section aria-labelledby="whats-next-heading" class="layout whats-next" id="whats-next" v-pre>
@@ -220,7 +220,7 @@
 </section>
 <section aria-labelledby="research-heading" class="layout model-eval research-section" id="research" v-pre>
 <div class="me-head"><div><p class="me-kicker">Research · Technical reports</p><h2 id="research-heading">The full write-up, with the evidence.</h2></div><p>Technical reports on the models built in this lab: architecture, data, training and held-out evaluation, with the PDF, LaTeX source and citation for each.</p></div>
-<div class="me-log"><div class="me-log-head"><h3>MedSparse Healthcare technical report · v1.0</h3><a href="/research/">All research reports →</a></div>
+<div class="me-log"><div class="me-log-head"><h3>MedSparse Healthcare technical report · v1.0.1</h3><a href="/research/">All research reports →</a></div>
 <iframe class="me-iframe research-iframe" src="/research/embed/" title="Technical research reports" loading="lazy"></iframe></div>
 </section>
 <!-- model-eval:start -->
@@ -236,7 +236,7 @@
 </div>
 <div class="me-log"><div class="me-log-head"><h3>Tiny GPT training log</h3><a href="/training-logs/tiny-gpt/" target="_blank" rel="noopener noreferrer">Open the full page ↗</a></div>
 <iframe class="me-iframe" src="/training-logs/tiny-gpt/" title="Tiny GPT training log" loading="lazy"></iframe></div>
-<p class="me-foot"><a href="/research/medsparse-healthcare-2026/">Technical report (PDF)</a><a href="https://su394611-del.github.io/MedSparse-Healthcare-LLM-From-Scratch/#evaluation">Full results and method ↗</a><a href="https://su394611-del.github.io/MedSparse-Healthcare-LLM-From-Scratch/eval/results.json">results.json</a><a href="/playground/">Run the models yourself</a><span>Research models: not for medical advice.</span></p>
+<p class="me-foot"><a href="/research/medsparse-healthcare-2026/">Technical report</a><a href="https://su394611-del.github.io/MedSparse-Healthcare-LLM-From-Scratch/#evaluation">Full results and method ↗</a><a href="https://su394611-del.github.io/MedSparse-Healthcare-LLM-From-Scratch/eval/results.json">results.json</a><a href="/playground/">Run the models yourself</a><span>Research models: not for medical advice.</span></p>
 </section>
 <!-- model-eval:end -->
 <section aria-labelledby="miriad-eval-heading" class="layout model-eval" id="miriad-evaluation" v-pre>
@@ -262,7 +262,7 @@ medsparse-playground</code></pre>
     <section aria-labelledby="engineering-notes-heading" class="layout context-section" id="engineering-notes">
 <div class="section-intro"><p class="kicker">TECHNICAL CONTEXT / PROJECT GUIDE</p><h2 id="engineering-notes-heading">From first-principles models to <span class="gradient-text">operational AI systems.</span></h2><p>A focused explanation of the engineering areas represented across the linked repositories and Hugging Face checkpoints.</p></div>
 <div class="context-grid">
-<article class="context-panel"><span class="context-index">01 / FOUNDATIONS</span><h3>Transformer and LLM architecture</h3><p>The lab explores both decoder-oriented causal language modeling and encoder-oriented text classification. Example implementations cover tokenization, embeddings, self-attention, Transformer blocks and inference behavior. The custom healthcare MoE model adds expert routing and a two-stage pretraining/SFT workflow.</p><a href="#project-medsparse-healthcare">Healthcare MoE</a> · <a href="#project-transformer-encoder">Transformer encoder</a> · <a href="#project-tiny-gpt">Tiny GPT</a></article>
+<article class="context-panel"><span class="context-index">01 / FOUNDATIONS</span><h3>Transformer and LLM architecture</h3><p>The lab explores both decoder-oriented causal language modeling and encoder-oriented text classification. Example implementations cover tokenization, embeddings, self-attention, Transformer blocks and inference behavior. The custom healthcare MoE model adds expert routing and a three-stage workflow: pretraining, medical SFT and MIRIAD SFT.</p><a href="#project-medsparse-healthcare">Healthcare MoE</a> · <a href="#project-transformer-encoder">Transformer encoder</a> · <a href="#project-tiny-gpt">Tiny GPT</a></article>
 <article class="context-panel"><span class="context-index">02 / ADAPTATION</span><h3>Pretraining, fine-tuning and evaluation</h3><p>Projects distinguish random-weight pretraining, full-parameter adaptation, frozen-backbone comparisons, LoRA and preference-training techniques. The examples emphasize training objective, implementation constraints and evaluation outputs rather than unsupported claims of benchmark superiority.</p><a href="#project-pretraining-finetuning">Preference optimization</a> · <a href="#project-distilbert-tuning">Fine-tuning comparison</a></article>
 <article class="context-panel"><span class="context-index">03 / ORCHESTRATION</span><h3>Retrieval, agents and MCP</h3><p>Service-oriented retrieval uses vector search and tenant-scoped query boundaries. LangGraph examples demonstrate typed states, reducers and conditional flows; MCP-oriented market simulation shows how tool calls and protocol endpoints can be composed without real-world trade execution.</p><a href="#project-rag-service">RAG service</a> · <a href="#project-langgraph-agents">LangGraph agents</a> · <a href="#project-mcp-market">MCP tooling</a></article>
 <article class="context-panel"><span class="context-index">04 / SCALE</span><h3>Distributed training and parallel inference</h3><p>Parallelism appears in two separate contexts: distributed training replicas synchronizing gradients with PyTorch DDP, and inference workers producing ordered JSONL results. Both projects emphasize explicit workload distribution, output correctness and repeatable execution patterns.</p><a href="#project-distributed-training">Distributed DDP</a> · <a href="#project-parallel-inference">Parallel inference</a></article>
