@@ -4,9 +4,9 @@
     miriad: {
       tab: 'MIRIAD SFT', sub: 'MedSparse · 38.8M · new', repo: 'sudhanshu42844/medsparse-healthcare-miriad-sft', kind: 'mixtral', mode: 'sft', size: '155 MB',
       title: 'MedSparse Healthcare LLM · MIRIAD SFT',
-      desc: 'The medical SFT model after full-parameter fine-tuning on MIRIAD, 5.8M Q&A pairs drawn from medical research papers. It answers on topic and fluently, but in a 15-question held-out test only about 3 answers were correct or mostly correct and 7 were wrong, so check everything.',
-      label: 'Question', placeholder: 'What are the risk factors associated with coronary heart disease?',
-      examples: ['What are the risk factors associated with coronary heart disease?', 'How does neuropsychiatric lupus present in patients?', 'How does the sympathetic nervous system influence the kidneys?'],
+      desc: 'The medical SFT model after full-parameter fine-tuning on MIRIAD, 5.8M Q&A pairs drawn from medical research papers. It answers on topic and fluently, but in a 15-question held-out test only about 3 answers were correct or mostly correct and 7 were wrong, so check everything. The five example questions are real MIRIAD questions from papers held out of training.',
+      label: 'Question', placeholder: 'What are the risk factors associated with coronary heart disease (CHD)?',
+      examples: ['What are the risk factors associated with coronary heart disease (CHD)?', 'How does neuropsychiatric SLE present in patients?', 'How does the sympathetic nervous system influence the renal-body fluid system?', 'What are the short-term and long-term outcomes for older patients who experience a hip fracture?', 'What are some oral infections that can be caused by Staphylococcus aureus?'],
       defaults: { maxNew: 120, temperature: 0, topK: 40, penalty: 1.2 }
     },
     sft: {
