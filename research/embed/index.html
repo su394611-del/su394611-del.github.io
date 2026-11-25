@@ -22,29 +22,30 @@
       <a class="thumb" href="/research/medsparse-healthcare-2026/medsparse-healthcare-technical-report.pdf" target="_top" aria-label="Open the PDF of the MedSparse Healthcare technical report">
         <img src="/research/medsparse-healthcare-2026/page-1.jpg" width="560" height="792" alt="First page of the MedSparse Healthcare technical report" loading="lazy"/>
       </a>
-      <p class="thumb-cap">PDF · 7 pages</p>
+      <p class="thumb-cap">PDF · 8 pages</p>
     </div>
     <div>
-      <p class="kicker">Technical report · Version 0.9 · 23 November 2026</p>
+      <p class="kicker">Technical report · Version 1.0 · 25 November 2026</p>
       <h1 id="r1-title">MedSparse Healthcare: A Sparse Mixture-of-Experts Medical Language Model Trained from Scratch on Consumer Hardware</h1>
       <p class="byline"><b>Sudhanshu Shukla</b> · Independent researcher, Bengaluru, India</p>
-      <p class="summary">A 38.8M-parameter language model whose feed-forward layers are sparse mixtures of experts (four experts, top-2 routing), trained from random initialization on healthcare text with its own biomedical tokenizer. The report covers the architecture, data, three training stages and a held-out evaluation with 95% intervals, along with lessons from training on consumer hardware.</p>
+      <p class="summary">A 38.8M-parameter language model whose feed-forward layers are sparse mixtures of experts (four experts, top-2 routing), trained from random initialization on healthcare text with its own biomedical tokenizer, then fine-tuned on the <a href="https://huggingface.co/datasets/miriad/miriad-5.8M" target="_blank" rel="noopener noreferrer">MIRIAD 5.8M dataset</a>. The report covers the architecture, data, three training stages and a held-out evaluation of all three releases with 95% intervals, along with lessons from training on consumer hardware.</p>
       <h2>Key results (held-out data)</h2>
       <table>
-        <thead><tr><th>Metric</th><th>Pretrained</th><th>Medical SFT</th></tr></thead>
+        <thead><tr><th>Metric</th><th>Pretrained</th><th>Medical SFT</th><th>MIRIAD SFT</th></tr></thead>
         <tbody>
-          <tr><td>Medical Q&amp;A perplexity</td><td>692.5</td><td><b>252.9</b> <span class="good">−64%</span></td></tr>
-          <tr><td>PubMed perplexity</td><td>572.2</td><td>667.0</td></tr>
-          <tr><td>MedMCQA accuracy</td><td>32.7%</td><td>28.7% <span data-presentation="color-87a3c1">(chance 25%)</span></td></tr>
-          <tr><td>Expert routing balance</td><td>≥ 0.966</td><td>≥ 0.982</td></tr>
+          <tr><td>Medical Q&amp;A perplexity</td><td>692.5</td><td>252.9</td><td><b>59.6</b> <span class="good">−76%</span></td></tr>
+          <tr><td>PubMed perplexity</td><td>572.2</td><td>667.0</td><td>585.6</td></tr>
+          <tr><td>MedMCQA accuracy <span data-presentation="color-87a3c1">(chance 25%)</span></td><td>32.7%</td><td>28.7%</td><td>31.3%</td></tr>
+          <tr><td>MIRIAD held-out perplexity</td><td>—</td><td>383.5</td><td><b>9.5</b></td></tr>
+          <tr><td>Expert routing balance</td><td>≥ 0.966</td><td>≥ 0.982</td><td>≥ 0.972</td></tr>
         </tbody>
       </table>
-      <p class="note"><b>Status:</b> Stage 3 (full fine-tuning on 5.8 million MIRIAD question–answer pairs) is still training. Version 1.0 will add its results.</p>
+      <p class="note"><b>New in v1.0:</b> Stage 3 results. Fine-tuning on MIRIAD cut held-out medical Q&amp;A perplexity by a further 76% without hurting PubMed text; multiple-choice accuracy is still near chance.</p>
       <div class="actions">
         <a class="btn btn-primary" href="/research/medsparse-healthcare-2026/" target="_top">Read the report</a>
         <a class="btn btn-outline" href="/research/medsparse-healthcare-2026/medsparse-healthcare-technical-report.pdf" target="_top">Download PDF</a>
         <a class="btn btn-outline" href="/research/medsparse-healthcare-2026/#cite" target="_top">Cite</a>
-        <a class="btn btn-outline" href="https://doi.org/10.5281/zenodo.24461542" target="_blank" rel="noopener noreferrer">DOI · 10.5281/zenodo.24461542 ↗</a>
+        <a class="btn btn-outline" href="https://doi.org/10.5281/zenodo.24461542" target="_blank" rel="noopener noreferrer">DOI (v0.9) · 10.5281/zenodo.24461542 ↗</a>
       </div>
     </div>
   </article>
