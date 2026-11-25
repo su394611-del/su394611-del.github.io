@@ -1,6 +1,14 @@
 (function () {
   'use strict';
   var MODELS = {
+    miriad: {
+      tab: 'MIRIAD SFT', sub: 'MedSparse · 38.8M · new', repo: 'sudhanshu42844/medsparse-healthcare-miriad-sft', kind: 'mixtral', mode: 'sft', size: '155 MB',
+      title: 'MedSparse Healthcare LLM · MIRIAD SFT',
+      desc: 'The medical SFT model after full-parameter fine-tuning on MIRIAD, 5.8M Q&A pairs drawn from medical research papers. It answers on topic and fluently, but in a 15-question held-out test only about 3 answers were correct or mostly correct and 7 were wrong, so check everything.',
+      label: 'Question', placeholder: 'What are the risk factors associated with coronary heart disease?',
+      examples: ['What are the risk factors associated with coronary heart disease?', 'How does neuropsychiatric lupus present in patients?', 'How does the sympathetic nervous system influence the kidneys?'],
+      defaults: { maxNew: 120, temperature: 0, topK: 40, penalty: 1.2 }
+    },
     sft: {
       tab: 'Medical SFT', sub: 'MedSparse · 38.8M', repo: 'sudhanshu42844/medsparse-healthcare-medical-sft', kind: 'mixtral', mode: 'sft', size: '155 MB',
       title: 'MedSparse Healthcare LLM · Medical SFT',
@@ -26,7 +34,7 @@
       defaults: { maxNew: 60, temperature: 0.8, topK: 40, penalty: 1.2 }, maxNewLimit: 100
     }
   };
-  var ORDER = ['sft', 'pretrained', 'tiny'];
+  var ORDER = ['miriad', 'sft', 'pretrained', 'tiny'];
   var $ = function (id) { return document.getElementById(id); };
   var state = {};
   ORDER.forEach(function (k) { state[k] = { status: 'idle', prompt: '', settings: Object.assign({}, MODELS[k].defaults), output: null }; });
@@ -213,7 +221,7 @@
   $('stop').addEventListener('click', function () { if (worker) worker.postMessage({ type: 'stop' }); });
   $('prompt').addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey) && !$('run').disabled) run(); });
 
-  var initial = 'sft';
+  var initial = 'miriad';
   try { var q = new URLSearchParams(location.search).get('model'); if (Object.hasOwn(MODELS, q)) initial = q; } catch (e) {}
   select(initial);
 
