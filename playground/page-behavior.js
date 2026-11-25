@@ -2,7 +2,7 @@
   'use strict';
   var MODELS = {
     miriad: {
-      tab: 'MIRIAD SFT', sub: 'MedSparse · 38.8M · new', repo: 'sudhanshu42844/medsparse-healthcare-miriad-sft', kind: 'mixtral', mode: 'sft', size: '155 MB',
+      tab: 'MIRIAD SFT', sub: '38.8M params · new', repo: 'sudhanshu42844/medsparse-healthcare-miriad-sft', kind: 'mixtral', mode: 'sft', size: '155 MB',
       title: 'MedSparse Healthcare LLM · MIRIAD SFT',
       desc: 'The medical SFT model after full-parameter fine-tuning on MIRIAD, 5.8M Q&A pairs drawn from medical research papers. It answers on topic and fluently, but in a 15-question held-out test only about 3 answers were correct or mostly correct and 7 were wrong, so check everything. The five example questions are real MIRIAD questions from papers held out of training.',
       label: 'Question', placeholder: 'What are the risk factors associated with coronary heart disease (CHD)?',
@@ -10,7 +10,7 @@
       defaults: { maxNew: 120, temperature: 0, topK: 40, penalty: 1.2 }
     },
     sft: {
-      tab: 'Medical SFT', sub: 'MedSparse · 38.8M', repo: 'sudhanshu42844/medsparse-healthcare-medical-sft', kind: 'mixtral', mode: 'sft', size: '155 MB',
+      tab: 'Medical SFT', sub: 'MedSparse · 38.8M params', repo: 'sudhanshu42844/medsparse-healthcare-medical-sft', kind: 'mixtral', mode: 'sft', size: '155 MB',
       title: 'MedSparse Healthcare LLM · Medical SFT',
       desc: 'A 38.8M-parameter Mixtral-inspired sparse Mixture-of-Experts model (4 experts, top-2 routing), pretrained on biomedical text and then fully fine-tuned on medical Q&A. Ask an educational question.',
       label: 'Question', placeholder: 'What does randomized controlled trial mean?',
@@ -18,7 +18,7 @@
       defaults: { maxNew: 120, temperature: 0.7, topK: 40, penalty: 1.2 }
     },
     pretrained: {
-      tab: 'Pretrained', sub: 'MedSparse · 38.8M', repo: 'sudhanshu42844/medsparse-healthcare-pretrained-from-scratch', kind: 'mixtral', mode: 'raw', size: '155 MB',
+      tab: 'Pretrained', sub: 'MedSparse · 38.8M params', repo: 'sudhanshu42844/medsparse-healthcare-pretrained-from-scratch', kind: 'mixtral', mode: 'raw', size: '155 MB',
       title: 'MedSparse Healthcare LLM · Pretrained',
       desc: 'The same architecture after biomedical pretraining only, before medical fine-tuning. It continues text in the style of research papers.',
       label: 'Start of a passage', placeholder: 'Clinical research explores',
@@ -26,7 +26,7 @@
       defaults: { maxNew: 80, temperature: 0.7, topK: 40, penalty: 1.2 }
     },
     tiny: {
-      tab: 'Tiny GPT', sub: 'GPT-2 style · 1.06M', repo: 'sudhanshu42844/my-tiny-llm', kind: 'gpt2', mode: 'raw', size: '4 MB',
+      tab: 'Tiny GPT', sub: 'GPT-2 style · 1.06M params', repo: 'sudhanshu42844/my-tiny-llm', kind: 'gpt2', mode: 'raw', size: '4 MB',
       title: 'Tiny GPT-Style Language Model',
       desc: 'A 1.06M-parameter GPT-2-style model trained from random weights on a small TinyStories subset. Expect very simple, often broken stories: it shows the full train-to-inference pipeline at a tiny scale.',
       label: 'Start of a story', placeholder: 'Once upon a time',
