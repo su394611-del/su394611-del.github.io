@@ -34,7 +34,7 @@
 
 
 <link rel="stylesheet" href="model-eval-styles.css">
-<!-- ailab:head:start --><script defer src="/assets/vue-3.5.13.global.prod.js"></script><link rel="stylesheet" href="/assets/ailab-chrome.css?v=20261125-invite1"><script src="/assets/ailab-chrome.js?v=20261125-invite1" defer></script><script defer src="/assets/privacy.js?v=20261124-consent2"></script><!-- ailab:head:end --><script defer="" src="/assets/app.js"></script>
+<!-- ailab:head:start --><script defer src="/assets/vue-3.5.13.global.prod.js"></script><link rel="stylesheet" href="/assets/ailab-chrome.css?v=20261125-invite1"><script src="/assets/ailab-chrome.js?v=20261125-invite1" defer></script><script defer src="/assets/privacy.js?v=20261124-consent2"></script><!-- ailab:head:end --><script defer="" src="/assets/app.js?v=20261127-focus1"></script>
 <link rel="stylesheet" href="page-details.css">
 <link rel="stylesheet" href="evaluation-chart.css">
 </head>
@@ -208,7 +208,7 @@
 </article>
 </div><section aria-labelledby="preview-heading" class="preview-section" id="live-preview" data-presentation="display-none" v-show="previewSlug !== null">
 <div class="preview-top">
-<div><p class="kicker">LIVE PROJECT VIEWER / ON DEMAND</p><h3 id="preview-heading">Project website <span class="gradient-text">preview.</span></h3><p class="preview-description" v-text="previewTitle"></p></div>
+<div><p class="kicker">LIVE PROJECT VIEWER / ON DEMAND</p><h3 id="preview-heading" tabindex="-1">Project website <span class="gradient-text">preview.</span></h3><p class="preview-description" v-text="previewTitle"></p></div>
 <div class="preview-actions"><a :href="previewUrl" class="btn btn-primary" rel="noopener noreferrer" target="_blank">Open full website ↗</a><button @click="closePreview" class="btn btn-outline" type="button">Close preview ✕</button></div>
 </div>
 <div class="iframe-shell"><div class="iframe-chrome"><span aria-hidden="true" class="chrome-dots">● ● ●</span><span class="chrome-url" v-text="previewUrl"></span><span class="chrome-status">LIVE VIEW</span></div>

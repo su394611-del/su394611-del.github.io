@@ -63,6 +63,7 @@
     const buttons=[...document.querySelectorAll('.filter-chip')];
     const suggestionsEl=document.getElementById('project-suggestions');
     const previewSection=document.getElementById('live-preview');
+    let previewTrigger=null;
     const empty=document.createElement('div');
     empty.className='zero-results'; empty.hidden=true;
     empty.innerHTML='<strong>No matching projects</strong><p>Try a different search, or clear the filters.</p>';
@@ -98,36 +99,78 @@
         option.addEventListener('click',()=>choose(item));suggestionsEl.appendChild(option);
       }
     }
-    function choose(item){category='all';query=item.title;input.value=query;input.blur();render();suggestionsEl.hidden=true;item.element.scrollIntoView({block:'center'});}
+    function hideSuggestions() {
+      active=-1;
+      suggestionsEl.hidden=true;
+      input.setAttribute('aria-expanded','false');
+      input.removeAttribute('aria-activedescendant');
+    }
+    function choose(item) {
+      category='all';
+      query=item.title;
+      input.value=query;
+      render();
+      hideSuggestions();
+      item.element.querySelector('h3 a[href]')?.focus({preventScroll:true});
+      item.element.scrollIntoView({block:'center'});
+    }
     buttons.forEach(btn=>btn.addEventListener('click',()=>{category=btn.dataset.category;render();}));
     document.querySelectorAll('.focus-tile').forEach((tile,i)=>tile.addEventListener('click',()=>{category=['retrieval','agents','training','inference'][i];query='';if(input)input.value='';render();}));
     input?.addEventListener('input',()=>{query=input.value;render();});
     input?.addEventListener('focus',renderSuggestions);
-    input?.addEventListener('blur',()=>window.setTimeout(()=>{if(suggestionsEl)suggestionsEl.hidden=true;input.setAttribute('aria-expanded','false');},120));
+    input?.addEventListener('blur',()=>window.setTimeout(()=>{
+      if (document.activeElement !== input) hideSuggestions();
+    },120));
     input?.addEventListener('keydown',e=>{
-      if(e.key==='Escape'){suggestionsEl.hidden=true;input.setAttribute('aria-expanded','false');input.removeAttribute('aria-activedescendant');return;}
+      if(e.key==='Escape'){hideSuggestions();return;}
       if(e.key==='ArrowDown'||e.key==='ArrowUp'){
-        if(!matchesList.length)return;e.preventDefault();active=(active+(e.key==='ArrowDown'?1:-1)+matchesList.length)%matchesList.length;
-        const opts=[...suggestionsEl.querySelectorAll('.suggestion-item')];opts.forEach((el,i)=>{el.classList.toggle('selected',i===active);el.setAttribute('aria-selected',String(i===active));});
+        if(!matchesList.length)return;
+        e.preventDefault();
+        const direction=e.key==='ArrowDown'?1:-1;
+        active=active<0?(direction===1?0:matchesList.length-1):(active+direction+matchesList.length)%matchesList.length;
+        const opts=[...suggestionsEl.querySelectorAll('.suggestion-item')];
+        opts.forEach((el,i)=>{el.classList.toggle('selected',i===active);el.setAttribute('aria-selected',String(i===active));});
         input.setAttribute('aria-activedescendant',opts[active].id);
         suggestionsEl.hidden=false;
+        input.setAttribute('aria-expanded','true');
       }
-      if(e.key==='Enter'&&matchesList.length&&document.activeElement===input){e.preventDefault();choose(matchesList[Math.max(active,0)]);}
+      if(e.key==='Enter'&&!suggestionsEl.hidden&&matchesList.length&&document.activeElement===input){
+        e.preventDefault();
+        choose(matchesList[Math.max(active,0)]);
+      }
     });
     reset.addEventListener('click',()=>{category='all';query='';if(input)input.value='';render();});
-    document.querySelectorAll('[data-preview]').forEach(btn=>btn.addEventListener('click',()=>{
-      const item=lookup.get(btn.dataset.preview);if(!item||!previewSection)return;
-      const destination=new URL(item.url,location.href);
-      if(!['https://su394611-del.github.io','https://huggingface.co'].includes(destination.origin))return;
-      previewSection.style.display='block';
-      previewSection.querySelector('.preview-description').textContent=item.title;
-      previewSection.querySelector('.chrome-url').textContent=item.url;
-      const link=previewSection.querySelector('.preview-actions a');link.href=item.url;
-      const iframe=previewSection.querySelector('iframe');if(iframe){iframe.src=item.url;iframe.title='Website preview: '+item.title;}
-      scrollToPreview();
-    }));
-    previewSection?.querySelector('.preview-actions button')?.addEventListener('click',()=>{
-      previewSection.style.display='none';const iframe=previewSection.querySelector('iframe');if(iframe)iframe.removeAttribute('src');
+    document.querySelectorAll('[data-preview]').forEach(btn=>{
+      btn.setAttribute('aria-controls','live-preview');
+      btn.setAttribute('aria-expanded','false');
+      btn.addEventListener('click',()=>{
+        const item=lookup.get(btn.dataset.preview);if(!item||!previewSection)return;
+        const destination=new URL(item.url,location.href);
+        if(!['https://su394611-del.github.io','https://huggingface.co'].includes(destination.origin))return;
+        previewTrigger?.setAttribute('aria-expanded','false');
+        previewTrigger=btn;
+        btn.setAttribute('aria-expanded','true');
+        previewSection.style.display='block';
+        previewSection.querySelector('.preview-description').textContent=item.title;
+        previewSection.querySelector('.chrome-url').textContent=item.url;
+        const link=previewSection.querySelector('.preview-actions a');link.href=item.url;
+        const iframe=previewSection.querySelector('iframe');if(iframe){iframe.src=item.url;iframe.title='Website preview: '+item.title;}
+        previewSection.querySelector('#preview-heading')?.focus({preventScroll:true});
+        scrollToPreview();
+      });
+    });
+    function closePreview() {
+      previewSection.style.display='none';
+      previewSection.querySelector('iframe')?.removeAttribute('src');
+      previewTrigger?.setAttribute('aria-expanded','false');
+      const previous=previewTrigger;
+      previewTrigger=null;
+      if (previous && !previous.closest('.project-card')?.hidden) previous.focus();
+      else input?.focus();
+    }
+    previewSection?.querySelector('.preview-actions button')?.addEventListener('click',closePreview);
+    previewSection?.addEventListener('keydown',e=>{
+      if(e.key==='Escape'){e.preventDefault();closePreview();}
     });
     document.documentElement.classList.add('native-fallback');
     render();

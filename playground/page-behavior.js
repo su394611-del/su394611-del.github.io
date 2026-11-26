@@ -44,10 +44,41 @@
   var worker = null;
   function getWorker() {
     if (worker) return worker;
-    worker = new Worker('worker-src.js');
-    worker.onmessage = onWorkerMessage;
-    worker.onerror = function (e) { setStatus(current, 'Something went wrong: ' + (e.message || 'worker error'), 'err'); };
-    return worker;
+    var instance = new Worker('worker-src.js');
+    worker = instance;
+    instance.onmessage = function (e) { if (worker === instance) onWorkerMessage(e); };
+    instance.onerror = function (e) { if (worker === instance) recoverWorker(e.message); };
+    return instance;
+  }
+
+  function recoverWorker(detail) {
+    var message = 'The model worker stopped. ' + (detail ? detail + ' ' : '') + 'Try loading the model again.';
+    var wasBusy = busy;
+    if (worker) worker.terminate();
+    worker = null;
+    busy = false;
+    reqId += 1;
+    ORDER.forEach(function (key) {
+      var s = state[key];
+      if (s.status === 'loading' || (wasBusy && key === current)) {
+        s.status = 'error';
+        s.message = message;
+      } else if (s.status === 'ready') {
+        s.status = 'idle';
+        s.message = 'Load the model again from your browser cache.';
+      }
+    });
+    renderLoader();
+    renderRun();
+    if (wasBusy) {
+      $('speed').textContent = message;
+      renderOutput(state[current].output, false);
+    }
+  }
+
+  function sendToWorker(message) {
+    try { getWorker().postMessage(message); }
+    catch (error) { recoverWorker(error.message); }
   }
 
   function mb(n) { return (n / 1e6).toFixed(0); }
@@ -175,7 +206,7 @@
     var s = state[current], m = MODELS[current];
     s.status = 'loading'; s.progress = 0; s.message = 'Starting download…';
     renderLoader(); renderRun();
-    getWorker().postMessage({ type: 'load', key: current, repo: m.repo, kind: m.kind });
+    sendToWorker({ type: 'load', key: current, repo: m.repo, kind: m.kind });
   }
 
   function run() {
@@ -186,7 +217,7 @@
     s.lastPrompt = text; s.output = '';
     renderOutput('', true); renderRun();
     $('speed').textContent = 'Reading the prompt…';
-    getWorker().postMessage({ type: 'generate', reqId: reqId, key: current, mode: m.mode, text: text,
+    sendToWorker({ type: 'generate', reqId: reqId, key: current, mode: m.mode, text: text,
       maxNew: s.settings.maxNew, temperature: s.settings.temperature, topK: s.settings.topK, penalty: s.settings.penalty });
   }
 
@@ -218,7 +249,7 @@
   bindSlider('penalty', 'penalty', function (v) { return v.toFixed(2); });
   $('load-btn').addEventListener('click', load);
   $('run').addEventListener('click', run);
-  $('stop').addEventListener('click', function () { if (worker) worker.postMessage({ type: 'stop' }); });
+  $('stop').addEventListener('click', function () { if (worker) sendToWorker({ type: 'stop' }); });
   $('prompt').addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey) && !$('run').disabled) run(); });
 
   var initial = 'miriad';
