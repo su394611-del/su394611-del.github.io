@@ -122,7 +122,11 @@
       if (document.activeElement !== input) hideSuggestions();
     },120));
     input?.addEventListener('keydown',e=>{
-      if(e.key==='Escape'){hideSuggestions();return;}
+      if(e.key==='Escape'){
+        if (!suggestionsEl.hidden) e.preventDefault();
+        hideSuggestions();
+        return;
+      }
       if(e.key==='ArrowDown'||e.key==='ArrowUp'){
         if(!matchesList.length)return;
         e.preventDefault();
