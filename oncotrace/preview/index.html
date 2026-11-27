@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, follow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src https://su394611-del.github.io; base-uri 'none'; form-action 'none'">
+<title>OncoTrace design and evaluation plan</title>
+<link rel="stylesheet" href="/oncotrace/page.css">
+</head>
+<body class="onco-preview">
+<main class="onco-preview-inner">
+  <h1>Can each claim be checked against its source?</h1>
+  <p>OncoTrace will test whether a small medical language model can summarize oncology evidence while making every claim traceable to the paper, trial record, or passage it cites.</p>
+  <section aria-labelledby="onco-method">
+    <h2 id="onco-method">Planned workflow</h2>
+    <dl>
+      <dt>Retrieve evidence</dt><dd>Search a curated set of PubMed abstracts, public trial-registry records, and open-access publications. Keep trial phase, status, and dates with their records.</dd>
+      <dt>Draft a cited summary</dt><dd>Use MedSparse Healthcare to produce a short summary and a table that pairs individual claims with their sources.</dd>
+      <dt>Verify the citations</dt><dd>Check each claim against the cited passage and flag claims that lack support or reference the wrong study.</dd>
+    </dl>
+  </section>
+  <section aria-labelledby="onco-eval">
+    <h2 id="onco-eval">Planned evaluation</h2>
+    <p>Use a hand-checked question set to measure citation precision, coverage of key facts, unsupported claims, misattribution, and recency. The plan includes a baseline without the verification pass and examples of where the system fails.</p>
+    <p class="onco-eval-status">Evaluation results are pending.</p>
+  </section>
+  <p class="onco-preview-scope">Research use only. The prototype is intended for literature review. Clinical decisions require a qualified oncology team.</p>
+</main>
+</body>
+</html>
