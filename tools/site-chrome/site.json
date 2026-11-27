@@ -45,6 +45,7 @@
 
   "header_links": [
     {"key": "research", "label": "Research", "href": "/research/"},
+    {"key": "oncotrace", "label": "OncoTrace", "href": "/oncotrace/"},
     {"key": "playground", "label": "Playground", "href": "/playground/"},
     {"key": "contact", "label": "Contact", "href": "/contact.html"}
   ],
@@ -54,6 +55,7 @@
     {"key": "research", "label": "Research", "href": "/research/"},
     {"key": "playground", "label": "Model playground", "href": "/playground/"},
     {"key": "codemind", "label": "CodeMind", "href": "/codemind/", "badge": "Soon"},
+    {"key": "oncotrace", "label": "OncoTrace", "href": "/oncotrace/"},
     {"key": "contact", "label": "Contact", "href": "/contact.html"},
     {"key": "privacy", "label": "Privacy", "href": "/privacy/"},
     {"key": "sitemap", "label": "Sitemap", "href": "/sitemap.xml"}
@@ -86,6 +88,7 @@
     {"repo": "su394611-del.github.io", "file": "research/index.html", "kind": "page", "skip_to": "ailab-content", "current": "research", "simple": true},
     {"repo": "su394611-del.github.io", "file": "research/medsparse-healthcare-2026/index.html", "kind": "page", "skip_to": "ailab-content", "current": "research", "simple": true},
     {"repo": "su394611-del.github.io", "file": "codemind/index.html", "kind": "page", "skip_to": "ailab-content", "current": "codemind", "simple": true},
+    {"repo": "su394611-del.github.io", "file": "oncotrace/index.html", "kind": "page", "skip_to": "ailab-content", "current": "oncotrace", "simple": true},
     {"repo": "su394611-del.github.io", "file": "privacy/index.html", "kind": "page", "skip_to": "ailab-content", "current": "privacy", "simple": true},
     {"repo": "su394611-del.github.io", "file": "playground/index.html", "kind": "page", "skip_to": "ailab-content", "current": "playground", "simple": true, "embeddable": true},
     {"repo": "su394611-del.github.io", "file": "contact.html", "kind": "page", "skip_to": "ailab-content", "current": "contact", "simple": true, "embeddable": true},
