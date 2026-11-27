@@ -8,7 +8,7 @@
     "label": "Open to collaboration",
     "title": "Let’s build the next experiment together",
     "text": "I invite researchers, engineers, and open-source contributors around the world to collaborate on AI research, from sparse Mixture-of-Experts models and retrieval to agents and efficient training on consumer-grade GPUs.",
-    "recruit": "Recruiters and hiring teams are welcome to reach out about AI/ML engineering and research roles.",
+    "recruit": "I welcome inquiries about AI/ML engineering and research roles.",
     "links": [
       {"label": "Propose a collaboration", "href": "/contact.html"},
       {"label": "Recruiter inquiries", "href": "/contact.html"}
