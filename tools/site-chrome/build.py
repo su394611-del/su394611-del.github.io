@@ -82,6 +82,11 @@ def render_dropdown(site, current):
         items = "".join(f"<li>{project_link(p, current)}</li>" for p in groups[g])
         return f'<div class="ailab-dd-group"><p class="ailab-group-label">{esc(g)}</p><ul>{items}</ul></div>'
 
+    previews = site.get("research_previews", [])
+    if previews:
+        groups["Research previews"] = previews
+        rest = rest[:1] + ["Research previews"] + rest[1:]
+
     col2 = "".join(group(g) for g in rest)
     count = len(site["projects"])
     return ('<details class="ailab-dd"><summary class="ailab-link">Projects' + CHEVRON + '</summary>'
@@ -105,7 +110,8 @@ def render_header(site, page):
     gh = f'<a class="ailab-gh" {link_attrs(site["github"])}>{GH_ICON}<span>GitHub</span><span aria-hidden="true">↗</span></a>'
 
     menu_lab = "".join(
-        f'<a class="ailab-link" href="{esc(l["href"])}"' + (' aria-current="page"' if current == l["key"] else "") + f'>{esc(l["label"])}</a>'
+        f'<a class="ailab-link" href="{esc(l["href"])}"' + (' aria-current="page"' if current == l["key"] else "") + f'>{esc(l["label"])}'
+        + (f' <small>{esc(l["mobile_note"])}</small>' if page.get("show_preview_date") and l.get("mobile_note") else "") + "</a>"
         for l in ([{"key": "home", "label": "AI Lab home", "href": "/"},
                    {"key": "projects", "label": "All projects", "href": "/#projects"}] + site["header_links"]))
     menu_lab += f'<a class="ailab-link" {link_attrs(site["github"])}>GitHub{arrow(site["github"])}</a>'
