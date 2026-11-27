@@ -55,7 +55,7 @@
     {"key": "research", "label": "Research", "href": "/research/"},
     {"key": "playground", "label": "Model playground", "href": "/playground/"},
     {"key": "codemind", "label": "CodeMind", "href": "/codemind/", "badge": "Soon"},
-    {"key": "oncotrace", "label": "OncoTrace", "href": "/oncotrace/"},
+    {"key": "oncotrace", "label": "OncoTrace", "href": "/oncotrace/", "badge": "Soon"},
     {"key": "contact", "label": "Contact", "href": "/contact.html"},
     {"key": "privacy", "label": "Privacy", "href": "/privacy/"},
     {"key": "sitemap", "label": "Sitemap", "href": "/sitemap.xml"}
