@@ -1,6 +1,7 @@
 /* The OncoTrace landing page, embed, and related-project notice. */
 .onco-page,.onco-preview{margin:0;background:#070e1c;color:#eaf4ff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
-.onco-main{box-sizing:border-box;width:min(100% - 2rem,66rem);margin-inline:auto;padding-block:clamp(2rem,6vw,4.75rem) 3rem}
+.onco-main{width:min(100% - 2rem,66rem);margin-inline:auto;padding-block:clamp(2rem,6vw,4.75rem) 3rem}
+#ailab-content.onco-main{box-sizing:border-box}
 .onco-hero{max-width:49rem;margin-bottom:2rem}
 .onco-kicker{margin:0 0 .55rem;color:#8de9ec;font-weight:750;letter-spacing:.07em;font-size:.8rem}
 .onco-hero h1{margin:0;font-size:clamp(2.8rem,8vw,5.3rem);line-height:1.03;letter-spacing:-.045em}
