@@ -176,7 +176,7 @@ def render_footer(site, page):
     other = "".join(li(l["label"], l["href"]) for l in site["elsewhere_links"])
     cols.append(f'<nav class="ailab-footer-col" aria-label="Elsewhere"><p class="ailab-group-label">Elsewhere</p><ul>{other}</ul></nav>')
 
-    note = site.get("notes", {}).get(pkey or "", "")
+    note = site.get("notes", {}).get(pkey or current or "", "")
     note_html = f'<p class="ailab-footer-note">{note}</p>' if note else ""
     small_cols = len(cols) - 1  # columns after "Projects"
     inv = site.get("invite")
