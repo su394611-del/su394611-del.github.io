@@ -74,7 +74,7 @@
   ],
 
   "notes": {
-    "codemind": "Third-party notice. Cursor is a product of Anysphere. Codex is a product of OpenAI. Both names identify tools in the planned CodeMind evaluation.",
+    "codemind": "Third-party notice. Cursor is a product of Anysphere. Codex is a product of OpenAI. Both names identify tools in the planned CodeMind evaluation. <strong>Fill-in-the-Middle (FIM) research paper</strong> · Bavarian et al. (2022). <cite><a href=\"https://arxiv.org/abs/2207.14255\">Efficient Training of Language Models to Fill in the Middle</a></cite>.",
     "medsparse": "<strong>Not medical advice</strong> or a clinically validated system. MedSparse Healthcare is a custom Mixtral-<em>inspired</em> sparse Mixture-of-Experts model, built and trained from scratch. It does not use or distribute official Mistral AI or Mixtral weights, and it is not affiliated with or endorsed by Mistral AI.",
     "market": "<strong>Simulation only.</strong> Fictional quotes, synthetic news and non-executing trade actions. Nothing here is investment advice or a live trading service."
   },
