@@ -5,27 +5,152 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, follow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src https://su394611-del.github.io; base-uri 'none'; form-action 'none'">
-<title>OncoTrace design and evaluation plan</title>
-<link rel="stylesheet" href="/oncotrace/page.css">
+<title>OncoTrace: Source-Traced Evidence Summaries for Cancer Vaccines and Emerging Therapies</title>
+<link rel="stylesheet" href="/oncotrace/page.css?v=20261127-research">
 </head>
 <body class="onco-preview">
-<main class="onco-preview-inner">
-  <h1>Can each claim be checked against its source?</h1>
-  <p>OncoTrace will test whether a small medical language model can summarize oncology evidence while making every claim traceable to the paper, trial record, or passage it cites.</p>
-  <section aria-labelledby="onco-method">
-    <h2 id="onco-method">Planned workflow</h2>
+<header class="onco-preview-bar">
+  <div class="onco-preview-width">
+    <a href="/" target="_blank" rel="noopener noreferrer">AI Lab</a>
+    <nav aria-label="OncoTrace preview">
+      <a href="/oncotrace/" target="_blank" rel="noopener noreferrer">OncoTrace project</a>
+      <a href="#sources">Sources</a>
+    </nav>
+  </div>
+</header>
+<main class="onco-preview-inner" id="preview-top">
+  <header class="onco-preview-hero">
+    <p class="onco-preview-status">Research preview · Coming December 2026</p>
+    <h1>OncoTrace: Source-Traced Evidence Summaries for Cancer Vaccines and Emerging Therapies</h1>
+    <p class="onco-preview-lede">A research prototype from AI Lab for summarizing published oncology evidence, with each claim linked to the paper, trial record, or passage it came from.</p>
+    <p>New clinical trial readouts make oncology evidence harder to keep up with. OncoTrace combines retrieval over trial registries and research papers with <a href="/MedSparse-Healthcare-LLM-From-Scratch/" target="_blank" rel="noopener noreferrer">MedSparse Healthcare</a>, AI Lab’s sparse mixture-of-experts language model. Its first goal is to measure how often a cited passage actually supports the claim the model makes.</p>
+    <p>Target launch around <time datetime="2026-12-11">11 December 2026</time>. GitHub and demo links are pending.</p>
+    <nav class="onco-preview-jump" aria-label="On this page">
+      <a href="#workflow">Read the design notes</a>
+      <a href="#evaluation">Evaluation</a>
+      <a href="#roadmap">Roadmap</a>
+    </nav>
+  </header>
+
+  <section aria-labelledby="why-now">
+    <h2 id="why-now">Why now</h2>
+    <p>In 2026, the first positive Phase 3 results for an individualized mRNA neoantigen therapy were presented at ESMO. Earlier-stage studies and registry updates across tumour types make it increasingly important to distinguish what was measured, where, and when. [<a href="#source-1">1</a>]</p>
+    <ul>
+      <li><strong>Melanoma, Phase 3.</strong> In INTerpath-001, intismeran autogene (mRNA-4157/V940) plus pembrolizumab met endpoints for recurrence-free and distant metastasis-free survival in patients with completely resected stage IIB–IV melanoma. Results were presented at ESMO 2026 in Madrid. [<a href="#source-1">1</a>, <a href="#source-2">2</a>]</li>
+      <li><strong>Pancreatic cancer, early evidence.</strong> In a small Phase 1 study of autogene cevumeran, 8 of 16 vaccinated participants developed vaccine-induced T-cell responses. Longer follow-up was discussed at AACR 2026, and a randomized Phase 2 study is registered as NCT05968326. [<a href="#source-3">3</a>–<a href="#source-5">5</a>]</li>
+      <li><strong>Other tumour types.</strong> The broader clinical programme includes studies in lung, kidney and bladder cancers. [<a href="#source-2">2</a>, <a href="#source-6">6</a>]</li>
+    </ul>
+    <p>These candidates are investigational. Abstracts, registry records, sponsor releases and journal articles can differ in how and when they report the same study.</p>
+  </section>
+
+  <section aria-labelledby="problem">
+    <h2 id="problem">The problem</h2>
+    <p>A fluent summary can blend sources or present an early result as current. OncoTrace tracks three errors a reviewer can check directly.</p>
+    <ol>
+      <li><strong>Unsupported claims.</strong> No retrieved source supports the stated effect or endpoint.</li>
+      <li><strong>Misattribution.</strong> The claim points to the wrong trial, phase, or tumour type.</li>
+      <li><strong>Stale evidence.</strong> An older result is presented as the latest or as confirmed.</li>
+    </ol>
+    <p><strong>Research question.</strong> How often can a small medical language model produce claims a reviewer can verify against the cited source in one click?</p>
+  </section>
+
+  <section aria-labelledby="workflow">
+    <h2 id="workflow">How it works</h2>
     <dl>
-      <dt>Retrieve evidence</dt><dd>Search a curated set of PubMed abstracts, public trial-registry records, and open-access publications. Keep trial phase, status, and dates with their records.</dd>
-      <dt>Draft a cited summary</dt><dd>Use MedSparse Healthcare to produce a short summary and a table that pairs individual claims with their sources.</dd>
-      <dt>Verify the citations</dt><dd>Check each claim against the cited passage and flag claims that lack support or reference the wrong study.</dd>
+      <dt>Sources</dt><dd>PubMed abstracts, ClinicalTrials.gov records with NCT identifiers, open-access reviews, and conference abstracts.</dd>
+      <dt>Retrieval</dt><dd>Combine keyword and dense search while keeping trial phase, tumour type, status, and date available as filters.</dd>
+      <dt>Generation</dt><dd>MedSparse Healthcare drafts claims with inline citations to retrieved passages.</dd>
+      <dt>Verification</dt><dd>A second pass checks each claim against the exact passage cited and flags or removes unsupported claims.</dd>
+      <dt>Output</dt><dd>A short summary and a side-by-side evidence table with claims, source passages, dates, and trial phases where applicable.</dd>
     </dl>
+    <h3>Example research questions</h3>
+    <ul>
+      <li>What Phase 3 evidence exists for personalized mRNA vaccines in melanoma?</li>
+      <li>What phase and recruitment status do public pancreatic cancer vaccine trial records report?</li>
+      <li>How do recent reviews describe the role of AI in neoantigen prediction?</li>
+    </ul>
   </section>
-  <section aria-labelledby="onco-eval">
-    <h2 id="onco-eval">Planned evaluation</h2>
-    <p>Use a hand-checked question set to measure citation precision, coverage of key facts, unsupported claims, misattribution, and recency. The plan includes a baseline without the verification pass and examples of where the system fails.</p>
-    <p class="onco-eval-status">Evaluation results are pending.</p>
+
+  <section aria-labelledby="evaluation">
+    <h2 id="evaluation">Evaluation</h2>
+    <p>The planned test set pairs hand-checked questions with reference passages and groups them by tumour type and trial phase. The release milestone is a measured citation-faithfulness score with examples of failures.</p>
+    <p class="onco-eval-status">Evaluation set size and scores are pending.</p>
+    <table class="onco-preview-table" aria-label="Planned evaluation metrics">
+      <thead><tr><th scope="col">Metric</th><th scope="col">What it measures</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Citation precision</th><td>Share of claims fully supported by the cited passage.</td></tr>
+        <tr><th scope="row">Citation recall</th><td>Share of key reference facts included in the summary.</td></tr>
+        <tr><th scope="row">Unsupported claim rate</th><td>Share of claims without support in the retrieved sources.</td></tr>
+        <tr><th scope="row">Misattribution rate</th><td>Share of correct facts attributed to the wrong trial or phase.</td></tr>
+        <tr><th scope="row">Recency accuracy</th><td>Share of summaries that correctly report the latest phase and readout.</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Baselines.</strong> Retrieval-augmented generation without verification, MedSparse Healthcare without retrieval, and a similarly sized open-weight model using the same retrieval.</p>
+    <p><strong>Failure analysis.</strong> The report will pair failed claims with their cited passages and explain each error.</p>
   </section>
-  <p class="onco-preview-scope">Research use only. The prototype is intended for literature review. Clinical decisions require a qualified oncology team.</p>
+
+  <section aria-labelledby="related-work">
+    <h2 id="related-work">Related work</h2>
+    <ul>
+      <li><strong>Neoantigen prediction.</strong> pVACtools and CNNeoPP are examples of prediction tools in the surrounding research literature. [<a href="#source-7">7</a>, <a href="#source-8">8</a>]</li>
+      <li><strong>AI in vaccine research.</strong> Recent reviews describe potential applications of AI and the challenge of validating predictions. [<a href="#source-9">9</a>]</li>
+      <li><strong>Attributed generation.</strong> ALCE and MIRAGE provide reference points for citation quality and medical retrieval evaluation. [<a href="#source-10">10</a>, <a href="#source-11">11</a>]</li>
+    </ul>
+    <p>OncoTrace’s scope is reviewing published evidence and checking how accurately it is cited.</p>
+  </section>
+
+  <section aria-labelledby="roadmap">
+    <h2 id="roadmap">Roadmap and limitations</h2>
+    <ol>
+      <li><strong>December 2026 preview.</strong> Summaries from a curated corpus, evaluation results, and examples of failures.</li>
+      <li><strong>Next.</strong> Trial-registry updates that flag changes in study status or posted results.</li>
+      <li><strong>Later.</strong> Cross-trial comparisons and an open benchmark.</li>
+    </ol>
+    <h3>Known limitations</h3>
+    <ul>
+      <li>Coverage is limited to English-language, open-access sources.</li>
+      <li>Abstracts and sponsor announcements can overstate or omit details. A supported citation shows what a source says.</li>
+      <li>The model can misread tables, subgroup results, and survival statistics.</li>
+      <li>The planned evaluation uses a small, hand-built set and will need independent review and expansion.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="citation">
+    <h2 id="citation">Model, license and citation</h2>
+    <p><strong>Model.</strong> MedSparse Healthcare is a custom, Mixtral-inspired language model built by AI Lab.</p>
+    <p><strong>Planned license.</strong> Apache License 2.0 for the OncoTrace code and model weights when released. © 2026 Sudhanshu Shukla.</p>
+    <h3>Cite this work</h3>
+    <pre><code>@misc{shukla2026oncotrace,
+  title = {OncoTrace: Source-Traced Evidence Summaries for Cancer Vaccines and Emerging Therapies},
+  author = {Shukla, Sudhanshu},
+  year = {2026},
+  note = {AI Lab research preview},
+  url = {https://su394611-del.github.io/oncotrace/preview/}
+}</code></pre>
+  </section>
+
+  <section aria-labelledby="sources">
+    <h2 id="sources">Sources</h2>
+    <ol class="onco-preview-sources">
+      <li id="source-1"><a href="https://www.esmo.org/insights-by-esmo/all-news/first-positive-phase-iii-trial-data-for-an-individualised-mrna-based-neoantigen-therapy" target="_blank" rel="noopener noreferrer">ESMO · INTerpath-001 results</a></li>
+      <li id="source-2"><a href="https://www.merck.com/news/merck-and-moderna-will-present-results-from-landmark-phase-3-interpath-001-trial-for-intismeran-autogene-plus-keytruda-pembrolizumab-at-esmo-2026-presidential-symposium/" target="_blank" rel="noopener noreferrer">Merck and Moderna · Phase 3 trial readout and study programme</a></li>
+      <li id="source-3"><a href="https://pubmed.ncbi.nlm.nih.gov/37165196/" target="_blank" rel="noopener noreferrer">Rojas et al. · Pancreatic cancer Phase 1 study</a></li>
+      <li id="source-4"><a href="https://www.aacr.org/blog/2026/07/16/from-treatment-to-prevention-how-vaccines-are-reshaping-the-fight-against-pancreatic-cancer/" target="_blank" rel="noopener noreferrer">AACR · Pancreatic cancer research follow-up</a></li>
+      <li id="source-5"><a href="https://clinicaltrials.gov/study/NCT05968326" target="_blank" rel="noopener noreferrer">ClinicalTrials.gov · NCT05968326</a></li>
+      <li id="source-6"><a href="https://www.merck.com/research/product-pipeline/" target="_blank" rel="noopener noreferrer">Merck · Clinical development pipeline</a></li>
+      <li id="source-7"><a href="https://pubmed.ncbi.nlm.nih.gov/42396206/" target="_blank" rel="noopener noreferrer">pVACtools v6</a></li>
+      <li id="source-8"><a href="https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2026.1722117/full" target="_blank" rel="noopener noreferrer">CNNeoPP · Frontiers in Immunology</a></li>
+      <li id="source-9"><a href="https://www.frontiersin.org/journals/oncology/articles/10.3389/fonc.2026.1766201/full" target="_blank" rel="noopener noreferrer">AI and mRNA vaccine research · Frontiers in Oncology</a></li>
+      <li id="source-10"><a href="https://aclanthology.org/2023.emnlp-main.398/" target="_blank" rel="noopener noreferrer">Gao et al. · Enabling Large Language Models to Generate Text with Citations</a></li>
+      <li id="source-11"><a href="https://aclanthology.org/2024.findings-acl.372/" target="_blank" rel="noopener noreferrer">Xiong et al. · Benchmarking Retrieval-Augmented Generation for Medicine</a></li>
+    </ol>
+  </section>
 </main>
+<footer class="onco-preview-footer">
+  <div class="onco-preview-width">
+    <p><strong>Research use only.</strong> OncoTrace is an independent prototype. It has not undergone clinical review and must not be used for diagnosis, treatment, or decisions about joining clinical trials. Questions about personal care belong with a qualified oncology team.</p>
+    <p>© 2026 Sudhanshu Shukla · <a href="/" target="_blank" rel="noopener noreferrer">AI Lab</a> · <a href="#preview-top">Back to top</a></p>
+  </div>
+</footer>
 </body>
 </html>
