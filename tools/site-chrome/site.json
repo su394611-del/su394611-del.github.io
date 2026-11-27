@@ -44,7 +44,8 @@
   ],
 
   "research_previews": [
-    {"key": "oncotrace", "name": "OncoTrace", "blurb": "Targeting around 11 December 2026", "href": "/oncotrace/"}
+    {"key": "oncotrace", "name": "OncoTrace", "blurb": "Targeting around 11 December 2026", "href": "/oncotrace/"},
+    {"key": "codemind", "name": "CodeMind", "blurb": "Coding model", "href": "/codemind/"}
   ],
 
   "header_links": [
