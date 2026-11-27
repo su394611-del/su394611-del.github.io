@@ -46,6 +46,7 @@
   "header_links": [
     {"key": "research", "label": "Research", "href": "/research/"},
     {"key": "oncotrace", "label": "OncoTrace", "href": "/oncotrace/"},
+    {"key": "codemind", "label": "CodeMind", "href": "/codemind/"},
     {"key": "playground", "label": "Playground", "href": "/playground/"},
     {"key": "contact", "label": "Contact", "href": "/contact.html"}
   ],
